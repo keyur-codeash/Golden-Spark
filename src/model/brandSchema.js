@@ -1,0 +1,21 @@
+import mongoose from "mongoose";
+
+const BrandSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+      unique: true,
+    },
+    status: {
+      type: Number,
+      enum: [0, 1],
+      default: 1,
+    },
+  },
+  { timestamps: true }
+);
+
+// Avoid re-defining model during hot reload
+export default mongoose.models.Brand || mongoose.model("Brand", BrandSchema);
