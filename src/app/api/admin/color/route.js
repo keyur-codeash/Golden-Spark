@@ -12,19 +12,20 @@ export const GET = asyncHandler(async(req) => {
   return NextResponse.json({ isSuccess: true, data: color });
 })
 
+
 export const POST = asyncHandler(async (req) => {
   const body = await req.json();
-
+  
   const { error } = validate(addColorSchema, body);
   if (error) {
     return NextResponse.json(
       { isSuccess: false, message: error },
       { status: 400 }
     );
-  }
+  }  
 
   const existingColor = await colorSchema.findOne({
-    color: body.color,
+    name: body.name,
   });
   if (existingColor) {
     return NextResponse.json(
@@ -33,9 +34,8 @@ export const POST = asyncHandler(async (req) => {
     );
   }
 
-  const { color } = body;
-
-  const result = await colorSchema.create({ color });
+  
+  const result = await colorSchema.create(body);
   return NextResponse.json({
     isSuccess: true,
     data: result,

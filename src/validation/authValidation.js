@@ -66,16 +66,25 @@ export const verifyEmailSchema = Joi.object({
 
 // verify otp
 export const otpSchema = Joi.object({
-  otp: Joi.string()
-    .length(4)
-    .pattern(/^[0-9]{4}$/)
+    email: Joi.string()
+    .email({ tlds: { allow: false } })
     .required()
     .messages({
-      "string.length": "OTP must be exactly 4 digits",
-      "string.pattern.base": "OTP must contain only numbers",
-      "any.required": "OTP is required",
-      "string.empty": "OTP cannot be empty",
+      "string.email": "Please provide a valid email",
+      "any.required": "Email is required",
+      "string.empty": "Email cannot be empty",
     }),
+  otp:  Joi.number()
+  .integer()  // Ensures it's an integer
+  .min(1000)  // Ensures the number is at least 1000 (4 digits)
+  .max(9999)  // Ensures the number is at most 9999 (4 digits)
+  .required()
+  .messages({
+    "number.base": "OTP must be a number",
+    "number.min": "OTP must be exactly 4 digits",
+    "number.max": "OTP must be exactly 4 digits",
+    "any.required": "OTP is required",
+  })
 });
 
 // forgot password validation

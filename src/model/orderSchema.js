@@ -12,6 +12,7 @@ const orderSchema = new mongoose.Schema(
       ref: "Product",
       required: true,
     },
+
     variantId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Variant",
@@ -22,21 +23,50 @@ const orderSchema = new mongoose.Schema(
     deliveryFee: { type: Number, required: false, default: 0 },
     tax: { type: Number, required: false },
     total: { type: Number, required: false, default: 0 },
-    addressId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Address",
+    type: { type: String, required: false },
+    address: {
+      type: String,
       required: true,
     },
+    city: {
+      type: String,
+      required: true,
+    },
+    state: {
+      type: String,
+      required: true,
+    },
+    zipCode: {
+      type: String,
+      required: true,
+    },
+    country: {
+      type: String,
+      required: true,
+    },
+
+    // addressId: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "Address",
+    //   required: true,
+    // },
     paymentMethod: {
       type: String,
       enum: ["Cash", "Card", "UPI", "PayPal"],
-      required: true,
+      required: true,   
     },
     cancel: { type: Number, default: 0, enum: [0, 1] },
-    cancelReason: { type: String, required: false },
+    // cancelReason: { type: String, required: false },
+    cancelReason: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "CancelReason",
+      required: false,
+    },
+    cancelDescription: { type: String, required: false },
+    orderId: { type: Number, required: false, default: 0 },
     status: {
       type: String,
-      enum: ["Pending", "Confirmed", "Shipped", "Delivered", "Cancelled"],
+      enum: ["Pending", "Shipped", "Delivered"],
       default: "Pending",
     },
   },

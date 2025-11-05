@@ -61,7 +61,7 @@ const ProductDetails = ({ product, isOpen, setIsOpen }) => {
       className="fixed inset-0 z-50 flex items-center justify-center bg-black-200 bg-opacity-50"
       onClick={handleOverlayClick}
     >
-      <div className="relative bg-white rounded-lg w-full max-w-6xl mx-4 max-h-[90vh] overflow-y-auto">
+      <div className="absolute bg-white rounded-lg w-full max-w-6xl mx-4 max-h-[90vh] overflow-y-auto">
         {/* Close Button */}
         <button
           onClick={onClose}

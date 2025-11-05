@@ -3,16 +3,11 @@ import mongoose from "mongoose";
 const trackOrderSchema = new mongoose.Schema(
   {
     orderId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Number,
       required: true,
       trim: true,
     },
     arrivingBy: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    shipped: {
       type: String,
       required: true,
       trim: true,

@@ -8,11 +8,10 @@ export function asyncHandler(handler) {
       return response;
     } catch (error) {
       console.error("API Error:", error);
-
       return Response.json(
         {
           isSuccess: false,
-          error: error?.message || "Internal server error",
+          message: error?.message || "Internal server error",
         },
         { status: 500 }
       );

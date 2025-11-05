@@ -17,7 +17,10 @@ export const POST = asyncHandler(async (request) => {
 
   const { error } = validate(addAddressValidation, body);
   if (error) {
-    return NextResponse.json({ error, isSuccess: false }, { status: 400 });
+    return NextResponse.json(
+      { message: error, isSuccess: false },
+      { isSuccess: 400 }
+    );
   }
 
   if (body.isDefault) {
@@ -39,8 +42,8 @@ export const POST = asyncHandler(async (request) => {
 
 // Get address
 export const GET = asyncHandler(async (request) => {
-  await userAuthentication(request);
-  const result = await addressSchema.find();
+  const user = await userAuthentication(request);
+  const result = await addressSchema.find({ user: user.id });
   if (result) {
     return NextResponse.json({
       isSuccess: true,
@@ -53,6 +56,7 @@ export const GET = asyncHandler(async (request) => {
 // Put address
 export const PUT = asyncHandler(async (request) => {
   const body = await request.json();
+  console.log("body===", body);
 
   const decodedUser = await userAuthentication(request);
   const userId = decodedUser.id;
@@ -60,8 +64,8 @@ export const PUT = asyncHandler(async (request) => {
   const { error } = validate(editAddressValidation, body);
   if (error) {
     return NextResponse.json(
-      { error: error.details[0].message, isSuccess: false },
-      { status: 400 }
+      { message: error, isSuccess: false },
+      { isSuccess: 400 }
     );
   }
   if (body.isDefault) {
@@ -78,6 +82,7 @@ export const PUT = asyncHandler(async (request) => {
     },
     { new: true }
   );
+  console.log(result);
 
   if (result) {
     return NextResponse.json({
@@ -88,7 +93,7 @@ export const PUT = asyncHandler(async (request) => {
   } else {
     return NextResponse.json(
       { isSuccess: false, message: "Address not found!" },
-      { status: 404 }
+      { isSuccess: 404 }
     );
   }
 });
@@ -104,7 +109,7 @@ export const DELETE = asyncHandler(async (request) => {
         isSuccess: false,
         message: "Address id is required",
       },
-      { status: 400 }
+      { isSuccess: 400 }
     );
   }
 
@@ -115,7 +120,7 @@ export const DELETE = asyncHandler(async (request) => {
         isSuccess: false,
         message: "Address not found",
       },
-      { status: 404 }
+      { isSuccess: 404 }
     );
   }
 

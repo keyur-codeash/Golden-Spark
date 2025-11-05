@@ -37,7 +37,7 @@ const Dropdown = ({
   }, []);
 
   return (
-    <div className={`relative z-50  ${className}`} ref={dropdownRef}>
+    <div className={`z-50  ${className}`} ref={dropdownRef}>
       <button
         onClick={toggleDropdown}
         className="flex items-center justify-start w-full gap-2 px-4 py-2 rounded cursor-pointer"
@@ -58,7 +58,7 @@ const Dropdown = ({
         <div
           className={`absolute ${
             position === "bottom" ? "mt-2" : "bottom-full mb-2"
-          } bg-white text-black w-full rounded shadow-lg z-50 ${dropdownClassName}`}
+          } bg-white text-black rounded shadow-lg z-50 ${dropdownClassName}`}
         >
           {options.map((option) => (
             <div

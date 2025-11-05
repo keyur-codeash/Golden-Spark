@@ -21,7 +21,7 @@ const AppleButton = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
-        router.push("/");
+        // router.push("/");
       } else {
         setUser(null);
       }

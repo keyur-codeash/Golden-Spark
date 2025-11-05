@@ -17,7 +17,6 @@ const InputField = ({
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === "password";
-
   const handleTogglePassword = () => setShowPassword((prev) => !prev);
 
   return (

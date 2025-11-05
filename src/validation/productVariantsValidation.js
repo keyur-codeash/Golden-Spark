@@ -9,7 +9,7 @@ const objectId = () =>
     return value;
   }, "ObjectId validation");
 
-export const addVariantSchema = Joi.object({
+ export const addVariantSchema = Joi.object({
   productId: objectId().required().messages({
     "any.required": "Product is required",
     "any.invalid": "Product not found",
@@ -48,7 +48,7 @@ export const addVariantSchema = Joi.object({
   }),
 });
 
-export const updateVariantSchema = Joi.object({
+ export const updateVariantSchema = Joi.object({
   _id: objectId().required().messages({
     "any.required": "Product is required",
     "any.invalid": "Product Variant not found",
@@ -109,10 +109,3 @@ export const deleteVariantSchema = Joi.object({
     "string.empty": "Product ID cannot be empty",
   }),
 });
-
-export {
-  addVariantSchema,
-  updateVariantSchema,
-  getVariantSchema,
-  deleteVariantSchema,
-};

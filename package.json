@@ -2,8 +2,8 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "dev": "next dev --turbopack",
+"scripts": {
+  "dev": "next dev --turbopack -p 4000",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "aos": "^2.3.4",
+    "axios": "^1.10.0",
     "bcrypt": "^6.0.0",
     "busboy": "^1.6.0",
     "card-validator": "^10.0.2",
@@ -24,7 +25,10 @@
     "google-auth-library": "^9.15.1",
     "install": "^0.13.0",
     "joi": "^17.13.3",
+    "jose": "^6.0.11",
+    "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
+    "language-list": "^0.0.3",
     "mongoose": "^8.15.1",
     "multer": "^2.0.1",
     "next": "15.3.2",
@@ -39,7 +43,9 @@
     "react-facebook-login": "^4.1.1",
     "react-icons": "^5.5.0",
     "react-slick": "^0.30.3",
+    "react-toastify": "^11.0.5",
     "slick-carousel": "^1.8.1",
+    "sonner": "^2.0.6",
     "yup": "^1.6.1"
   },
   "devDependencies": {

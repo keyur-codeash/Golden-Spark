@@ -59,22 +59,9 @@ const AddressSelection = () => {
       payOnDelivery: true,
       selected: false,
     },
-    // Add more addresses as needed
   ]);
 
-  const handleRemove = (id) => {
-    setAddresses(addresses.filter((address) => address.id !== id));
-  };
 
-  const handleEdit = (id) => {
-    // Handle edit logic here
-    console.log("Editing address:", id);
-  };
-
-  const handleAddNew = () => {
-    // Handle add new address logic
-    console.log("Add new address clicked");
-  };
 
   return (
     <div className="">

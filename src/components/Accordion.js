@@ -5,7 +5,7 @@ import { FiPlus, FiMinus } from "react-icons/fi";
 
 export default function Accordion({ accordionData }) {
   const [activeIndex, setActiveIndex] = useState(0);
-
+  
   const toggleAccordion = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
@@ -19,9 +19,9 @@ export default function Accordion({ accordionData }) {
             onClick={() => toggleAccordion(index)}
             className="w-full flex justify-between items-center cursor-pointer text-left text-black bg-transparent px-4 pb-6 pt-2 focus:outline-none"
           >
-            <span className="text-lg lg:text-3xl">{item.title}</span>
+            <span className="text-lg lg:text-3xl">{item.question}</span>
             <span className="text-xl text-black">
-              {activeIndex === index ? <FiPlus /> : <FiMinus />}
+              {activeIndex === index ? <FiMinus /> : <FiPlus />}
             </span>
           </button>
 
@@ -31,7 +31,7 @@ export default function Accordion({ accordionData }) {
               activeIndex === index ? "max-h-40 pb-2" : "max-h-0 py-0"
             }`}
           >
-            {item.content}
+            {item.answer}
           </div>
         </div>
       ))}

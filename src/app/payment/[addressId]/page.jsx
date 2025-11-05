@@ -1,0 +1,125 @@
+"use client";
+import React, { useEffect, useState } from "react";
+import PaymentForm from "./component/PaymentForm";
+import HeroSectionCommon from "@/components/HeroSectionCommon";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import ProductTotalCard from "@/app/check-out/component/ProductTotalCard";
+import { createOrder } from "@/forntend/services/orderServices";
+import { useRouter } from "next/navigation";
+import useToken from "@/forntend/hooks/useToken";
+import { useAddtocart } from "@/forntend/context/AddToCartContext";
+
+function Page() {
+  const router = useRouter();
+  const [orderErrors, setOrderErrors] = useState([]);
+  const { removeAllAddToCartList } = useAddtocart();
+  useEffect(() => {
+    AOS.init({ duration: 800, once: true });
+  }, []);
+
+  const handleOrder = async (data) => {
+    try {
+      const response = await createOrder(data);
+      console.log("Order Response ===", response);
+
+      if (response.isSuccess) {
+        setOrderErrors([]);
+        router.push(`/orders/confirmed/${response.orderId}`);
+        removeAllAddToCartList();
+      } else {
+        setOrderErrors(response.failedOrders || []);
+      }
+    } catch (err) {
+      console.error("Order Error:", err);
+      setOrderErrors([
+        {
+          variantId: "general",
+          message: "Something went wrong, please try again.",
+        },
+      ]);
+    }
+  };
+
+  return (
+    <div>
+      <div data-aos="fade-up">
+        <HeroSectionCommon heading="Home/Payment" />
+      </div>
+      <div className="container mx-auto">
+        <div className="pt-10 lg:pt-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 px-4 xl:px-0 gap-10">
+            <div>
+              <PaymentForm />
+            </div>
+            <div className="lg:ps-2 xl:ms-30 2xl:ms-50">
+              <ProductTotalCard
+                isPaymnetUI={true}
+                btntext="PLACE ORDER"
+                onclick={(msg) => handleOrder(msg)}
+                navigate="/orders/confirmed"
+                orderErrors={orderErrors} // pass errors
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Page;
+
+// "use client";
+// import React, { useEffect } from "react";
+// import PaymentForm from "./component/PaymentForm";
+// import HeroSectionCommon from "@/components/HeroSectionCommon";
+// import AOS from "aos";
+// import "aos/dist/aos.css";
+// import ProductTotalCard from "@/app/check-out/component/ProductTotalCard";
+// import { createOrder } from "@/forntend/services/orderServices";
+// import { useRouter } from "next/navigation";
+// function page() {
+//   const router = useRouter();
+
+//   useEffect(() => {
+//     AOS.init({ duration: 800, once: true });
+//   }, []);
+
+//   const handleOrder = async (data) => {
+//     const responce = await createOrder(data);
+//     console.log(" responce", responce);
+//     if (responce.isSuccess) {
+//       router.push("/orders/confirmed");
+//     }
+
+//     console.log("data", data);
+//   };
+
+//   return (
+//     <div>
+//       <div data-aos="fade-up">
+//         <HeroSectionCommon heading="Home/Payment" />
+//       </div>
+//       <div className="container mx-auto">
+//         <div className="pt-10 lg:pt-20">
+//           <div className="grid grid-cols-1 lg:grid-cols-2 px-4 xl:px-0 gap-10">
+//             <div>
+//               <PaymentForm />
+//             </div>
+//             <div className="lg:ps-2 xl:ms-30 2xl:ms-50">
+//               <ProductTotalCard
+//                 isPaymnetUI={true}
+//                 btntext="PLACE ORDER"
+//                 onclick={(msg) => handleOrder(msg)}
+//                 navigate="/orders/confirmed"
+//               />
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default page;

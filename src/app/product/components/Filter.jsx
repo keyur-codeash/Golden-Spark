@@ -1,37 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HiOutlineMinus, HiOutlinePlus } from "react-icons/hi";
 import Slider from "rc-slider";
-
-// Filter options
-const filterOptions = {
-  collection: [
-    { label: "All Product", value: "all" },
-    { label: "Best Selling", value: "best" },
-    { label: "Featured Product", value: "featured" },
-    { label: "New Arrivals", value: "new" },
-  ],
-  availability: [
-    { label: "In stock (10)", value: "in-stock", count: 10 },
-    { label: "Out of Stock (01)", value: "out-of-stock", count: 1 },
-  ],
-  brands: [
-    { label: "Pambraa", value: "pambraa" },
-    { label: "Swarovski", value: "swarovski" },
-    { label: "Buccellati", value: "buccellati" },
-    { label: "David Yurman", value: "david-yurman" },
-    { label: "Piaget", value: "piaget" },
-  ],
-  sizes: ["S", "M", "L"],
-  colors: [
-    { name: "Red", value: "#DBBA53" },
-    { name: "Blue", value: "#C4C4C4" },
-    // { name: "Green", value: "#00FF00" },
-  ],
-};
-
 import "rc-slider/assets/index.css";
+import { fetchColor } from "@/forntend/services/colorServices";
+import { fetchsize } from "@/forntend/services/sizeServices";
+import { fetchBrand } from "@/forntend/services/brandServices";
 
-const FilterSidebar = ({ minPrice = 0, maxPrice = 500 }) => {
+const FilterSidebar = ({
+  minPrice,
+  maxPrice,
+  priceRange,
+  setMinPrice,
+  setMaxPrice,
+  onFilterChange,
+  selectedFilters,
+  stock,
+}) => {
   const [openSections, setOpenSections] = useState({
     collection: true,
     availability: true,
@@ -42,15 +26,53 @@ const FilterSidebar = ({ minPrice = 0, maxPrice = 500 }) => {
   });
 
   const [checkedItems, setCheckedItems] = useState({
-    collections: [],
-    stock: false,
-    outOfStock: false,
-    brands: [],
-    sizes: [],
-    colors: [],
+    collections: selectedFilters.collections || [],
+    stock: selectedFilters.stock || false,
+    outOfStock: selectedFilters.outOfStock || false,
+    brands: selectedFilters.brands || [],
+    sizes: selectedFilters.sizes || [],
+    colors: selectedFilters.colors || [],
   });
 
-  const [rangeValues, setRangeValues] = useState([minPrice, maxPrice]);
+  const [colors, setColors] = useState([]);
+  const [brands, setBrands] = useState([]);
+  const [sizes, setSizes] = useState([]);
+
+  const handleSliderChange = (values) => {
+    const [newMin, newMax] = values;
+    // Ensure min is not greater than max
+    if (newMin > newMax) {
+      setMinPrice(newMax);
+      setMaxPrice(newMin);
+      onFilterChange({
+        minPrice: newMax,
+        maxPrice: newMin,
+      });
+    } else {
+      setMinPrice(newMin);
+      setMaxPrice(newMax);
+      onFilterChange({
+        minPrice: newMin,
+        maxPrice: newMax,
+      });
+    }
+  };
+
+  const handleInputChange = (index, value) => {
+    const numValue = Math.max(0, +value || 0); // Ensure value is not negative
+
+    if (index === 0) {
+      // Min price input
+      const newMin = Math.min(numValue, priceRange[1]);
+      setMinPrice(newMin);
+      onFilterChange({ minPrice: newMin });
+    } else {
+      // Max price input
+      const newMax = Math.max(numValue, priceRange[0]);
+      setMaxPrice(newMax);
+      onFilterChange({ maxPrice: newMax });
+    }
+  };
 
   const toggleSection = (section) => {
     setOpenSections((prev) => ({
@@ -61,45 +83,93 @@ const FilterSidebar = ({ minPrice = 0, maxPrice = 500 }) => {
 
   const handleCheckboxChange = (group, value) => {
     setCheckedItems((prev) => {
-      if (typeof prev[group] === "boolean") {
-        return { ...prev, [group]: !prev[group] };
+      let updated;
+
+      // Special handling for stock/outOfStock to ensure only one can be selected
+      if (group === "stock" || group === "outOfStock") {
+        if (group === "stock") {
+          updated = {
+            ...prev,
+            stock: !prev.stock,
+            outOfStock: false, // Uncheck outOfStock when stock is checked
+          };
+        } else {
+          updated = {
+            ...prev,
+            outOfStock: !prev.outOfStock,
+            stock: false, // Uncheck stock when outOfStock is checked
+          };
+        }
       }
-      const isChecked = prev[group].includes(value);
-      const updated = isChecked
-        ? prev[group].filter((v) => v !== value)
-        : [...prev[group], value];
-      return { ...prev, [group]: updated };
+      // Handle collections, brands, sizes, colors (multiple selection)
+      else {
+        updated = prev[group].includes(value)
+          ? prev[group].filter((v) => v !== value)
+          : [...prev[group], value];
+        updated = { ...prev, [group]: updated };
+      }
+
+      // Call the filter change handler with the updated values
+      onFilterChange({
+        [group]: updated[group],
+        ...(group === "stock" || group === "outOfStock"
+          ? {
+              stock: updated.stock,
+              outOfStock: updated.outOfStock,
+            }
+          : {}),
+      });
+
+      return updated;
     });
   };
 
-  const handleSliderChange = (values) => setRangeValues(values);
+  useEffect(() => {
+    const fetchAllFilters = async () => {
+      const [colorRes, sizeRes, brandRes] = await Promise.all([
+        fetchColor(),
+        fetchsize(),
+        fetchBrand(),
+      ]);
+      if (colorRes?.data) setColors(colorRes.data);
+      if (sizeRes?.data) setSizes(sizeRes.data);
+      if (brandRes?.data) setBrands(brandRes.data);
+    };
+    fetchAllFilters();
+  }, []);
 
   return (
-    <div className="p-4 w-[300px] md:w-[250px] lg:w-[300px] ">
-      <h1 className="fixed lg:static  top-4 left-8 z-30  text-4xl font-medium mb-10">
+    <div className="p-4 w-[300px] md:w-[250px] lg:w-[300px]" data-aos="fade-up">
+      <h1 className="fixed lg:static top-4 left-8 z-30 text-4xl font-medium mb-10">
         Filters
       </h1>
 
-      {/** Collections */}
       <FilterSection
         title="Collections"
         open={openSections.collection}
         onToggle={() => toggleSection("collection")}
       >
-        {filterOptions.collection.map((item) => (
-          <label key={item.value} className="flex items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={checkedItems.collections.includes(item.value)}
-              onChange={() => handleCheckboxChange("collections", item.value)}
-              className="custom-checkbox"
-            />
-            {item.label}
-          </label>
-        ))}
+        {[
+          "All Product",
+          "Best Selling",
+          "Featured Product",
+          "New Arrivals",
+        ].map((label, i) => {
+          const value = label.toLowerCase().replace(/\s+/g, "-");
+          return (
+            <label key={value} className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={checkedItems.collections.includes(value)}
+                onChange={() => handleCheckboxChange("collections", value)}
+                className="custom-checkbox"
+              />
+              {label}
+            </label>
+          );
+        })}
       </FilterSection>
 
-      {/** Availability */}
       <FilterSection
         title="Availability"
         open={openSections.availability}
@@ -112,85 +182,81 @@ const FilterSidebar = ({ minPrice = 0, maxPrice = 500 }) => {
             onChange={() => handleCheckboxChange("stock")}
             className="custom-checkbox"
           />
-          In Stock
+          In Stock ({stock?.inStock || 0})
         </label>
         <label className="flex items-center gap-2 text-sm">
           <input
             type="checkbox"
             checked={checkedItems.outOfStock}
             onChange={() => handleCheckboxChange("outOfStock")}
-            className="w-5 h-5 custom-checkbox"
+            className="custom-checkbox"
           />
-          Out of Stock
+          Out of Stock ({stock?.outStock || 0})
         </label>
       </FilterSection>
 
-      {/** Brands */}
       <FilterSection
         title="Brands"
         open={openSections.brands}
         onToggle={() => toggleSection("brands")}
       >
-        {filterOptions.brands.map((brand) => (
-          <label key={brand.value} className="flex items-center gap-2 text-sm">
+        {brands.map((brand) => (
+          <label key={brand._id} className="flex items-center gap-2 text-sm">
             <input
               type="checkbox"
-              checked={checkedItems.brands.includes(brand.value)}
-              onChange={() => handleCheckboxChange("brands", brand.value)}
+              checked={checkedItems.brands.includes(brand._id)}
+              onChange={() => handleCheckboxChange("brands", brand._id)}
               className="custom-checkbox"
             />
-            {brand.label}
+            {brand.name}
           </label>
         ))}
       </FilterSection>
 
-      {/** Sizes */}
       <FilterSection
         title="Sizes"
         open={openSections.sizes}
         onToggle={() => toggleSection("sizes")}
       >
         <div className="flex flex-wrap gap-2">
-          {filterOptions.sizes.map((size) => (
+          {sizes.map((item) => (
             <button
-              key={size}
-              onClick={() => handleCheckboxChange("sizes", size)}
+              key={item._id}
+              onClick={() => handleCheckboxChange("sizes", item._id)}
               className={`px-4 py-1 border cursor-pointer rounded-md text-sm font-medium ${
-                checkedItems.sizes.includes(size)
+                checkedItems.sizes.includes(item._id)
                   ? "bg-yellow-800 text-white"
-                  : " text-gray-800 border-gray-400"
+                  : "text-gray-800 border-gray-400"
               }`}
             >
-              {size}
+              {item.size}
             </button>
           ))}
         </div>
       </FilterSection>
 
-      {/** Colors */}
       <FilterSection
         title="Colors"
         open={openSections.colors}
         onToggle={() => toggleSection("colors")}
       >
         <div className="flex flex-wrap gap-3">
-          {filterOptions.colors.map((color) => (
+          {colors.map((color) => (
             <button
-              key={color.value}
-              onClick={() => handleCheckboxChange("colors", color.value)}
+              key={color._id}
+              onClick={() => handleCheckboxChange("colors", color._id)}
               className={`w-8 h-8 rounded-full border-2 ${
-                checkedItems.colors.includes(color.value)
+                checkedItems.colors.includes(color._id)
                   ? "border-black"
                   : "border-gray-300"
               }`}
-              style={{ backgroundColor: color.value }}
+              style={{ backgroundColor: color.color }}
               aria-label={color.name}
             />
           ))}
         </div>
       </FilterSection>
 
-      {/** Price */}
       <FilterSection
         title="Price"
         open={openSections.price}
@@ -198,9 +264,9 @@ const FilterSidebar = ({ minPrice = 0, maxPrice = 500 }) => {
       >
         <Slider
           range
-          min={minPrice}
-          max={maxPrice}
-          value={rangeValues}
+          min={priceRange[0]}
+          max={priceRange[1]}
+          value={[Math.min(minPrice, maxPrice), Math.max(minPrice, maxPrice)]}
           onChange={handleSliderChange}
           trackStyle={[{ backgroundColor: "#000", height: "5px" }]}
           handleStyle={[
@@ -220,25 +286,25 @@ const FilterSidebar = ({ minPrice = 0, maxPrice = 500 }) => {
           railStyle={{ backgroundColor: "#ddd", height: "5px" }}
         />
         <div className="mt-2 flex gap-4">
-          <div className="flex justify-center items-center">
-            <span className="pe-2 text-bold">$</span>
+          <div className="flex items-center">
+            <span className="pe-2 font-bold">$</span>
             <input
               type="number"
-              value={rangeValues[0]}
-              onChange={(e) =>
-                setRangeValues([+e.target.value, rangeValues[1]])
-              }
+              value={minPrice}
+              min={priceRange[0]}
+              max={priceRange[1]}
+              onChange={(e) => handleInputChange(0, e.target.value)}
               className="text-center p-1 w-18 border border-gray-300 rounded-2xl text-sm"
             />
           </div>
-          <div className="flex justify-center items-center">
-            <span className="pe-2 text-bold">$</span>
+          <div className="flex items-center">
+            <span className="pe-2 font-bold">$</span>
             <input
               type="number"
-              value={rangeValues[1]}
-              onChange={(e) =>
-                setRangeValues([rangeValues[0], +e.target.value])
-              }
+              value={maxPrice}
+              min={priceRange[0]}
+              max={priceRange[1]}
+              onChange={(e) => handleInputChange(1, e.target.value)}
               className="text-center p-1 w-18 border border-gray-300 rounded-2xl text-sm"
             />
           </div>

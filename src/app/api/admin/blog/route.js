@@ -15,7 +15,7 @@ export const POST = asyncHandler(async (req) => {
   // Validate with common function
   const { error } = validate(addBlogValidation, body);
   if (error) {
-    return NextResponse.json({ error, isSuccess: false }, { status: 400 });
+    return NextResponse.json({ message : error, isSuccess: false }, { isSuccess: 400 });
   }
 
   const result = await blogSchema.create(body);
@@ -46,7 +46,7 @@ export const PUT = asyncHandler(async (req) => {
   // Validate with common function
   const { error } = validate(editBlogValidation, body);
   if (error) {
-    return NextResponse.json({ error, isSuccess: false }, { status: 400 });
+    return NextResponse.json({ message: error, isSuccess: false }, { isSuccess: 400 });
   }
 
   const result = await blogSchema.updateOne(
@@ -66,12 +66,11 @@ export const PUT = asyncHandler(async (req) => {
 export const DELETE = asyncHandler(async (request) => {
   const url = new URL(request.url);
   const id = url.searchParams.get("id");
-  console.log(id);
 
   // Validate with common function
   const { error } = validate(deleteBlogValidation, { id: id });
   if (error) {
-    return NextResponse.json({ error, isSuccess: false }, { status: 400 });
+    return NextResponse.json({message : error, isSuccess: false }, { isSuccess: 400 });
   }
 
   const findBlog = await blogSchema.findOne({ _id: id });
@@ -79,7 +78,7 @@ export const DELETE = asyncHandler(async (request) => {
   if (!findBlog) {
     return NextResponse.json(
       { error, isSuccess: false, message: "Blog not found." },
-      { status: 400 }
+      { isSuccess: 400 }
     );
   }
 

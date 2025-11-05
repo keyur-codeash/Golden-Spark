@@ -1,0 +1,33 @@
+// utils/axiosInstance.js
+import axios from "axios";
+
+const axiosInstance = axios.create({
+  baseURL: "/api",
+});
+
+// Add interceptor
+axiosInstance.interceptors.request.use((config) => {
+  const protectedRoutes = [
+    "/user",
+    "/orders",
+    "/cart",
+    "/product/wishlist",
+    "/wishlist",
+    "/address",
+    "/payment",
+    "/order",
+  ];
+
+  const token = JSON.parse(localStorage.getItem("token"));
+  console.log("axios token ==== ", token);
+
+  if (
+    token &&
+    protectedRoutes?.some((route) => config.url?.startsWith(route))
+  ) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+export default axiosInstance;

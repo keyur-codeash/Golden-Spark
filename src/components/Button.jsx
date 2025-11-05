@@ -11,6 +11,8 @@ export default function Button({
   type = "button",
   onClick,
   className = "",
+  disabled
+  
 }) {
   const base =
     "inline-flex items-center justify-center font-medium rounded-md transition duration-200 text-nowrap";
@@ -36,7 +38,7 @@ export default function Button({
   );
 
   return (
-    <button type={type} onClick={onClick} className={classes}>
+    <button type={type} onClick={onClick} className={classes} disabled={disabled ? disabled : false}>
       {icon && <span>{icon}</span>}
       {label}
     </button>

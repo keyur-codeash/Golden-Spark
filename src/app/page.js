@@ -13,19 +13,16 @@ import FavoriteProducts from "@/components/home/FavoriteProducts";
 import OurJournals from "@/components/home/OurJournals";
 import Instagram from "@/components/home/Instagram";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import AOS from "aos"; // ✅ Corrected import
+import AOS from "aos";
+import "./globals.css";
 import "aos/dist/aos.css";
+import useToken from "@/forntend/hooks/useToken";
 
 export default function Home() {
-  const [loading, setLoading] = useState(true);
-
+  const [loadingImages, setLoadingImages] = useState(true);
+  const { token } = useToken();
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      AOS.init({
-        duration: 1000,
-        once: true,
-      });
-    }
+    AOS.init({ duration: 1000, once: true });
   }, []);
 
   useEffect(() => {
@@ -34,14 +31,14 @@ export default function Home() {
     let loaded = 0;
 
     if (total === 0) {
-      setLoading(false);
+      setLoadingImages(false);
       return;
     }
 
     const onImageLoad = () => {
       loaded++;
       if (loaded === total) {
-        setLoading(false);
+        setLoadingImages(false);
       }
     };
 
@@ -63,9 +60,9 @@ export default function Home() {
   }, []);
 
   return (
-    <>
-      {loading && <LoadingSpinner />}
-      {!loading && (
+    <div>
+      {loadingImages && <LoadingSpinner />}
+      {!loadingImages && (
         <>
           <div data-aos="fade-up">
             <HeroSection />
@@ -76,19 +73,16 @@ export default function Home() {
           <div data-aos="zoom-out-down">
             <PerfectChoice />
           </div>
-          {/* <div data-aos="zoom-out-right"> */}
-          <BrowseLatestArrivals />
-          {/* </div> */}
+          <div data-aos="zoom-out-down">
+            <BrowseLatestArrivals />
+          </div>
           <div data-aos="zoom-out-up">
             <Faq />
           </div>
           <div data-aos="zoom-out-down">
             <ForThePeople />
           </div>
-          {/* <div data-aos="zoom-out-left"> */}
-          <FavoriteProducts />
-          {/* </div> */}
-
+          {token && <FavoriteProducts />}
           <div data-aos="fade-up">
             <OurJournals />
           </div>
@@ -97,6 +91,6 @@ export default function Home() {
           </div>
         </>
       )}
-    </>
+    </div>
   );
 }

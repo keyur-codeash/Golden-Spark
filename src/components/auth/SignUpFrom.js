@@ -4,25 +4,34 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import InputField from "../Input";
 import Button from "../Button";
-
+import { signUp } from "@/forntend/services/authServices";
+import { useRouter } from "next/navigation";
+import { signUpValidation } from "@/forntend/validation/validation";
 const SignUpForm = () => {
+  const router = useRouter();
+
   const formik = useFormik({
     initialValues: {
       name: "",
       email: "",
       password: "",
     },
-    validationSchema: Yup.object({
-      name: Yup.string().required("Name is required"),
-      email: Yup.string()
-        .email("Invalid email address")
-        .required("Email is required"),
-      password: Yup.string()
-        .min(6, "Password must be at least 6 characters")
-        .required("Password is required"),
-    }),
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    validationSchema: signUpValidation,
+    onSubmit: async (values) => {
+      try {
+        const response = await signUp({
+          email: values.email,
+          password: values.password,
+          userName: values.name,
+        });
+
+        if (response) {
+          router.push("/auth/sign-in");
+        }
+      } catch (error) {
+        console.error("Registration failed:", error);
+        // You might want to set form errors here
+      }
     },
   });
 
@@ -66,7 +75,7 @@ const SignUpForm = () => {
 
       <div>
         <div className="pb-3 md:text-end w-full">
-          <a href="#" className="text-lg hover:underline">
+          <a href="/auth/send-otp" className="text-lg hover:underline">
             Forgot password?
           </a>
         </div>

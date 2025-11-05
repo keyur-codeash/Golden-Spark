@@ -10,7 +10,7 @@ import { NextResponse } from "next/server";
 import productVariantSchema from "@/model/product_variants";
 import genratePublicUrl from "@/utils/genratePublicUrl";
 
-const SAVE_PRODUCT_PATH = process.env.SAVE_PRODUCT_PATH;
+const SAVE_PRODUCT_PATH = "/backend/product";
 
 export const POST = asyncHandler(async (request) => {
   const decodedUser = await userAuthentication(request);
@@ -21,7 +21,7 @@ export const POST = asyncHandler(async (request) => {
   const { value, error } = validate(addWishlistSchema, body);
   if (error) {
     return NextResponse.json(
-      { isSuccess: false, error: error.details[0].message },
+      { isSuccess: false, message: error.details[0].message },
       { status: 400 }
     );
   }
@@ -55,22 +55,23 @@ export const POST = asyncHandler(async (request) => {
 
   return NextResponse.json({
     isSuccess: true,
-    message: "Product added to wishlist successfully.",
+    message: "Product added to wishlist successfully!",
     data: result,
   });
 });
 
 export const DELETE = asyncHandler(async (request) => {
-  // ✅ Authenticate user
+  //  Authenticate user
   const decodedUser = await userAuthentication(request);
   const userId = decodedUser.id;
 
   const url = new URL(request.url);
-  const wishListId = url.searchParams.get("wishlistId");
+  const productId = url.searchParams.get("productId");
 
   //  Check if item exists in wishlist
   const wishlistItem = await wishlistSchema.findOne({
-    _id: wishListId,
+    product: productId,
+    user: userId,
   });
 
   if (!wishlistItem) {
@@ -80,12 +81,12 @@ export const DELETE = asyncHandler(async (request) => {
     );
   }
 
-  // ✅ Delete item
+  //  Delete item
   await wishlistSchema.deleteOne({ _id: wishlistItem._id });
 
   return NextResponse.json({
     isSuccess: true,
-    message: "Product removed from wishlist successfully.",
+    message: "Product removed from wishlist successfully!",
   });
 });
 
@@ -98,7 +99,7 @@ export const GET = asyncHandler(async (request) => {
     const page = parseInt(url.searchParams.get("page") || "1", 10);
     const limit = parseInt(url.searchParams.get("limit") || "10", 10);
 
-    // ✅ Get all product IDs from user's wishlist
+    //  Get all product IDs from user's wishlist
     const wishlistProductIds = await wishlistSchema
       .find({ user: userId })
       .distinct("product");
@@ -158,128 +159,13 @@ export const GET = asyncHandler(async (request) => {
       limit,
       totalPages: Math.ceil(totalItems / limit),
       totalItems,
-      message: "Wishlist products fetched successfully",
+      message: "Wishlist products fetched successfully!",
     });
   } catch (error) {
     console.error("GET wishlist products error:", error);
     return NextResponse.json(
-      { error: error.message || "Failed to fetch wishlist products" },
+      { message: error.message || "Failed to fetch wishlist products" },
       { status: 500 }
     );
   }
 });
-
-// export const GET = asyncHandler(async (request) => {
-//   try {
-//     const url = new URL(request.url);
-//     const page = parseInt(url.searchParams.get("page") || "1", 10);
-//     const limit = parseInt(url.searchParams.get("limit") || "10", 10);
-
-//     const skip = (page - 1) * limit;
-
-//     // Total count
-//     const totalItems = await productSchema.countDocuments({ isDeleted: 0 });
-
-//     // Fetch products
-//     const products = await productSchema
-//       .find({ isDeleted: 0 })
-//       .sort({ createdAt: -1 })
-//       .skip(skip)
-//       .limit(limit);
-
-//     // Format response
-//     const formattedProducts = await Promise.all(
-//       products.map(async (product) => {
-//         const brandData = await getBrandById(product.brand);
-//         const firstVariant = await productVariantSchema
-//           .findOne({ productId: product._id })
-//           .sort({ price: 1 });
-
-//         return {
-//           id: product._id,
-//           title: product.title,
-//           basePrice: product.price,
-//           price: firstVariant?.price ?? null,
-//           brand: brandData?.name ?? "Unknown",
-//           images: product.images.map((img) =>
-//             genratePublicUrl(SAVE_PRODUCT_PATH, img)
-//           ),
-//           description: product.description,
-//           sku: product.sku,
-//           stock: product.stock,
-//           order: product.order,
-//           isFeatured: product.isFeatured,
-//           createdAt: product.createdAt,
-//         };
-//       })
-//     );
-
-//     // Min and Max variant price for listed products
-//     const allProductIds = products.map((p) => p._id);
-
-//     const priceStats = await productVariantSchema.aggregate([
-//       { $match: { productId: { $in: allProductIds } } },
-//       {
-//         $group: {
-//           _id: null,
-//           minPrice: { $min: "$price" },
-//           maxPrice: { $max: "$price" },
-//         },
-//       },
-//     ]);
-
-//     const minPrice = priceStats[0]?.minPrice ?? 0;
-//     const maxPrice = priceStats[0]?.maxPrice ?? 0;
-
-//     return NextResponse.json({
-//       isSuccess: true,
-//       data: formattedProducts,
-//       page,
-//       limit,
-//       totalPages: Math.ceil(totalItems / limit),
-//       totalItems,
-//       message: "Products fetched successfully",
-//     });
-//   } catch (error) {
-//     console.error("GET products error:", error);
-//     return NextResponse.json(
-//       { error: error.message || "Failed to fetch products" },
-//       { status: 500 }
-//     );
-//   }
-// });
-
-// export const GET = asyncHandler(async (request) => {
-//   // ✅ Authenticate user
-//   const decodedUser = await userAuthentication(request);
-//   const userId = decodedUser.id;
-
-//   // ✅ Get user's wishlist with product details (populate)
-//   const wishlist = await wishlistSchema
-//     .find({ user: userId })
-//     .populate("product"); // Assuming you have a ref in your wishlistSchema for "product"
-
-//   return NextResponse.json({
-//     isSuccess: true,
-//     message: "Wishlist fetched successfully.",
-//     data: wishlist,
-//   });
-// });
-
-// import { userAuthentication } from "@/middlewares/auth";
-// import { asyncHandler } from "@/utils/asyncHandler";
-// import { NextResponse } from "next/server";
-
-// console.log("hellow");
-
-// userAuthentication();
-
-// export const POST = asyncHandler(async (req) => {
-//   const user = req.body.id;
-//   console.log(user);
-//   return NextResponse.json({ msg: "hellow" });
-// });
-
-// export const GET = asyncHandler(async () => {
-//   return NextResponse.json({ isSuccess: true, data: "brands" });
-// });

@@ -8,10 +8,12 @@ import { asyncHandler } from "@/utils/asyncHandler";
 export const POST = asyncHandler(async (request) => {
   try {
     const body = await request.json();
-    // Validate body
     const { value, error } = validate(forgotPasswordSchema, body);
     if (error) {
-      return NextResponse.json({ error, isSuccess: false }, { status: 400 });
+      return NextResponse.json(
+        { message: error, isSuccess: false },
+        { status: 400 }
+      );
     }
 
     const { email, newPassword } = value;
@@ -19,14 +21,14 @@ export const POST = asyncHandler(async (request) => {
     const user = await User.findOne({ email });
     if (!user) {
       return NextResponse.json(
-        { error: "User not found", isSuccess: false },
+        { message: "User not found", isSuccess: false },
         { status: 404 }
       );
     }
 
     if (!user.isVerify) {
       return NextResponse.json(
-        { error: "OTP not verified", isSuccess: false },
+        { message: "OTP not verified", isSuccess: false },
         { status: 403 }
       );
     }
@@ -46,7 +48,7 @@ export const POST = asyncHandler(async (request) => {
   } catch (err) {
     console.error(err);
     return NextResponse.json(
-      { error: "Server error", isSuccess: false },
+      { message: "Server error", isSuccess: false },
       { status: 500 }
     );
   }

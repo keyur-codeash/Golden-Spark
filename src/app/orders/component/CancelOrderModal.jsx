@@ -2,24 +2,47 @@
 import Button from "@/components/Button";
 import Heading from "@/components/Heading";
 import Modal from "@/components/Model";
+import Toast from "@/components/toastService";
+import { cancelOrder } from "@/forntend/services/orderServices";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { FaArrowLeft, FaTimes } from "react-icons/fa";
 import { GoArrowLeft } from "react-icons/go";
+import { useRouter } from "next/navigation";
 
-const CancelOrderModal = ({isModalOpen, setIsModalOpen}) => {
-
+const CancelOrderModal = ({
+  isModalOpen,
+  setIsModalOpen,
+  orderDetails,
+  cancelDetails,
+  setCancelId,
+}) => {
+  const router = useRouter();
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  const handleOrderCancel = async () => {
+    const response = await cancelOrder(cancelDetails);
+    if (response?.isSuccess) {
+      Toast.success("Order cancelled successfully");
+      setCancelId(cancelDetails._id)
+      router.push("/orders");
+      setIsModalOpen(false);
+    }  };
 
   return (
     <div className="flex items-center justify-center p-4">
       {/* Modal */}
       {isModalOpen && (
-        <Modal isOpen={isModalOpen} onClose={closeModal} maxWidth="max-w-xl">
+        <Modal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          orderDetails={orderDetails}
+          maxWidth="max-w-xl"
+        >
           {/* Modal Content */}
-          <div className="select-none">
+          <div className="select-none py-7">
             {/* Header */}
             <div className="p-6 rounded-t-lg">
               <div className="relative w-25 h-25 mx-auto">
@@ -63,7 +86,7 @@ const CancelOrderModal = ({isModalOpen, setIsModalOpen}) => {
                   size="md"
                   variant="outline"
                   className="w-full !rounded-0 py-3.5 !text-black flex items-center gap-[10px]"
-                  onClick={() => setIsModalOpen(false)}
+                  onClick={handleOrderCancel}
                 />
 
                 <Button

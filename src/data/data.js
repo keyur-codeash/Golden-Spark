@@ -249,20 +249,15 @@ export const accordionData = [
 
 export const productAccoudianData = [
   {
-    title: "Description",
-    content:
+    question: "Description",
+    answer:
       "The boat is advertised, the land is located, and the bed is laid. No amount of concern for life can calm the masses.",
   },
   {
-    title: "Shipping & Return:",
-    content:
+    question: "Shipping & Return:",
+    answer:
       "The boat is advertised, the land is located, and the bed is laid. No amount of concern for life can calm the masses.",
-  },
-  {
-    title: "Product Reviews",
-    content:
-      "The boat is advertised, the land is located, and the bed is laid. No amount of concern for life can calm the masses.",
-  },
+  }
 ];
 
 export const footerData = {
@@ -439,7 +434,6 @@ export const YouMightAlsoLikeData = [
     price: 578,
   },
 ];
-
 
 export const wishListData = [
   {

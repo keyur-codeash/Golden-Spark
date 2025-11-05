@@ -7,10 +7,8 @@ function HeroSection() {
   const router = useRouter();
 
   return (
-    
     <div className="min-h-auto md:h-[calc(100vh-10rem)] ">
-                <div data-aos="fade-up"></div>
-
+      <div data-aos="fade-up"></div>
       <div className="container mx-auto h-full">
         <div className="grid grid-cols-1 md:grid-cols-2 h-full">
           <div className="flex items-center px-4 order-2 md:order-1">
@@ -36,7 +34,7 @@ function HeroSection() {
           </div>
           <div className="order-1 md:order-2">
             <div className="py-10 h-full pe-6 xl:px-0">
-              <div className="relative w-full h-[240px] md:h-full">
+              <div className="relative w-full sm:h-[300px] h-[240px] md:h-full">
                 <Image
                   src="/images/hero-bg.png"
                   alt="auth image"

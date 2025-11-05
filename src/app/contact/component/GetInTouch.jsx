@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import Button from "@/components/Button";
 import InputField from "@/components/Input";
 import Heading from "@/components/Heading";
+import { contactSchema } from "@/forntend/validation/validation";
 
 const GetInTouch = () => {
   const formik = useFormik({
@@ -15,16 +16,7 @@ const GetInTouch = () => {
       message: "",
       rememberMe: false,
     },
-    validationSchema: Yup.object({
-      firstName: Yup.string().required("First name is required"),
-      lastName: Yup.string().required("Last name is required"),
-      email: Yup.string()
-        .email("Invalid email address")
-        .required("Email is required"),
-      message: Yup.string()
-        .min(10, "Message must be at least 10 characters")
-        .required("Message is required"),
-    }),
+    validationSchema: contactSchema,
     onSubmit: (values) => {
       // Handle form submission
       console.log("Form submitted:", values);
@@ -116,8 +108,7 @@ const GetInTouch = () => {
                   </p>
                 )}
               </div>
-              <div>
-              </div>
+              <div></div>
               <Button
                 type="submit"
                 label="SUBMIT"

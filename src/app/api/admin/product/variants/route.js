@@ -16,7 +16,7 @@ export const POST = asyncHandler(async (request) => {
 
   const { value, error } = validate(addVariantSchema, body);
   if (error) {
-    return NextResponse.json({ error, isSuccess: false }, { status: 400 });
+    return NextResponse.json({message:  error, isSuccess: false }, { status: 400 });
   }
 
   const existingVariant = await Variant.findOne({
@@ -26,7 +26,7 @@ export const POST = asyncHandler(async (request) => {
   });
   if (existingVariant) {
     return NextResponse.json(
-      { error: "Variant already exists", isSuccess: false },
+      { message: "Variant already exists", isSuccess: false },
       { status: 400 }
     );
   }
@@ -41,13 +41,12 @@ export const POST = asyncHandler(async (request) => {
 export const GET = asyncHandler(async (request) => {
   const { searchParams } = new URL(request.url);
   const productId = searchParams.get("productId");
-  console.log(productId);
   // Only validate if productId is present
 
   if (productId) {
     const { error } = validate(getVariantSchema, { productId });
     if (error) {
-      return NextResponse.json({ error, isSuccess: false }, { status: 400 });
+      return NextResponse.json({ message, isSuccess: false }, { status: 400 });
     }
   } else {
     return NextResponse.json(
@@ -70,7 +69,7 @@ export const PUT = asyncHandler(async (request) => {
 
   const { value, error } = validate(updateVariantSchema, body);
   if (error) {
-    return NextResponse.json({ error, isSuccess: false }, { status: 400 });
+    return NextResponse.json({ message, isSuccess: false }, { status: 400 });
   }
 
   const { _id, ...updateData } = value;
@@ -81,7 +80,7 @@ export const PUT = asyncHandler(async (request) => {
 
   if (!updated) {
     return NextResponse.json(
-      { error: "Variant not found", isSuccess: false },
+      { message: "Variant not found", isSuccess: false },
       { status: 404 }
     );
   }
@@ -101,7 +100,7 @@ export const DELETE = asyncHandler(async (request) => {
 
   if (!deleted) {
     return NextResponse.json(
-      { error: "Variant not found", isSuccess: false },
+      { message: "Variant not found", isSuccess: false },
       { status: 404 }
     );
   }

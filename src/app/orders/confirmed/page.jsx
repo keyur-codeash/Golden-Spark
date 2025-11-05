@@ -1,15 +1,28 @@
 "use client";
 import Button from "@/components/Button";
 import Heading from "@/components/Heading";
+import { fetchSingleAddress } from "@/forntend/services/addressServices";
 import Aos from "aos";
 import Image from "next/image";
 import { redirect } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { GoArrowRight } from "react-icons/go";
 
 function page() {
+  const [address, setAddress] = useState({});
+
   useEffect(() => {
     Aos.init({ duration: 800, once: true });
+  }, []);
+
+  useEffect(() => {
+    const fetchSingleAddressDetail = async () => {
+      const responce = await fetchSingleAddress();
+      if (responce.isSuccess) {
+        setAddress(responce.data[0]);
+      }
+    };
+    fetchSingleAddressDetail();
   }, []);
 
   return (
@@ -38,21 +51,21 @@ function page() {
           </div>
           <div className="border border-gray-300 w-full rounded-sm p-6 sm:w-1/2  mt-5 sm:mt-10">
             <div className="flex items-center pb-3">
-              <input type="radio" />{" "}
-              <span className="px-4 text-xl font-bold">HOME</span>
+              <input type="radio" checked />
+              <span className="px-4 text-xl font-bold ">{address.type}</span>
             </div>
             <div className="text-black ps-9">
               <p>
-                50 Washington Square S, NewYork, NY <br /> 10012, USA
+                {address.address}, {address.city}, {address.state},<br />
+                {address.country}, {address.zipCode} <br />
               </p>
               <div className="pt-4">
-                {" "}
                 <p class="relative pl-6   before:content-['•'] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:transform before:text-3xl before:text-black">
                   Pay on delivery available
                 </p>
                 <div className="pt-5">
                   <button
-                    onClick={() => redirect("order-details")}
+                    onClick={() => redirect("/orders/order-details")}
                     type="button"
                     class="text-gray-900 border flex text-lg items-center just  ify-center border-gray-800 focus:ring-0 cursor-pointer focus:outline-none font-medium rounded-sm px-4 py-2.5 text-center me-2 mb-2"
                   >
@@ -67,7 +80,7 @@ function page() {
               label="CONTINUNE SHOPPING"
               size="md"
               variant="outline"
-              className=" !rounded-0 py-3.5 sm:w-auto  w-full !text-black mt-5 flex items-center gap-[10px]"
+              className="!rounded-0 py-3.5 sm:w-auto  w-full !text-black mt-5 flex items-center gap-[10px]"
               onClick={() => redirect("/product")}
             />
             <Button
@@ -76,6 +89,7 @@ function page() {
               size="md"
               variant="solid"
               className="!bg-yellow-800 w-full sm:w-auto !rounded-0 py-3.5 mt-5 flex items-center gap-[10px]"
+              onClick={() => redirect("/orders")}
             />
           </div>
         </div>

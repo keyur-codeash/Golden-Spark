@@ -5,14 +5,14 @@ export const revalidate = 0;
 import { NextResponse } from "next/server";
 
 function routeNotFound() {
-  return NextResponse.json({ message: "Route not found" }, { status: 404 });
+  return NextResponse.json({ message: "Route not found" }, { isSuccess: 404 });
 }
 
 function handleError(err) {
   console.error("API Error:", err);
   return NextResponse.json(
     { message: "Internal server error" },
-    { status: 500 }
+    { isSuccess: 500 }
   );
 }
 

@@ -11,6 +11,10 @@ function page() {
     AOS.init({ duration: 800, once: true });
   }, []);
 
+  const handleOrder = (data) => {
+    console.log("data=====", data);
+  };
+
   return (
     <div>
       <div data-aos="fade-up">
@@ -26,7 +30,8 @@ function page() {
               <ProductTotalCard
                 isPaymnetUI={true}
                 btntext="PLACE ORDER"
-                navigate="orders/confirmed"
+                onclick={(msg) => handleOrder(msg)}
+                navigate="/orders/confirmed"
               />
             </div>
           </div>

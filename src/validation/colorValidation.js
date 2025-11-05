@@ -3,6 +3,11 @@ import colorSchema from "@/model/colorSchema";
 import Joi from "joi";
 
 export const updateColorSchema = Joi.object({
+  name: Joi.string().trim().required().messages({
+    "string.base": "Color name is string",
+    "string.empty": "Color name is required",
+    "any.required": "Color name is required",
+  }),
   color: Joi.string().trim().required().messages({
     "string.base": "Color is string",
     "string.empty": "Color is required",
@@ -11,6 +16,11 @@ export const updateColorSchema = Joi.object({
 });
 
 export const addColorSchema = Joi.object({
+  name: Joi.string().trim().required().messages({
+    "string.base": "Color name is string",
+    "string.empty": "Color name is required",
+    "any.required": "Color name is required",
+  }),
   color: Joi.string().trim().required().messages({
     "string.base": "Color is string",
     "string.empty": "Color is required",
@@ -29,10 +39,7 @@ export const idParamSchema = Joi.object({
       "any.required": "Color is rquired",
     })
     .custom(async (value, helpers) => {
-      console.log("value:", value);
-
       const findColor = await colorSchema.findById(value);
-      console.log("findColor:", findColor);
 
       if (!findColor) {
         return helpers.error("any.invalid", { message: "Color not found" });

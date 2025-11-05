@@ -27,7 +27,6 @@
   --color-background: #f9f4ee;
   --color-foreground: #111111;
 }
-
 /* checkbox  */
 input[type="checkbox"] {
   @apply appearance-none w-5 h-5 border-1 border-checkbox-border rounded-sm cursor-pointer;
@@ -112,7 +111,9 @@ body {
   background-color: var(--color-background);
   color: var(--color-foreground);
   font-family: "Frank Ruhl Libre";
-  user-select: none;
+  /* user-select: none; */
+  width: 100vw;
+  overflow-x: hidden !important;
 }
 
 .slick-dots li.slick-active div {

@@ -4,7 +4,12 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import Button from "@/components/Button";
 import Heading from "@/components/Heading";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { jwtVerify } from "jose";
+import { verifyToken } from "@/forntend/verifyToken";
+import { veifyOtp } from "@/forntend/services/authServices";
+
+// Helper to verify JWT
 
 const OtpInput = ({ onSubmit }) => {
   const length = 4;
@@ -12,6 +17,8 @@ const OtpInput = ({ onSubmit }) => {
   const [otp, setOtp] = useState(Array(length).fill(""));
   const [error, setError] = useState("");
   const inputs = useRef([]);
+  const searchParams = useSearchParams();
+
 
   useEffect(() => {
     AOS.init({ duration: 800, once: true });
@@ -60,16 +67,22 @@ const OtpInput = ({ onSubmit }) => {
     inputs.current[digits.length - 1]?.focus();
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (otp.includes("") || otp.some((d) => d.length === 0)) {
       setError("Please enter the complete 4-digit code.");
     } else {
       setError("");
       const code = otp.join("");
-      console.log("Submitted OTP:", code);
-      router.push("/auth/forgot-password");
-      if (onSubmit) onSubmit(code);
+      const token = searchParams.get("email");
+      const email = await verifyToken(token);
+      if (email) {
+        const response = await veifyOtp({ email: email.email, otp: code });
+        if (response) {
+          router.push(`/auth/forgot-password?email=${token}`);
+        }
+        if (onSubmit) onSubmit(code);
+      }
     }
   };
 
@@ -77,7 +90,11 @@ const OtpInput = ({ onSubmit }) => {
     <div className="bg-yellow-400 h-screen flex justify-center items-center px-5 w-full">
       <div className="w-full" data-aos="fade-up">
         <Heading>Get Your Code</Heading>
-        <p className="text-center py-6 text-cursom-gray-700" data-aos="fade-in" data-aos-delay="200">
+        <p
+          className="text-center py-6 text-cursom-gray-700"
+          data-aos="fade-in"
+          data-aos-delay="200"
+        >
           Please enter the 04 digit code that was sent to your email address.
         </p>
         <form

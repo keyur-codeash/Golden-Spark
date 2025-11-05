@@ -9,7 +9,7 @@ function SignUpPage() {
     <div data-aos="fade-up">
       <AuthCommon
         heading="Welcome to Golden Spark"
-        subheading="Log in your account"
+        subheading="Sign up your account"
         formContent={<SignUpFrom />}
         navigation={{
           label: "Sign In",

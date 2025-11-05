@@ -19,7 +19,10 @@ export const POST = asyncHandler(async (request) => {
   // Validate with common function
   const { error } = validate(addCardValidation, body);
   if (error) {
-    return NextResponse.json({ error, isSuccess: false }, { status: 400 });
+    return NextResponse.json(
+      { message: error, isSuccess: false },
+      { status: 400 }
+    );
   }
 
   const isexist = await cardSchema.findOne({
@@ -38,6 +41,7 @@ export const POST = asyncHandler(async (request) => {
   if (result) {
     return NextResponse.json({
       isSuccess: true,
+      data: result,
       message: "Card added successfully!",
     });
   }
@@ -53,7 +57,7 @@ export const GET = asyncHandler(async (request) => {
     return NextResponse.json({
       isSuccess: true,
       data: result,
-      message: "Cards get successfully!",
+      message: "Cards fetch successfully!",
     });
   }
 });
@@ -67,7 +71,10 @@ export const PUT = asyncHandler(async (request) => {
 
   const { error } = validate(editCardValidation, body);
   if (error) {
-    return NextResponse.json({ error, isSuccess: false }, { status: 400 });
+    return NextResponse.json(
+      { message: error, isSuccess: false },
+      { status: 400 }
+    );
   }
 
   const result = await cardSchema.updateOne({ _id: body._id }, { $set: body });
@@ -75,6 +82,7 @@ export const PUT = asyncHandler(async (request) => {
   if (result) {
     return NextResponse.json({
       isSuccess: true,
+      data: result,
       message: "Card updated successfully!",
     });
   }
@@ -91,7 +99,10 @@ export const DELETE = asyncHandler(async (request) => {
   // Validate with common function
   const { error } = validate(deleteCardValidation, { id: id });
   if (error) {
-    return NextResponse.json({ error, isSuccess: false }, { status: 400 });
+    return NextResponse.json(
+      { message: error, isSuccess: false },
+      { status: 400 }
+    );
   }
 
   const findBlog = await cardSchema.findOne({ _id: id, user: userId });
@@ -108,7 +119,7 @@ export const DELETE = asyncHandler(async (request) => {
   if (result) {
     return NextResponse.json({
       isSuccess: true,
-      message: "Card Deleted successfully!",
+      message: "Card removed successfully!",
     });
   }
 });

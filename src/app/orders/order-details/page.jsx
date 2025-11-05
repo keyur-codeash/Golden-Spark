@@ -1,13 +1,15 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CancelOrderModal from "../component/CancelOrderModal";
 import CancelOrder from "../cancel/page";
 import TrackingModalPage from "../component/TrackingModalPage";
+import { fetchSingleOrder } from "@/forntend/services/orderServices";
 
 export default function OrderConfirmation() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTrackingModalOpen, setIsTrakingModalOpen] = useState(false);
   const [orderCancelModalOpen, setOrderCancelModalOpen] = useState(false);
+  
 
   return (
     <div className="pt-2 lg:pt-15">

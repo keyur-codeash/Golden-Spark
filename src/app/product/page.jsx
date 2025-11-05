@@ -1,13 +1,21 @@
 "use client";
 import HeroSectionCommon from "@/components/HeroSectionCommon";
-import React from "react";
+import React, { useEffect } from "react";
 import ResponsiveFilter from "./components/ResponsiveFilter";
+import AOS from "aos";
 import "aos/dist/aos.css";
 
 function page() {
+  useEffect(() => {
+    AOS.init({ duration: 1000, once: true });
+  }, []);
+
   return (
     <>
-      <HeroSectionCommon heading="Home/Product" />
+      <div data-aos="fade-up">
+        <HeroSectionCommon heading="Home/Product" />
+      </div>
+
       <div className="container mx-auto">
         <ResponsiveFilter />
       </div>

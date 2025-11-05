@@ -29,11 +29,7 @@ export const idParamSchema = Joi.object({
       "any.required": "Size is rquired",
     })
     .custom(async (value, helpers) => {
-      console.log("value:", value);
-
       const findSize = await SizeSchema.findById(value);
-      console.log("findSize:", findSize);
-
       if (!findSize) {
         return helpers.error("any.invalid", { message: "Size not found" });
       }

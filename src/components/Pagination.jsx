@@ -36,11 +36,15 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
     return pages;
   };
 
+  const handleClick = (currentPage) => {    
+    onPageChange(currentPage - 1);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   return (
     <div className="flex justify-center items-center gap-2 mt-6">
       {/* Prev Button */}
       <button
-        onClick={() => onPageChange(currentPage - 1)}
+        onClick={() => handleClick(currentPage)}
         disabled={currentPage === 1}
         className="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer border border-black text-gray-700 hover:bg-gray-100 disabled:opacity-40"
       >
@@ -55,7 +59,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
           </span>
         ) : (
           <button
-            key={index} 
+            key={index}
             onClick={() => onPageChange(page)}
             className={`w-9 h-9  text-sm font-medium border flex items-center cursor-pointer justify-center ${
               currentPage === page

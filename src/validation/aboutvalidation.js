@@ -17,6 +17,10 @@ export const addAboutValidation = Joi.object({
     "string.empty": "Content is required.",
     "any.required": "Content is required.",
   }),
+  image: Joi.string().required().messages({
+    "string.empty": "Image is required.",
+    "any.required": "Image is required.",
+  }),
 });
 
 export const editAboutValidation = Joi.object({
@@ -39,6 +43,10 @@ export const editAboutValidation = Joi.object({
     "string.base": "Content must be a text string.",
     "string.empty": "Content is required.",
     "any.required": "Content is required.",
+  }),
+  image: Joi.string().required().messages({
+    "string.empty": "Image is required.",
+    "any.required": "Image is required.",
   }),
 });
 

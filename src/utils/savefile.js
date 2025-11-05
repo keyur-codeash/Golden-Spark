@@ -4,7 +4,6 @@ const createfolder = require("./createfolder");
 const randomString = require("./randomString");
 
 const saveFile = async (pathname, file, prefix) => {
-  // console.log("Run")
   createfolder(pathname);
   const extension = file.type.split("/")[1];
   const pathnameSplit = pathname.split("/");
@@ -26,7 +25,6 @@ const saveFile = async (pathname, file, prefix) => {
 
   fs.writeFile(uploadPath, buffer, (err) => {
     if (err) {
-      // console.log(err)
       return false;
     }
   });  

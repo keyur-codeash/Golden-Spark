@@ -6,10 +6,10 @@ const SECRET_KEY = process.env.JWT_SECRET || "your_default_secret";
 // Common function to verify token
 const verifyToken = async (req) => {
   const authHeader = req.headers.get("Authorization");
-
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     throw new Error("Authorization token missing");
   }
+
   const token = authHeader.split(" ")[1];
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
@@ -23,7 +23,6 @@ const verifyToken = async (req) => {
 // User middleware
 export async function userAuthentication(request) {
   const decoded = await verifyToken(request);
-  // console.log("decoded=============", decoded);
 
   if (decoded.role !== "user" && decoded.role !== "admin") {
     throw new Error("Unauthorized access");

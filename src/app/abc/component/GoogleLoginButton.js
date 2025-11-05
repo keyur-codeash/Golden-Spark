@@ -12,8 +12,6 @@ export default function GoogleLoginButton() {
 
     try {
       const result = await signInWithPopup(auth, provider);
-      // Success - handle user data
-      console.log("User logged in:", result.user);
     } catch (error) {
       // Only log actual errors (ignore popup closures)
       if (error.code !== "auth/popup-closed-by-user") {

@@ -1,33 +1,28 @@
 "use client";
-import { useState } from "react";
-import BillingDetailsForm from "../../component/BillingDetailsForm";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Modal from "@/components/Model";
 import Button from "@/components/Button";
+// import ProductTotalCard from "../../../component/ProductTotalCard";
+import {
+  createAddress,
+  deleteAddress,
+  fetchAddress,
+  updateAddress,
+} from "@/forntend/services/addressServices";
+import Toast from "@/components/toastService";
+import SkeletonCart from "@/forntend/skeleton/BillingSkeleton";
 import ProductTotalCard from "../../component/ProductTotalCard";
+import BillingDetailsForm from "../../component/BillingDetailsForm";
 
 export default function AddressManagement() {
-  const [addresses, setAddresses] = useState([
-    {
-      id: 1,
-      address: "50 Washington Square S, NewYork, NY 10012, USA",
-      payOnDelivery: true,
-      email: "home@example.com",
-      type: "Home",
-      country: "United States",
-      firstName: "John",
-      lastName: "Doe",
-      apartment: "Apt 4B",
-      city: "New York",
-      state: "New York",
-      zipCode: "10012",
-      saveAddress: true,
-      selected: true, // Add selected property to initial address
-    },
-  ]);
-
+  const router = useRouter();
+  const [addresses, setAddresses] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentAddress, setCurrentAddress] = useState(null);
+  const [loading, setloading] = useState(true);
 
+  // Open modal for Add/Edit
   const openModal = (address = null) => {
     setCurrentAddress(address);
     setIsModalOpen(true);
@@ -38,59 +33,178 @@ export default function AddressManagement() {
     setCurrentAddress(null);
   };
 
-  const handleAddOrUpdateAddress = (values) => {
-    if (currentAddress) {
-      // Update existing address
-      setAddresses((prev) =>
-        prev.map((addr) =>
-          addr.id === currentAddress.id ? { ...addr, ...values } : addr
-        )
-      );
-    } else {
-      // Add new address
-      const newAddress = {
-        id: Math.max(...addresses.map((a) => a.id), 0) + 1,
-        ...values,
-        selected: false, // New addresses are not selected by default
-      };
-      setAddresses((prev) => [...prev, newAddress]);
+  // Add or Update Address
+  const handleAddOrUpdateAddress = async (values) => {
+    try {
+      if (currentAddress) {
+        delete values.subscribe;
+        delete values.createdAt;
+        delete values.updatedAt;
+        delete values.__v;
+        const response = await updateAddress(values);
+        if (response.isSuccess) {
+          Toast.success("Address updated successfully!");
+          setAddresses((prev) =>
+            prev.map((addr) =>
+              addr._id === currentAddress._id ? { ...addr, ...values } : addr
+            )
+          );
+          setCurrentAddress(null);
+        }
+      } else {
+        // Add new address
+        const { subscribe, ...payload } = values;
+        const response = await createAddress(payload);
+        if (response.isSuccess) {
+          setAddresses((prev) => [...prev, response.data]);
+          router.push("/check-out/address");
+        }
+      }
+    } catch (error) {
+      console.error("Error saving address:", error);
+    } finally {
+      closeModal();
     }
-    closeModal();
   };
 
-  const handleDelete = (id) => {
-    setAddresses((prev) => prev.filter((addr) => addr.id !== id));
+  // Delete Address
+  const handleDelete = async (id) => {
+    try {
+      const response = await deleteAddress(id);
+      if (response.isSuccess) {
+        Toast.success("Address removed successfully!");
+        setAddresses((prev) => prev.filter((addr) => addr._id !== id));
+      }
+    } catch (error) {
+      console.error("Error deleting address:", error);
+    }
   };
 
-  const handleChange = (id) => {
-    setAddresses((prev) =>
-      prev.map((addr, index) => ({
-        ...addr,
-        selected: index === id,
-      }))
+  // Change selected Address
+  const handleChange = async (data) => {
+    delete data.createdAt;
+    delete data.updatedAt;
+    delete data.__v;
+    // delete data.user
+
+    const response = await updateAddress({
+      ...data,
+      isDefault: true,
+    });
+    if (response?.isSuccess) {
+      setAddresses((prev) =>
+        prev.map((addr) => ({
+          ...addr,
+          isDefault: addr._id === data._id,
+        }))
+      );
+    }
+  };
+
+  const handleOrder = () => {
+    console.log("handle fun call");
+  };
+
+  // Fetch All Addresses
+  useEffect(() => {
+    const fetchAllAddress = async () => {
+      try {
+        const response = await fetchAddress();
+        if (response.isSuccess) {
+          if (!response?.data?.length) {
+            router.push("/check-out");
+          }
+          setloading(false);
+          setAddresses(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching addresses:", error);
+      }
+    };
+    fetchAllAddress();
+  }, []);
+
+  const checkSelectedAddress = () => {
+    const findSelected = addresses.find((item) => item.isDefault == true);
+    console.log("findSelected===", findSelected);
+
+    if (findSelected) {
+      return findSelected._id;
+    } else {
+      return false;
+    }
+  };
+
+  console.log("addresses=24125==", checkSelectedAddress());
+
+  if (loading) {
+    return (
+      <>
+        <div className="container mx-auto">
+          <div className="lg:py-20">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-1">
+              <div className="p-4">
+                {/* Skeleton for address section */}
+                <div className="skeleton-container">
+                  <div className="skeleton-title h-8 w-64 mb-6 bg-[#755c4e13] rounded"></div>
+
+                  {/* Skeleton address cards */}
+                  {[1, 2].map((item) => (
+                    <div
+                      key={item}
+                      className="border border-gray-300 rounded-lg p-4 mb-4"
+                    >
+                      <div className="flex items-center mb-4">
+                        <div className="skeleton-radio h-5 w-5 bg-[#755c4e13] rounded-full"></div>
+                        <div className="skeleton-type h-6 w-32 bg-[#755c4e13] rounded ml-2"></div>
+                      </div>
+                      <div className="pt-2">
+                        <div className="px-7">
+                          <div className="skeleton-address-line h-4 w-full bg-[#755c4e13] rounded mb-2"></div>
+                          <div className="skeleton-address-line h-4 w-3/4 bg-[#755c4e13] rounded mb-2"></div>
+                          <div className="skeleton-delivery-text h-4 w-48 bg-[#755c4e13] rounded"></div>
+                        </div>
+                      </div>
+                      <div className="flex space-x-2 px-6 py-4">
+                        <div className="skeleton-button h-10 w-24 bg-[#755c4e13] rounded"></div>
+                        <div className="skeleton-button h-10 w-24 bg-[#755c4e13] rounded"></div>
+                      </div>
+                    </div>
+                  ))}
+
+                  <div className="skeleton-add-new h-12 w-full bg-[#755c4e13] rounded-lg mt-4"></div>
+                </div>
+              </div>
+              <div className="lg:ps-2 xl:ms-30 2xl:ms-50 px-5 lg:px-0">
+                <SkeletonCart />
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
     );
-  };
+  }
 
   return (
     <div className="container mx-auto">
-      <div className=" lg:py-20">
+      <div className="lg:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-1">
           <div className="p-4">
             <h2 className="text-2xl font-bold mb-3">
               Selected Address Details
             </h2>
 
-            {addresses.map((address, index) => (
+            {addresses.map((address) => (
               <div
-                key={address.id}
+                key={address._id}
                 className="border border-gray-300 rounded-lg p-4 mb-4"
               >
                 <div className="flex items-center">
                   <input
                     type="radio"
                     name="type"
-                    checked={address.selected}
-                    onChange={() => handleChange(index)}
+                    checked={address.isDefault}
+                    onChange={() => handleChange(address)}
                   />
                   <p className="font-semibold text-xl px-2 capitalize">
                     {address?.type}
@@ -99,7 +213,7 @@ export default function AddressManagement() {
                 <div className="pt-2">
                   <div className="px-7 text-lg">
                     <p className="text-gray-700">{`${address.address}, ${address.city}, ${address.state}, ${address.country}`}</p>
-                    {address.selected && (
+                    {address.isDefault && (
                       <p className="text-gray-700 mb-2">
                         • Pay on delivery available
                       </p>
@@ -115,7 +229,7 @@ export default function AddressManagement() {
                     size="md"
                     variant="solid"
                     className="!bg-transparent !text-black border"
-                    onClick={() => handleDelete(address.id)}
+                    onClick={() => handleDelete(address._id)}
                   />
                   <Button
                     label="EDIT"
@@ -146,25 +260,29 @@ export default function AddressManagement() {
                   closeIcon={false}
                   maxHeight="max-h-screen"
                 >
-                  <div className="bg-white rounded-lg px-6 w-full">
-                    <div className="">
-                      <BillingDetailsForm
-                        onClose={closeModal}
-                        title={
-                          currentAddress ? "Edit Address" : "Add New Address"
-                        }
-                        overflow={true}
-                        initialValues={currentAddress || null}
-                        onSubmit={handleAddOrUpdateAddress}
-                      />
-                    </div>
+                  <div className="bg-white rounded-lg px-6 w-full py-5">
+                    <BillingDetailsForm
+                      onClose={closeModal}
+                      title={
+                        currentAddress ? "Edit Address" : "Add New Address"
+                      }
+                      overflow={true}
+                      initialValues={currentAddress || {}}
+                      onSubmit={handleAddOrUpdateAddress}
+                    />
                   </div>
                 </Modal>
               </div>
             )}
           </div>
+
           <div className="lg:ps-2 xl:ms-30 2xl:ms-50 px-5 lg:px-0">
-            <ProductTotalCard />
+            <ProductTotalCard
+              loading={loading}
+              addresses={checkSelectedAddress()}
+              handleProductOrder={false}
+              navigate={`/payment/${checkSelectedAddress()}`}
+            />
           </div>
         </div>
       </div>
@@ -173,48 +291,24 @@ export default function AddressManagement() {
 }
 
 // "use client";
-// import { useState } from "react";
+// import { useEffect, useState } from "react";
 // import BillingDetailsForm from "../../component/BillingDetailsForm";
 // import Modal from "@/components/Model";
 // import Button from "@/components/Button";
 // import ProductTotalCard from "../../component/ProductTotalCard";
+// import {
+//   createAddress,
+//   deleteAddress,
+//   fetchAddress,
+//   updateAddress,
+// } from "@/forntend/services/addressServices";
 
 // export default function AddressManagement() {
-//   const [addresses, setAddresses] = useState([
-//     {
-//       id: 1,
-//       address: "50 Washington Square S, NewYork, NY 10012, USA",
-//       payOnDelivery: true,
-//       email: "home@example.com",
-//       type: "Home",
-//       country: "United States",
-//       firstName: "John",
-//       lastName: "Doe",
-//       apartment: "Apt 4B",
-//       city: "New York",
-//       state: "New York",
-//       zipCode: "10012",
-//       saveAddress: true,
-//     },
-//     // {
-//     //   id: 2,
-//     //   type: "WORK",
-//     //   address: "100 Main St, Boston, MA 02108, USA",
-//     //   payOnDelivery: false,
-//     //   email: "work@example.com",
-//     //   country: "United States",
-//     //   firstName: "John",
-//     //   lastName: "Doe",
-//     //   apartment: "Floor 5",
-//     //   city: "Boston",
-//     //   state: "Massachusetts",
-//     //   zipCode: "02108",
-//     //   saveAddress: false,
-//     // },
-//   ]);
+//   const [addresses, setAddresses] = useState([]);
 
 //   const [isModalOpen, setIsModalOpen] = useState(false);
 //   const [currentAddress, setCurrentAddress] = useState(null);
+//   const [address, setAddress] = useState([]);
 
 //   const openModal = (address = null) => {
 //     setCurrentAddress(address);
@@ -226,35 +320,63 @@ export default function AddressManagement() {
 //     setCurrentAddress(null);
 //   };
 
-//   const handleAddOrUpdateAddress = (values) => {
+//   console.log("abcd====", addresses, currentAddress);
+
+//   const handleAddOrUpdateAddress = async (values) => {
+//     console.log("call update");
+
 //     if (currentAddress) {
 //       // Update existing address
+//       const responce = await updateAddress(currentAddress);
+//       console.log(responce);
+
 //       setAddresses((prev) =>
 //         prev.map((addr) =>
-//           addr.id === currentAddress.id ? { ...addr, ...values } : addr
+//           addr._id === currentAddress._id ? { ...addr, ...values } : addr
 //         )
 //       );
 //     } else {
+//       console.log("value===", values);
+//       delete values.subscribe;
+//       const responce = await createAddress(values);
+//       if (responce.isSuccess) {
+//         router.push("/check-out/address");
+//       }
+
 //       // Add new address
 //       const newAddress = {
 //         id: Math.max(...addresses.map((a) => a.id), 0) + 1,
 //         ...values,
+//         selected: false,
 //       };
 //       setAddresses((prev) => [...prev, newAddress]);
 //     }
 //     closeModal();
 //   };
 
-//   const handleDelete = (id) => {
-//     setAddresses((prev) => prev.filter((addr) => addr.id !== id));
+//   const handleDelete = async (id) => {
+//     await deleteAddress(id);
+//     setAddresses((prev) => prev.filter((addr) => addr._id !== id));
 //   };
 
 //   const handleChange = (id) => {
-//     console.log(id);
+//     setAddresses((prev) =>
+//       prev.map((addr, index) => ({
+//         ...addr,
+//         selected: index === id,
+//       }))
+//     );
+//   };
 
-//       addresses[id].selected = true;
-//     setAddresses([...addresses])
+//   useEffect(() => {
+//     const fetchAllAddress = async () => {
+//       const responce = await fetchAddress();
+//       if (responce.isSuccess) {
+//         setAddresses(responce.data);
+//       }
 //     };
+//     fetchAllAddress();
+//   }, []);
 
 //   return (
 //     <div className="container mx-auto">
@@ -265,7 +387,7 @@ export default function AddressManagement() {
 //               Selected Address Details
 //             </h2>
 
-//             {addresses.map((address , index) => (
+//             {addresses.map((address, index) => (
 //               <div
 //                 key={address.id}
 //                 className="border border-gray-300 rounded-lg p-4 mb-4"
@@ -274,6 +396,7 @@ export default function AddressManagement() {
 //                   <input
 //                     type="radio"
 //                     name="type"
+//                     checked={address.isDefault}
 //                     onChange={() => handleChange(index)}
 //                   />
 //                   <p className="font-semibold text-xl px-2 capitalize">
@@ -283,12 +406,11 @@ export default function AddressManagement() {
 //                 <div className="pt-2">
 //                   <div className="px-7 text-lg">
 //                     <p className="text-gray-700">{`${address.address}, ${address.city}, ${address.state}, ${address.country}`}</p>
-//                   {
-//                     address.selected &&
-//                    <p className="text-gray-700 mb-2">
-//                       • Pay on delivery available
-//                     </p>
-//                     }
+//                     {address.isDefault && (
+//                       <p className="text-gray-700 mb-2">
+//                         • Pay on delivery available
+//                       </p>
+//                     )}
 //                   </div>
 //                 </div>
 
@@ -300,7 +422,7 @@ export default function AddressManagement() {
 //                     size="md"
 //                     variant="solid"
 //                     className="!bg-transparent !text-black border"
-//                     onClick={() => handleDelete(address.id)}
+//                     onClick={() => handleDelete(address._id)}
 //                   />
 //                   <Button
 //                     label="EDIT"

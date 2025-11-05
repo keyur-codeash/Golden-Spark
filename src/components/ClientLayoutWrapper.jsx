@@ -10,7 +10,7 @@ export default function ClientLayoutWrapper({ children }) {
   const isAuthPage = pathname.startsWith("/auth");
 
   if (isAuthPage) {
-    return <>{children}</>; // No layout for /auth routes
+    return <>{children}</>;
   }
 
   return (

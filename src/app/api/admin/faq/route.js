@@ -10,7 +10,7 @@ export const POST = asyncHandler(async (request) => {
   // Validate with common function
   const { error } = validate(addfaqValidation, body);
   if (error) {
-    return NextResponse.json({ error, isSuccess: false }, { status: 400 });
+    return NextResponse.json({message: error, isSuccess: false }, { status: 400 });
   }
 
   const faqExist = await faqSchema.findOne({ question: body.question });
@@ -22,17 +22,16 @@ export const POST = asyncHandler(async (request) => {
     });
   }
   const result = await faqSchema.create(body);
-  return NextResponse.json({ isSuceess: true, result: result });
+  return NextResponse.json({ isSuccess: true, result: result });
 });
 
 export const DELETE = asyncHandler(async (request) => {
   const url = new URL(request.url);
   const faqId = url.searchParams.get("id");
-  console.log(faqId);
 
   const { error } = validate(addfaqValidation);
   if (error) {
-    return NextResponse.json({ error, isSuccess: false }, { status: 400 });
+    return NextResponse.json({ message: error, isSuccess: false }, { status: 400 });
   }
 
   const faqExist = await faqSchema.findOne({ _id: faqId });
@@ -46,12 +45,12 @@ export const DELETE = asyncHandler(async (request) => {
 
   const result = await faqSchema.deleteOne({ _id: faqId });
   return NextResponse.json({
-    isSuceess: true,
+    isSuccess: true,
     meesage: "FAQ deleted successfull",
   });
 });
 
 export const GET = asyncHandler(async () => {
   const result = await faqSchema.find();
-  return NextResponse.json({ isSuceess: true, result: result });
+  return NextResponse.json({ isSuccess: true, result: result });
 });
