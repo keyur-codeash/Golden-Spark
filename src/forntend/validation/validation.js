@@ -1,8 +1,5 @@
 import * as Yup from "yup";
 
-// Auth
-
-// Sign-in validation 
 export const signInValidation = Yup.object({
       email: Yup.string()
         .email("Invalid email address")
@@ -21,8 +18,6 @@ export const signInValidation = Yup.object({
             /[!@#$%^&*(),.?":{}|<>]/.test(value)
         ),
     })
-
-
 
     export const signUpValidation = Yup.object({
           name: Yup.string().required("Name is required"),

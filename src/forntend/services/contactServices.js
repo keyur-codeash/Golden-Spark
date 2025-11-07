@@ -6,8 +6,8 @@ import Toast from "@/components/toastService";
 export const createContact = async (body) => {
   try {
     const response = await axiosInstance.post("/contact", body);
-    if (response?.isSuccess) {
-      return response;
+    if (response?.data.isSuccess) {
+      return response.data;
     } else {
       Toast.error(response?.data?.message || "Failed to create contact.");
       return null;

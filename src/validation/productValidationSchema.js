@@ -1,7 +1,5 @@
 import Joi from "joi";
 
-//sign up validaton
-
 export const productValidationSchema = Joi.object({
   title: Joi.string().trim().required().messages({
     "string.base": "Title must be a string",
@@ -19,12 +17,6 @@ export const productValidationSchema = Joi.object({
     "string.empty": "Brand is required",
     "any.required": "Brand is required",
   }),
-
-  // images: Joi.array().items(Joi.any()).min(1).required().messages({
-  //   "array.base": "Images must be an array",
-  //   "array.min": "At least one image is required",
-  //   "any.required": "Images are required",
-  // }),
 
   description: Joi.string().trim().required().messages({
     "string.base": "Description must be a string",

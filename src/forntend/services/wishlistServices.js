@@ -1,21 +1,5 @@
 import axiosInstance from "../lib/axiosClient";
 import Toast from "@/components/toastService";
-// export const signIn = async (body) => {
-//   try {
-//     const response = await axiosInstance.post("/auth/sign-in/", body);
-
-//     if (response?.data?.isSuccess) {
-//       Toast.success(response.data.message);
-//       return response.data;
-//     } else {
-//       Toast.error(response?.data?.message || "Failed to sign-in.");
-//       return null;
-//     }
-//   } catch (error) {
-//     Toast.error(error?.response?.data?.message || "Something went wrong.");
-//     return null;
-//   }
-// };
 
 export const getwishlistData = async (currentPage) => {
   currentPage = currentPage || 1;
@@ -30,7 +14,6 @@ export const getwishlistData = async (currentPage) => {
       return null;
     }
   } catch (error) {
-    // Toast.error(error?.response?.data?.message || "Something went wrong.");
     return false;
   }
 };

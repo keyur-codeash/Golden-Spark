@@ -9,8 +9,6 @@ const objectId = () =>
     return value;
   }, "ObjectId validation");
 
-const error = true;
-
 export const addWishlistSchema = Joi.object({
   productId: objectId().required().messages({
     "any.required": "Product id is required",

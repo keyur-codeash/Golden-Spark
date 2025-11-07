@@ -16,6 +16,5 @@ const wishlistSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Avoid re-defining model during hot reload
 export default mongoose.models.wishlist ||
   mongoose.model("wishlist", wishlistSchema);

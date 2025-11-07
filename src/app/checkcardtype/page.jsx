@@ -32,7 +32,6 @@ const PaymentForm = () => {
     e.preventDefault();
     if (validateFields()) {
       alert("All fields are valid! Ready to proceed.");
-      // Proceed to payment API or further logic
     }
   };
 

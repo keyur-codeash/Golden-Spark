@@ -27,7 +27,6 @@ export const PUT = asyncHandler(async (request) => {
   const userId = decodedUser.id;
   const body = await request.json();
 
-  // Validate order data
   const { error } = validate(orderCancelValidation, body);
 
   if (error) {

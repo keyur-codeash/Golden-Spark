@@ -17,9 +17,8 @@ export default function RootLayout({ children }) {
           <div className="blog">
             <HeroSectionCommon heading="Home/Blog" />
           </div>
-        {/* <LoadingSpinner /> */} {children}
-                </div>
-
+          {children}
+        </div>
       </body>
     </html>
   );

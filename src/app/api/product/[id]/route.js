@@ -65,14 +65,7 @@ export const GET = asyncHandler(async (request, { params }) => {
         product: product._id,
       });
     }
-
-    // const isWishlist = await wishlistSchema.findOne({
-    //   user: userId,
-    //   product: product._id,
-    // });
-
-    // Get unique sizeIds and colorIds
-
+    
     const sizeIds = [...new Set(allVariants.map((v) => v.size?.toString()))];
     const colorIds = [...new Set(allVariants.map((v) => v.color?.toString()))];
 
@@ -99,7 +92,6 @@ export const GET = asyncHandler(async (request, { params }) => {
         );
       }
     } else {
-      //  Check all size-color combinations to get first matching variant
       outerLoop: for (let size of allSizes) {
         for (let color of allColors) {
           const variant = await productVariantSchema.findOne({
@@ -114,7 +106,6 @@ export const GET = asyncHandler(async (request, { params }) => {
         }
       }
 
-      // If still no variant, pick first available variant
       if (!selectedVariant) {
         selectedVariant = allVariants[0];
       }

@@ -12,5 +12,4 @@ const sizeSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Avoid re-defining model during hot reload
 export default mongoose.models.size || mongoose.model("size", sizeSchema);

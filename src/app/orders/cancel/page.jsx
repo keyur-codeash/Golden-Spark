@@ -32,16 +32,7 @@ const CancelOrder = ({
     quantity: 2,
     date: "18 April, 2025",
     img: "/images/instagram_one.png",
-    // cancellationReasons: [
-    //   "Incorrect size ordered",
-    //   "Product not required anymore",
-    //   "Expected a shorter delivery time",
-    //   "Found better price elsewhere",
-    //   "Wants to change style/color",
-    //   "Delayed Delivery Cancellation",
-    //   "Duplicate Order",
-    //   "Other",
-    // ],
+
   };
 
   const handleSubmit = async (e) => {
@@ -59,40 +50,9 @@ const CancelOrder = ({
       cancelDescription: description,
     });
 
-    // alert(
-    //   `Order cancellation submitted successfully!\nReason: ${selectedReason}\nDescription: ${
-    //     description || "None"
-    //   }`
-    // );
-
-    // console.log(orderDetails);
-
-    // const response = await cancelOrder({
-    //   _id: orderDetails.order_id,
-    //   cancelReason: selectedReason,
-    //   cancelDescription: description,
-    // });
-
-    // console.log("response==================", response);
-
-    // Reset form fields
-
     setSelectedReason("");
     setDescription("");
-  };
-
-  // useEffect(() => {
-  //   const fetchSingleOrderDetails =async () => {
-  // const responce = await fetchSingleOrder();
-  // }
-  // fetchSingleOrderDetails();
-  // }, [])
-
-  // const response = await cancelOrder(body);
-
-  // const handleCancelOrder = (id) => {
-  //   console.log("orderid==========", id);
-  // };
+  }; 
 
   useEffect(() => {
     const fetchOrderDetails = async () => {
@@ -114,7 +74,6 @@ const CancelOrder = ({
       onClose={() => setIsModalOpen(false)}
       maxWidth="mx-1/2"
     >
-      {/* Order Details */}
       <div className="flex flex-col sm:flex-row px-4 pb-5 pt-15 bg-brown-300/30  border-b-3 border-gray-200">
         <div className="w-full sm:w-40 h-40 bg-gray-200 rounded-md mb-4 sm:mb-0 sm:mr-4 flex-shrink-0 relative">
           <Image
@@ -155,24 +114,6 @@ const CancelOrder = ({
             <Link href="#">View Policy</Link>
           </p>
         </div>
-
-        {/* <div className="flex-1">
-          <div className="flex justify-between text-sm sm:text-base">
-            <p>Order ID: {orderDetails?.order_id}</p>
-            <p>Date: {orderDetails?.orderCreated}</p>
-          </div>
-          <p className="mt-1">{orderDetails?.items[0]?.product_name}</p>
-          <p className="mt-1">
-            Price: ${orderDetails?.items[0]?.price?.toFixed(2)}
-          </p>
-          <div className="flex flex-col sm:flex-row sm:gap-4 mt-1">
-            <p>Colour: {orderDetails?.items[0].color}</p>
-            <p>Quantity: {orderDetails?.items[0].quantity}</p>
-          </div>
-          <p className="text-right cursor-pointer mt-1">
-            <Link href="#">View Policy</Link>
-          </p>
-        </div> */}
       </div>
       {/* Cancellation Form */}
       <div className="p-6 pb-0 ">
@@ -222,7 +163,6 @@ const CancelOrder = ({
               size="md"
               variant="solid"
               className="!bg-yellow-800 w-full rounded- py-3 flex items-center gap-[10px]"
-              // onClick={() => handleCancelOrder(orderDetails.order_id)}
             />
           </div>
         </form>

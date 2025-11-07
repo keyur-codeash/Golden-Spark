@@ -40,7 +40,6 @@ const ProductTotalCard = ({
   const taxAmount = (subtotal * taxRate) / 100;
   const total = subtotal + deliveryFee + taxAmount;
 
-  // Quantity
   const handleQuantityChange = (productVariantId, newQuantity) => {
     if (newQuantity > 0) {
       updateCartItemQuantity(productVariantId, newQuantity);
@@ -108,7 +107,6 @@ const ProductTotalCard = ({
     return Array.from(sizeMap.values());
   };
 
-  // Delivery
   useEffect(() => {
     const fetchDetails = async () => {
       const response = await fetchDeliveryDetails();
@@ -119,13 +117,11 @@ const ProductTotalCard = ({
     fetchDetails();
   }, []);
 
-  // Helper function to extract stock number from error message
   const extractStockFromMessage = (message) => {
     const stockMatch = message?.match(/(\d+)/);
     return stockMatch ? parseInt(stockMatch[1]) : null;
   };
 
-  //  Enhanced error mapping with stock-specific handling
   const errorMap = orderErrors.reduce((acc, err) => {
     acc[err.variantId] = {
       message: err.message,
@@ -135,7 +131,6 @@ const ProductTotalCard = ({
     return acc;
   }, {});
 
-  // Check if product has stock error
   const hasStockError = (product) => {
     const productError =
       errorMap[product.selectedVariant?.id] ||
@@ -267,7 +262,6 @@ const ProductTotalCard = ({
                         {product.title}
                       </div>
 
-                      {/* Stock Information */}
                       {isStockError && (
                         <div className="mt-2 bg-red-100 border border-red-200 rounded-md p-2">
                           <p className="text-red-700 text-sm font-medium">
@@ -280,7 +274,6 @@ const ProductTotalCard = ({
                         </div>
                       )}
 
-                      {/* Quantity */}
                       <div className="flex items-center mt-3">
                         <p className="text-xl pe-5">Quantity:</p>
                         <div>
@@ -364,7 +357,6 @@ const ProductTotalCard = ({
                         </div>
                       )}
 
-                      {/* Price */}
                       <div className="text-xl flex items-center justify-between py-4">
                         <p className={isStockError ? "text-red-700" : ""}>
                           Price :
@@ -382,7 +374,6 @@ const ProductTotalCard = ({
                         </p>
                       </div>
 
-                      {/* Suggested Action for Stock Error */}
                       {isStockError && (
                         <div className="mt-2 flex space-x-2">
                           <button

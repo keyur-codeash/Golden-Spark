@@ -2,7 +2,6 @@ import React from "react";
 import BlogDetails from "./component/BlogDetails";
 import RelatedArticles from "./component/RelatedArticles";
 
-// Only this export was added above 👆
 export async function generateStaticParams() {
   return [
     { blogId: "blog-1" },

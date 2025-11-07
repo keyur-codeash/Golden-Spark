@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import InputField from "../Input";
 import Button from "../Button";
 import { signUp } from "@/forntend/services/authServices";
@@ -30,7 +29,6 @@ const SignUpForm = () => {
         }
       } catch (error) {
         console.error("Registration failed:", error);
-        // You might want to set form errors here
       }
     },
   });
@@ -42,7 +40,6 @@ const SignUpForm = () => {
         label="Name"
         type="text"
         placeholder="Enter your name..."
-        // required
         value={formik.values.name}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
@@ -54,7 +51,6 @@ const SignUpForm = () => {
         label="Your Email"
         type="email"
         placeholder="Enter your email..."
-        // required
         value={formik.values.email}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
@@ -66,7 +62,6 @@ const SignUpForm = () => {
         label="Password"
         type="password"
         placeholder="Enter your password..."
-        // required
         value={formik.values.password}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}

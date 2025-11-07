@@ -3,11 +3,13 @@
 import Heading from "@/components/Heading";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { fetchBlog } from "@/forntend/services/blogServices";
 
 function LatestArticle() {
+  // const articles = [];
   const articles = [
     {
       img: "/images/latest_article_one.png",
@@ -35,6 +37,7 @@ function LatestArticle() {
       isFeatured: false,
     },
   ];
+  
 
   const featuredArticle = articles.find((article) => article.isFeatured);
   const otherArticles = articles.filter((article) => !article.isFeatured);
@@ -54,16 +57,16 @@ function LatestArticle() {
             <div>
               <div className="h-[250px] md:h-[400px] w-full relative rounded-sm overflow-hidden">
                 <Image
-                  src={featuredArticle.img}
+                  src={featuredArticle?.img}
                   alt="main article"
                   fill
                   className="object-center"
                 />
               </div>
               <div className="mt-4">
-                <p className="text-gray-400 text-sm">{featuredArticle.date}</p>
+                <p className="text-gray-400 text-sm">{featuredArticle?.date}</p>
                 <h2 className="py-3 text-md sm:text-2xl xl:text-3xl font-medium">
-                  {featuredArticle.heading}
+                  {featuredArticle?.heading}
                 </h2>
                 <Link
                   href="#"

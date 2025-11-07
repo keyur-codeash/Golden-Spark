@@ -9,7 +9,7 @@ const objectId = () =>
     return value;
   }, "ObjectId validation");
 
- export const addVariantSchema = Joi.object({
+export const addVariantSchema = Joi.object({
   productId: objectId().required().messages({
     "any.required": "Product is required",
     "any.invalid": "Product not found",
@@ -48,14 +48,14 @@ const objectId = () =>
   }),
 });
 
- export const updateVariantSchema = Joi.object({
+export const updateVariantSchema = Joi.object({
   _id: objectId().required().messages({
     "any.required": "Product is required",
     "any.invalid": "Product Variant not found",
     "string.empty": "Product cannot be empty",
   }),
 
-   productId: objectId().required().messages({
+  productId: objectId().required().messages({
     "any.required": "Product is required",
     "any.invalid": "Product not found",
     "string.empty": "Product cannot be empty",
@@ -73,7 +73,6 @@ const objectId = () =>
     "string.empty": "Color cannot be empty",
   }),
 
-  
   price: Joi.number().positive().required().messages({
     "number.base": "Price must be a number",
     "number.positive": "Price must be a positive number",

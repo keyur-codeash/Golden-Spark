@@ -7,7 +7,6 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
     const maxVisible = 7;
 
     if (totalPages <= maxVisible) {
-      // Show all pages if total is within maxVisible
       for (let i = 1; i <= totalPages; i++) pages.push(i);
     } else {
       const startEllipsis = currentPage > 4;
@@ -42,7 +41,6 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   };
   return (
     <div className="flex justify-center items-center gap-2 mt-6">
-      {/* Prev Button */}
       <button
         onClick={() => handleClick(currentPage)}
         disabled={currentPage === 1}
@@ -72,7 +70,6 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         )
       )}
 
-      {/* Next Button */}
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}

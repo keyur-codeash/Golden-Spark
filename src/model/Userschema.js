@@ -18,7 +18,6 @@ const UserSchema = new mongoose.Schema(
     timestamps: true,
     versionKey: false,
   }
-);  
+);
 
-// Use a capitalized, singular model name: "User"
-export default mongoose.models.User || mongoose.model("User", UserSchema);
+export default mongoose.models.User || mongoose.model("User", UserSchema);  

@@ -1,4 +1,3 @@
-// validations/SizeValidation.js
 import SizeSchema from "@/model/sizeSchema";
 import Joi from "joi";
 

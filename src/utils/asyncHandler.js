@@ -3,8 +3,8 @@ import connectToDB from "@/lib/dbConnect";
 export function asyncHandler(handler) {
   return async function (req, ctx) {
     try {
-      await connectToDB(); // Ensure DB is connected
-      const response = await handler(req, ctx); // Execute original handler
+      await connectToDB(); 
+      const response = await handler(req, ctx); 
       return response;
     } catch (error) {
       console.error("API Error:", error);

@@ -1,4 +1,4 @@
-"use client"; // 👈 Ensure this is here
+"use client";
 import React from "react";
 import AuthCommon from "@/components/AuthCommon";
 import SignInForm from "@/components/auth/SignInForm.js";

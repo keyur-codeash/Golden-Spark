@@ -21,7 +21,6 @@ const AppleButton = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
-        // router.push("/");
       } else {
         setUser(null);
       }
@@ -38,7 +37,6 @@ const AppleButton = () => {
 
     try {
       await signInWithPopup(auth, provider);
-      // Redirect will be handled in onAuthStateChanged
     } catch (error) {
       if (error.code === "auth/popup-closed-by-user") {
         alert("You closed the popup before completing sign-in.");

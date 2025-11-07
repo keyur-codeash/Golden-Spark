@@ -1,4 +1,3 @@
-// validations/colorValidation.js
 import colorSchema from "@/model/colorSchema";
 import Joi from "joi";
 
@@ -27,7 +26,7 @@ export const addColorSchema = Joi.object({
     "any.required": "Color is required",
   }),
 });
-
+ 
 export const idParamSchema = Joi.object({
   id: Joi.string()
     .length(24)

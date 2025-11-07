@@ -1,4 +1,3 @@
-// components/FacebookLoginButton.jsx
 "use client";
 
 import React from "react";
@@ -11,7 +10,6 @@ const FacebookLoginButton = () => {
       console.error("Facebook login failed:", response);
       return;
     }
-    // You can send response.accessToken to your backend here
   };
 
   return (

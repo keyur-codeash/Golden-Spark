@@ -8,9 +8,7 @@ import { validate } from "@/lib/validateSchema";
 export const POST = asyncHandler(async (request) => {
   try {
     const { email } = await request.json();
-
-    // Validate with common function
-    const { value, error } = validate(verifyEmailSchema, { email });
+    const { error } = validate(verifyEmailSchema, { email });
     if (error) {
       return NextResponse.json(
         { message: error, isSuccess: false },
@@ -22,8 +20,6 @@ export const POST = asyncHandler(async (request) => {
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
-
-    // Generate OTP and expiry time
     const otp = Math.floor(1000 + Math.random() * 9000);
     const otpExpiresAt = new Date(Date.now() + 15 * 60 * 1000);
     await User.findOneAndUpdate(
@@ -80,16 +76,6 @@ export const POST = asyncHandler(async (request) => {
   </p>
       `,
     });
-
-    // const sendOtp = await sendEmail({
-    //   to: user.email,
-    //   subject: "Reset your password",
-    //   html: `
-    //     <h4>Hello ${user.userName || ""}</h4>
-    //     <p>Your OTP is: <strong>${otp}</strong></p>
-    //     <p>This OTP and link will expire in 15 minutes.</p>
-    //   `,
-    // });
 
     if (sendOtp) {
       return NextResponse.json(

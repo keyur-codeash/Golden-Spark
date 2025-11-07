@@ -106,7 +106,6 @@ const ResponsiveFilter = () => {
         setCurrentPage(response.page);
         setStock(response.stock || { inStock: 0, outStock: 0 });
 
-        // Initialize price range only once
         if (priceRange[1] === 0 && response.maxPrice > 0) {
           setMinPrice(response.minPrice);
           setMaxPrice(response.maxPrice);
@@ -130,7 +129,6 @@ const ResponsiveFilter = () => {
   };
 
   const handleFilterChange = (newFilters) => {
-    // Reset to first page when filters change
     setCurrentPage(1);
     setFilters((prev) => ({
       ...prev,

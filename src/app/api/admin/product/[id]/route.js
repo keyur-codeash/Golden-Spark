@@ -228,27 +228,21 @@ export const PUT = asyncHandler(async (request, { params }) => {
 
     const normalizedDbImages = normalizeDbImages(product.images);
 
-    // Filter claimed existing images to only those that actually exist in DB
     const verifiedExistingImages = claimedExistingImages.filter((img) =>
       normalizedDbImages.includes(img)
     );
 
-    // Identify images to delete (present in DB but not in verified updated list)
     const imagesToDelete = normalizedDbImages.filter(
       (dbImage) => !verifiedExistingImages.includes(dbImage)
     );
-
-    // Delete old images from storage that are no longer needed
     if (imagesToDelete.length > 0) {
       try {
         await deleteFile(SAVE_PRODUCT_PATH, imagesToDelete);
       } catch (deleteError) {
         console.error("Failed to delete old images:", deleteError);
-        // Continue even if deletion fails
       }
     }
 
-    // Save new files to storage
     const newImageFileNames = [];
     const newImagePublicUrls = [];
     for (const file of newImageFiles) {
@@ -269,7 +263,6 @@ export const PUT = asyncHandler(async (request, { params }) => {
       }
     }
 
-    // Combine verified existing images with new images
     const updatedImages = [...verifiedExistingImages, ...newImageFileNames];
     const updatedImageUrls = [
       ...verifiedExistingImages.map((img) =>
@@ -278,22 +271,18 @@ export const PUT = asyncHandler(async (request, { params }) => {
       ...newImagePublicUrls,
     ];
 
-    // Prepare update data
     const updateData = {
       ...Object.fromEntries(formData.entries()),
       images: updatedImages,
     };
 
-    // Remove images field from form data to avoid duplicate in validation
     formData.delete("images");
 
-    // Validate product data
     const { value, message: validationError } = validate(
       productValidationSchema,
       updateData
     );
     if (validationError) {
-      // Clean up newly uploaded files if validation fails
       if (newImageFileNames.length > 0) {
         try {
           await deleteFile(SAVE_PRODUCT_PATH, newImageFileNames);
@@ -307,7 +296,7 @@ export const PUT = asyncHandler(async (request, { params }) => {
       return NextResponse.json({ message: validationError }, { status: 400 });
     }
 
-    // Update product in database
+    // Update product
     const updatedProduct = await productSchema.findByIdAndUpdate(
       productId,
       { ...value, images: updatedImages },

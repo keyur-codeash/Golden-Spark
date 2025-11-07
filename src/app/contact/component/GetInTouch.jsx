@@ -1,11 +1,12 @@
 "use client";
 import React from "react";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import Button from "@/components/Button";
 import InputField from "@/components/Input";
 import Heading from "@/components/Heading";
 import { contactSchema } from "@/forntend/validation/validation";
+import { createContact } from "@/forntend/services/contactServices";
+import Toast from "@/components/toastService";
 
 const GetInTouch = () => {
   const formik = useFormik({
@@ -14,13 +15,15 @@ const GetInTouch = () => {
       lastName: "",
       email: "",
       message: "",
-      rememberMe: false,
     },
     validationSchema: contactSchema,
-    onSubmit: (values) => {
-      // Handle form submission
-      console.log("Form submitted:", values);
-      // Add your API call or form handling logic here
+    onSubmit: async (values) => {
+      const response = await createContact(values);
+      if (response?.isSuccess) {
+        console.log(response);
+
+        Toast.success(response?.message);
+      }
     },
   });
 

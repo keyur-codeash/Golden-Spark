@@ -4,10 +4,10 @@ import clsx from "clsx";
 
 export default function Button({
   label,
-  variant = "solid", // solid, outline, ghost
-  size = "md", // sm, md, lg
-  color = "blue", // Tailwind colors
-  icon = null, // optional React icon
+  variant = "solid",
+  size = "md", 
+  color = "blue",
+  icon = null,
   type = "button",
   onClick,
   className = "",

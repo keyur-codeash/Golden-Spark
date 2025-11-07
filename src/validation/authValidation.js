@@ -1,8 +1,4 @@
-// File: src/utils/validation/authValidation.js
-
 import Joi from "joi";
-
-//sign up validaton
 
 export const signUpSchema = Joi.object({
   userName: Joi.string().required().messages({
@@ -21,10 +17,10 @@ export const signUpSchema = Joi.object({
 
   password: Joi.string()
     .min(6)
-    .pattern(new RegExp("(?=.*[a-z])")) // lowercase
-    .pattern(new RegExp("(?=.*[A-Z])")) // uppercase
-    .pattern(new RegExp("(?=.*[0-9])")) // number
-    .pattern(new RegExp("(?=.*[!@#$%^&*])")) // special char
+    .pattern(new RegExp("(?=.*[a-z])"))
+    .pattern(new RegExp("(?=.*[A-Z])"))
+    .pattern(new RegExp("(?=.*[0-9])")) 
+    .pattern(new RegExp("(?=.*[!@#$%^&*])"))
     .required()
     .messages({
       "string.min": "Password must be at least 6 characters",
@@ -75,9 +71,9 @@ export const otpSchema = Joi.object({
       "string.empty": "Email cannot be empty",
     }),
   otp:  Joi.number()
-  .integer()  // Ensures it's an integer
-  .min(1000)  // Ensures the number is at least 1000 (4 digits)
-  .max(9999)  // Ensures the number is at most 9999 (4 digits)
+  .integer()
+  .min(1000) 
+  .max(9999)  
   .required()
   .messages({
     "number.base": "OTP must be a number",
@@ -99,10 +95,10 @@ export const forgotPasswordSchema = Joi.object({
 
   newPassword: Joi.string()
     .min(6)
-    .pattern(new RegExp("(?=.*[a-z])")) // at least one lowercase
-    .pattern(new RegExp("(?=.*[A-Z])")) // at least one uppercase
-    .pattern(new RegExp("(?=.*[0-9])")) // at least one digit
-    .pattern(new RegExp("(?=.*[!@#$%^&*])")) // at least one special character
+    .pattern(new RegExp("(?=.*[a-z])")) 
+    .pattern(new RegExp("(?=.*[A-Z])")) 
+    .pattern(new RegExp("(?=.*[0-9])"))
+    .pattern(new RegExp("(?=.*[!@#$%^&*])"))
     .required()
     .messages({
       "string.min": "Password must be at least 6 characters long",

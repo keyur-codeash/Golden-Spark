@@ -17,5 +17,4 @@ const BrandSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Avoid re-defining model during hot reload
 export default mongoose.models.Brand || mongoose.model("Brand", BrandSchema);

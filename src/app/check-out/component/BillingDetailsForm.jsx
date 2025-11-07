@@ -1,12 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import Button from "@/components/Button";
 import countriesData from "../../../../src/countries+states+cities.json";
 import Link from "next/link";
 import InputField from "@/components/Input";
-import { createAddress } from "@/forntend/services/addressServices";
 import { useRouter } from "next/navigation";
 import { addressSchema } from "@/forntend/validation/validation";
 
@@ -61,7 +59,6 @@ const BillingDetailsForm = ({
     isDefault: "",
     subscribe: true,
     isDefault: false,
-    // payOnDelivery: false,
     ...initialValues,
   };
 
@@ -135,13 +132,11 @@ const BillingDetailsForm = ({
                     </div>
                   </section>
 
-                  {/* Delivery Information Section */}
                   <section className="mb-5">
                     <h2 className="text-2xl font-semibold mb-4">
                       Delivery Information
                     </h2>
 
-                    {/* Address Type Dropdown */}
                     <div className="relative mb-6">
                       <Field
                         as="select"

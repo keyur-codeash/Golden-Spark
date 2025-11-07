@@ -155,37 +155,22 @@ export const GET = asyncHandler(async (request) => {
     const minPrice = priceStats[0]?.minPrice ?? 0;
     const maxPrice = priceStats[0]?.maxPrice ?? 0;
 
-    // const priceStats = await productVariantSchema.aggregate([
-    //   { $match: { productId: { $in: allProductIds } } },
-    //   {
-    //     $group: {
-    //       _id: null,
-    //       minPrice: { $min: "$price" },
-    //       maxPrice: { $max: "$price" },
-    //     },
-    //   },
-    // ]);
-
-    // const minPrice = priceStats[0]?.minPrice ?? 0;
-    // const maxPrice = priceStats[0]?.maxPrice ?? 0;
-
-    // Stock count
-    const stock = await productVariantSchema.collection
+     const stock = await productVariantSchema.collection
       .aggregate([
         {
           $lookup: {
-            from: "products", // Name of the product collection
-            localField: "productId", // Field in variant
-            foreignField: "_id", // Field in product
+            from: "products",
+            localField: "productId",
+            foreignField: "_id", 
             as: "product",
           },
         },
         {
-          $unwind: "$product", // Flatten the joined array
+          $unwind: "$product",
         },
         {
           $match: {
-            "product.isDeleted": 0, // Filter only non-deleted products
+            "product.isDeleted": 0, 
           },
         },
         {

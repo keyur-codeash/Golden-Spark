@@ -41,7 +41,6 @@ export const POST = asyncHandler(async (request) => {
 export const GET = asyncHandler(async (request) => {
   const { searchParams } = new URL(request.url);
   const productId = searchParams.get("productId");
-  // Only validate if productId is present
 
   if (productId) {
     const { error } = validate(getVariantSchema, { productId });

@@ -5,10 +5,10 @@ import axiosInstance from "../lib/axiosClient";
 export const fetchBlog = async () => {
   try {
     const response = await axiosInstance.get("/blog");
-    if (response.isSuccess) {
-      return response;
+    if (response?.data?.isSuccess) {
+      return response.data;
     } else {
-      Toast.error(response?.message || "Failed to fetch blog.");
+      Toast.error(response?.data?.message || "Failed to fetch blog.");
       return null;
     }
   } catch (error) {

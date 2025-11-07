@@ -1,13 +1,28 @@
-import { blogDetails } from "@/data/data";
+"use client";
+import { fetchBlog } from "@/forntend/services/blogServices";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 function BlogDetails() {
+  const [blogDetails, setBlogDetails] = useState({});
+
   const items = {
     img: "/images/blogimg.png",
     date: "March 20, 2023",
     heading: "The Ultimate Guide to Web Development",
   };
+
+  useEffect(() => {
+    const fetchBlogDetails = async () => {
+      const response = await fetchBlog();
+      if (response.isSuccess) {
+        setBlogDetails(response.data);
+      }
+    };
+    fetchBlogDetails();
+  }, []);
+
+  console.log("blogDetails======", blogDetails);
 
   return (
     <div className="pt-20 px-4 xl:px-0">
@@ -34,7 +49,14 @@ function BlogDetails() {
             affordability.
           </p>
           <ol className="list-decimal ps-8  text-2xl font-medium">
-            {blogDetails.map((item) => (
+            <div
+              className="prose max-w-none text-gray-800"
+              dangerouslySetInnerHTML={{ __html: blogDetails[4]?.content }}
+            />
+
+            {console.log(blogDetails[0])}
+
+            {/* {blogDetails.length && blogDetails?.map((item) => (
               <li key={item.id} className="pl-2 pt-8">
                 <div className="-mt-8">
                   <h2 className="font-medium py-4 text-xl xl:text-2xl">
@@ -45,7 +67,7 @@ function BlogDetails() {
                   </p>
                 </div>
               </li>
-            ))}
+            ))} */}
           </ol>
         </div>
       </div>

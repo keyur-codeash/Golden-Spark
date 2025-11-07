@@ -18,7 +18,6 @@ export const AddToCartProvider = ({ children }) => {
   const { token } = useToken();
   const router = useRouter();
 
-  // Generate unique ID for product variant combination
   const generateProductVariantId = (productId, variant = null) => {
     if (!variant) return `${productId}_no_variant`;
     return `${productId}_${variant.color}_${variant.size || "no_size"}`;
@@ -31,7 +30,6 @@ export const AddToCartProvider = ({ children }) => {
     }
 
     try {
-      // If no variant is provided, use the first variant as default
       let variantToUse = selectedVariant;
       if (!variantToUse) {
         const response = await fetchSingleProduct(id, token);
@@ -47,7 +45,6 @@ export const AddToCartProvider = ({ children }) => {
       );
 
       if (findProduct) {
-        // Check if quantity would exceed maximum
         if (findProduct.quantity >= MAX_QUANTITY) {
           Toast.error(
             `Maximum quantity of ${MAX_QUANTITY} allowed per product`
@@ -67,7 +64,6 @@ export const AddToCartProvider = ({ children }) => {
         setError(null);
         return true;
       } else {
-        // Fetch product details if not already available
         const response = await fetchSingleProduct(id, token);
         if (response?.isSuccess && response.data) {
           const productData = response.data;
@@ -99,7 +95,6 @@ export const AddToCartProvider = ({ children }) => {
 
   const updateCartItem = (oldProductVariantId, updatedItem) => {
     setAddtocartlist((prev) => {
-      // Check if the updated item would create a duplicate
       const duplicateIndex = prev.findIndex(
         (item) =>
           item.productVariantId === updatedItem.productVariantId &&
@@ -107,7 +102,6 @@ export const AddToCartProvider = ({ children }) => {
       );
 
       if (duplicateIndex !== -1) {
-        // Merge with existing item by increasing quantity
         return prev
           .map((item, index) =>
             index === duplicateIndex
@@ -116,16 +110,12 @@ export const AddToCartProvider = ({ children }) => {
           )
           .filter((item) => item.productVariantId !== oldProductVariantId);
       } else {
-        // Simply update the item
         return prev.map((item) =>
           item.productVariantId === oldProductVariantId ? updatedItem : item
         );
       }
     });
   };
-
-  // Update cart item variant (color and size)
-  // Inside AddToCartProvider
 
   const updateCartItemVariant = (productVariantId, colorId, sizeId) => {
     setAddtocartlist((prevItems) => {
@@ -144,7 +134,6 @@ export const AddToCartProvider = ({ children }) => {
 
       const newProductVariantId = generateProductVariantId(item.id, newVariant);
 
-      // If another item with same variant already exists → merge quantities
       const duplicateIndex = prevItems.findIndex(
         (p, idx) =>
           p.productVariantId === newProductVariantId && idx !== itemIndex
@@ -220,18 +209,6 @@ export const AddToCartProvider = ({ children }) => {
       )
     );
   };
-
-  // const updateCartItemQuantity = (productVariantId, newQuantity) => {
-  //   setAddtocartlist((prevItems) =>
-  //     prevItems.map((item) =>
-  //       item.productVariantId === productVariantId
-  //         ? { ...item, quantity: newQuantity }
-  //         : item
-  //     )
-  //   );
-  // };
-
-  // Remove item from cart
 
   const removeFromaddtocart = (productVariantId) => {
     setAddtocartlist((prevItems) =>

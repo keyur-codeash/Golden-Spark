@@ -42,15 +42,9 @@ function BrowseLatestArrivals() {
   const handleWishlistUpdate = async (product) => {
     if (isInWishlist(product.id)) {
       const response = await removeFromWishlist(product.id);
-      // if (response) {
-      //   router.push("/");
-      // }
       return response;
     } else {
       const response = await addToWishlist(product);
-      // if (response) {
-      //   router.push("/wishlist");
-      // }
       return response;
     }
   };

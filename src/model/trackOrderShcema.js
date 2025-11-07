@@ -32,6 +32,5 @@ const trackOrderSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Avoid re-defining model during hot reload
 export default mongoose.models.trackOrder ||
   mongoose.model("trackOrder", trackOrderSchema);

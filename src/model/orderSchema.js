@@ -45,18 +45,12 @@ const orderSchema = new mongoose.Schema(
       required: true,
     },
 
-    // addressId: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "Address",
-    //   required: true,
-    // },
     paymentMethod: {
       type: String,
       enum: ["Cash", "Card", "UPI", "PayPal"],
       required: true,   
     },
     cancel: { type: Number, default: 0, enum: [0, 1] },
-    // cancelReason: { type: String, required: false },
     cancelReason: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "CancelReason",

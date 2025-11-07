@@ -59,15 +59,13 @@ const FilterSidebar = ({
   };
 
   const handleInputChange = (index, value) => {
-    const numValue = Math.max(0, +value || 0); // Ensure value is not negative
+    const numValue = Math.max(0, +value || 0);
 
     if (index === 0) {
-      // Min price input
       const newMin = Math.min(numValue, priceRange[1]);
       setMinPrice(newMin);
       onFilterChange({ minPrice: newMin });
     } else {
-      // Max price input
       const newMax = Math.max(numValue, priceRange[0]);
       setMaxPrice(newMax);
       onFilterChange({ maxPrice: newMax });
@@ -84,24 +82,21 @@ const FilterSidebar = ({
   const handleCheckboxChange = (group, value) => {
     setCheckedItems((prev) => {
       let updated;
-
-      // Special handling for stock/outOfStock to ensure only one can be selected
       if (group === "stock" || group === "outOfStock") {
         if (group === "stock") {
           updated = {
             ...prev,
             stock: !prev.stock,
-            outOfStock: false, // Uncheck outOfStock when stock is checked
+            outOfStock: false,
           };
         } else {
           updated = {
             ...prev,
             outOfStock: !prev.outOfStock,
-            stock: false, // Uncheck stock when outOfStock is checked
+            stock: false,
           };
         }
       }
-      // Handle collections, brands, sizes, colors (multiple selection)
       else {
         updated = prev[group].includes(value)
           ? prev[group].filter((v) => v !== value)
@@ -109,7 +104,6 @@ const FilterSidebar = ({
         updated = { ...prev, [group]: updated };
       }
 
-      // Call the filter change handler with the updated values
       onFilterChange({
         [group]: updated[group],
         ...(group === "stock" || group === "outOfStock"

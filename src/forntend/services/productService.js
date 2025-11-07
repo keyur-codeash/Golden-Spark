@@ -40,22 +40,6 @@ export const fetchProducts = async (query, token) => {
   }
 };
 
-// export const fetchProducts = async (query) => {
-//   try {
-//     const response = await axiosInstance.get("/product/?limit=8&"+query);
-//     if (response.data.isSuccess) {
-//       return response.data;
-//     } else {
-//       return null;
-//     }
-//   } catch (error) {
-//     Toast.error(error?.response?.data?.message || "Something went wrong!");
-//     return null;
-//   }
-// };
-
-// Fetch single product
-
 export const fetchSingleProduct = async (id, token) => {
   try {
     const headers = token ? { Authorization: `Bearer ${token}` } : {};

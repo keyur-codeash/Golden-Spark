@@ -7,35 +7,6 @@ const TrackingModalPage = ({
   setIsModalOpen,
   orderTrakingDetails,
 }) => {
-
-  // const [trackingData, setTrackingData] = useState({
-  //   orderId: "FILL (368 x 23 Hug)",
-  //   arrivingBy: "by April, 19 Apr",
-  //   shipped: "Tomorrow",
-  //   date: "Tuesday, 15 Apr",
-  //   events: [
-  //     {
-  //       status: "Arriving: by April, 19 Apr",
-  //       completed: false,
-  //     },
-  //     {
-  //       status: "Shipped: Tomorrow",
-  //       date: "Tuesday, 15 Apr",
-  //       completed: false,
-  //     },
-  //     {
-  //       status: "Item packed in dispatch warehouse",
-  //       time: "12:23PM",
-  //       completed: true,
-  //     },
-  //     {
-  //       status: "Order Placed",
-  //       date: "on Tue, 15 Apr",
-  //       completed: true,
-  //     },
-  //   ],
-  // });
-
   const closeModal = () => setIsModalOpen(false);
 
   const inProgressIndex = orderTrakingDetails?.events?.findLastIndex(
@@ -54,7 +25,6 @@ const TrackingModalPage = ({
 
         return (
           <div key={index} className="relative flex items-start pb-6">
-            {/* Timeline Line */}
             {index !== orderTrakingDetails.events.length - 1 && (
               <div
                 className={`absolute left-[0.55rem] top-6 h-[calc(100%-1rem)] w-0.5 
@@ -126,82 +96,6 @@ const TrackingModalPage = ({
     </div>
   </div>
 </Modal>
-
-      {/* <Modal isOpen={isModalOpen} onClose={closeModal} maxWidth="max-w-lg">
-        <div className="px-10 py-6 text-lg">
-          <h2 className="text-2xl font-semibold mb-4">Track Item</h2>
-          <div className="space-y-4">
-            {orderTrakingDetails?.events?.map((event, index) => {
-              const isInProgress = index === inProgressIndex;
-
-              return (
-                <div key={index} className="relative flex items-start pb-6">
-                  {index !== orderTrakingDetails.events.length - 1 && (
-                    <div className="absolute left-[0.55rem] top-6 h-[calc(100%-1rem)] w-0.5 bg-gray-300"></div>
-                  )}
-                  <div
-                    className={`w-5 h-5 rounded-full flex items-center justify-center mr-3 cursor-pointer ${
-                      event.completed
-                        ? "bg-green-600"
-                        : isInProgress
-                        ? "bg-gray-200"
-                        : "bg-gray-200"
-                    }`}
-                    title={
-                      event.completed
-                        ? "Mark as incomplete"
-                        : isInProgress
-                        ? "Mark as complete"
-                        : "Mark as complete"
-                    }
-                  >
-                    {isInProgress ? (
-                      // In-progress dot
-                      <div className="w-3 h-3 bg-green-600 rounded-full"></div>
-                    ) : (
-                      // Checkmark for completed or not completed
-                      <FaCheck
-                        size={13}
-                        className={
-                          event.completed ? "text-white" : "text-gray-500"
-                        }
-                      />
-                    )}
-                  </div>
-                  <div>
-                    {event.status === "Arriving: by April, 19 Apr" ? (
-                      <div className=" rounded-md">
-                        <p className="font-medium">{event.status}</p>
-                        <p className="text-sm text-gray-600">{event.details}</p>
-                      </div>
-                    ) : (
-                      <div className="">
-                        <p className="font-medium">
-                          {event.time && `${event.time}:  `}
-                          {event.status !== "Shipped: Tomorrow" ? (
-                            event.status === "Order Placed" ?
-                           event.status + ": " +  event.date :
-                            event.status 
-                          ) : (
-                            <span>Shipped: Tomorrow</span>
-                            // <span className="text-gray-500">{event.date}</span>
-                          )}
-                        </p>
-
-                        {event.status === "Shipped: Tomorrow" && (
-                          <p className="text-2xl text-gray-500 mt-8">
-                            {orderTrakingDetails.shipped_date}
-                          </p>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </Modal>  */}
     </div>
   );
 };

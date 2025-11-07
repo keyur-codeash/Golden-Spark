@@ -94,13 +94,11 @@ const OtpInput = ({ onSubmit }) => {
     const code = otp.join("");
     
     try {
-      // Verify token first
+      // Verify token 
       const token = await verifyToken();
       if (!token) {
         throw new Error("Authentication failed");
       }
-
-      // Verify OTP with the server
       const response = await veifyOtp({ email, otp: code });
       
       if (response.success) {
