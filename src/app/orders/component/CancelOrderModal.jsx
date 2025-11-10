@@ -5,9 +5,6 @@ import Modal from "@/components/Model";
 import Toast from "@/components/toastService";
 import { cancelOrder } from "@/forntend/services/orderServices";
 import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
-import { FaArrowLeft, FaTimes } from "react-icons/fa";
 import { GoArrowLeft } from "react-icons/go";
 import { useRouter } from "next/navigation";
 
@@ -24,12 +21,15 @@ const CancelOrderModal = ({
 
   const handleOrderCancel = async () => {
     const response = await cancelOrder(cancelDetails);
+    console.log("response======", response);
+
     if (response?.isSuccess) {
       Toast.success("Order cancelled successfully");
-      setCancelId(cancelDetails._id)
+      setCancelId(cancelDetails._id);
       router.push("/orders");
       setIsModalOpen(false);
-    }  };
+    }
+  };
 
   return (
     <div className="flex items-center justify-center p-4">

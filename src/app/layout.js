@@ -2,7 +2,6 @@ import ClientLayoutWrapper from "@/components/ClientLayoutWrapper";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Frank_Ruhl_Libre } from "next/font/google";
 import { Toaster } from "sonner";
-import ToastProvider from "@/components/ToastProvider";
 import { WishlistProvider } from "@/forntend/context/WishlistContext";
 import { AddToCartProvider } from "@/forntend/context/AddToCartContext";
 import "./globals.css";

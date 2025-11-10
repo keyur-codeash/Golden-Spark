@@ -60,14 +60,14 @@ function page() {
                 {address.country}, {address.zipCode} <br />
               </p>
               <div className="pt-4">
-                <p class="relative pl-6   before:content-['•'] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:transform before:text-3xl before:text-black">
+                <p className="relative pl-6   before:content-['•'] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:transform before:text-3xl before:text-black">
                   Pay on delivery available
                 </p>
                 <div className="pt-5">
                   <button
                     onClick={() => redirect("/orders/order-details")}
                     type="button"
-                    class="text-gray-900 border flex text-lg items-center just  ify-center border-gray-800 focus:ring-0 cursor-pointer focus:outline-none font-medium rounded-sm px-4 py-2.5 text-center me-2 mb-2"
+                    className="text-gray-900 border flex text-lg items-center just  ify-center border-gray-800 focus:ring-0 cursor-pointer focus:outline-none font-medium rounded-sm px-4 py-2.5 text-center me-2 mb-2"
                   >
                     Order Details <GoArrowRight size={24} className="ms-4" />
                   </button>

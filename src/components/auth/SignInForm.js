@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import InputField from "../Input";
 import Button from "../Button";
 import Link from "next/link";

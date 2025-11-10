@@ -1,6 +1,7 @@
 "use client";
 import Button from "@/components/Button";
 import Modal from "@/components/Model";
+import { formatDate } from "@/forntend/common/commonDateFormat";
 import {
   cancelOrder,
   fetchSingleOrder,
@@ -32,7 +33,6 @@ const CancelOrder = ({
     quantity: 2,
     date: "18 April, 2025",
     img: "/images/instagram_one.png",
-
   };
 
   const handleSubmit = async (e) => {
@@ -52,7 +52,7 @@ const CancelOrder = ({
 
     setSelectedReason("");
     setDescription("");
-  }; 
+  };
 
   useEffect(() => {
     const fetchOrderDetails = async () => {
@@ -89,7 +89,7 @@ const CancelOrder = ({
         <div className="flex-1 ">
           <di className="flex justify-between text-sm sm:text-base">
             <p>Order ID: #{orderDetails?.order_id}</p>
-            <p>Date: {orderDetails?.orderCreated}</p>
+            <p>Date: {formatDate(orderDetails?.orderCreated)}</p>
           </di>
 
           {orderDetails?.items?.map((item, index) => (

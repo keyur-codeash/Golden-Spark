@@ -12,6 +12,7 @@ import TrackingModalPage from "./component/TrackingModalPage";
 import CancelOrderModal from "./component/CancelOrderModal";
 import { fetchOrder } from "@/forntend/services/orderServices";
 import { fetchTrackOrder } from "@/forntend/services/trackOrderService";
+import { formatDate } from "@/forntend/common/commonDateFormat";
 
 function Page() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,13 +39,6 @@ function Page() {
   }, [cancelId]);
 
   // Format date
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.toLocaleString("en-US", { month: "long" });
-    const year = date.getFullYear();
-    return `${day} ${month}, ${year}`;
-  };
 
   //  Group orders by order_id
   const groupedOrders = useMemo(() => {
@@ -120,8 +114,6 @@ function Page() {
 
   return (
     <div>
-      {/* Cancel & Tracking Modals */}
-
       <CancelOrderModal
         orderDetails={cancelOrrderDetails}
         setIsModalOpen={setOrderCancelModalOpen}
@@ -241,7 +233,6 @@ function Page() {
                           size="md"
                           variant="outline"
                           className="!text-black py-2.5 mt-5 flex items-center gap-[10px] rounded-md"
-                          // onClick={() => setIsModalOpen(true)}
                           onClick={() => handleOrderCancel(order)}
                         />
                         <Button
