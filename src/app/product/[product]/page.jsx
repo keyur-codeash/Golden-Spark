@@ -23,7 +23,7 @@ import {
   handleIncrementQuantity,
 } from "@/lib/handleQuantity";
 
-function ProductDetailsPage() {
+const ProductDetailsPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedVariant, setSelectedVariant] = useState(null);
@@ -202,7 +202,7 @@ function ProductDetailsPage() {
         );
         return size;
       })
-      .filter(Boolean); // Remove undefined values
+      .filter(Boolean);
 
     // Remove duplicates
     return sizes.filter(

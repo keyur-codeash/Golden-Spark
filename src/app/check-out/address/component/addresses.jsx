@@ -98,10 +98,6 @@ export default function AddressManagement() {
     }
   };
 
-  const handleOrder = () => {
-    console.log("handle fun call");
-  };
-
   // Fetch All Addresses
   useEffect(() => {
     const fetchAllAddress = async () => {

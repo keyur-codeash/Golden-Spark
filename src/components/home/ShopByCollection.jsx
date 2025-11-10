@@ -5,7 +5,7 @@ import CardCommon from "../CardCommon";
 import { shortBy } from "@/data/data";
 import Image from "next/image";
 
-function ShopByCollection() {
+const ShopByCollection = () => {
   const settings = {
     dots: true,
     arrows: false,

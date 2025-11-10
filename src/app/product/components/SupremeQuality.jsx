@@ -1,6 +1,5 @@
-import Button from "@/components/Button";
 import Heading from "@/components/Heading";
-import { journalData, supremeQuality } from "@/data/data";
+import { supremeQuality } from "@/data/data";
 import Image from "next/image";
 import React from "react";
 

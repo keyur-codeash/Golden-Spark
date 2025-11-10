@@ -13,12 +13,11 @@ function RelatedArticles() {
 
   useEffect(() => {
     const fetchAllBlogdetails = async () => {
-      const response = await fetchBlog(); 
-      if (response.isSuccess) {
-        setblogDetails(response.data);
-        setLoading(false);
-      }
+      const response = await fetchBlog();
+      setblogDetails(response.data);
+      setLoading(false);
     };
+
     fetchAllBlogdetails();
   }, []);
 

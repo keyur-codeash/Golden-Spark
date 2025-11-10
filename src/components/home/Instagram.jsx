@@ -3,7 +3,7 @@ import Heading from "../Heading";
 import Image from "next/image";
 import { instagram } from "@/data/data";
 
-function Instagram() {
+const Instagram = () => {
   return (
     <div className="instagram relative pt-10 ">
       <div className="container mx-auto px-4 lg:px-0">

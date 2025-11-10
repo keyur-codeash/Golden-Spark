@@ -16,7 +16,6 @@ const CancelOrderModal = ({
   setCancelId,
 }) => {
   const router = useRouter();
-  const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   const handleOrderCancel = async () => {

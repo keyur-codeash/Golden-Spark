@@ -16,7 +16,7 @@ import {
 } from "@/forntend/services/cardServies";
 import Loading from "@/components/Loading";
 
-function PaymentForm() {
+const PaymentForm =() => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);

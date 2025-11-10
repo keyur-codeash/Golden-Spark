@@ -5,7 +5,7 @@ import Modal from "@/components/Model";
 import Button from "@/components/Button";
 import ProductTotalCard from "../../component/ProductTotalCard";
 
-export default function AddressManagement() {
+export default AddressManagement = () => {
   const [addresses, setAddresses] = useState([]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);

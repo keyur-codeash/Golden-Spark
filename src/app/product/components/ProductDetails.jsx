@@ -7,7 +7,7 @@ import { IoMdHeartEmpty } from "react-icons/io";
 import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
 
-const ProductDetails = ({ product, isOpen, setIsOpen }) => {
+const ProductDetails = ({ isOpen, setIsOpen }) => {
   const [selectedSize, setSelectedSize] = useState("M");
   const [selectedColor, setSelectedColor] = useState("Gold");
   const [quantity, setQuantity] = useState(1);

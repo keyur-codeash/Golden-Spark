@@ -1,11 +1,9 @@
 import React from "react";
 import BlogCommonCard from "./BlogCommonCard";
 import Heading from "@/components/Heading";
-import { blogArticles } from "@/data/data";
-import MoreBlogSkeleton from "@/forntend/skeleton/blog/MoreBlogSkeleton";
 import BlogSkeleton from "@/forntend/skeleton/blog/blogSkeleon";
 
-function MoreBlog({ loading, blogDetails }) {
+const MoreBlog = ({ loading, blogDetails }) => {
   if (loading) {
     return <BlogSkeleton />
   }

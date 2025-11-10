@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import Button from "@/components/Button";
 import Heading from "@/components/Heading";
 import InputField from "@/components/Input";
@@ -13,7 +12,7 @@ import { useSearchParams } from "next/navigation";
 import { verifyToken } from "@/forntend/verifyToken";
 import { forgotPasswordSchema } from "@/forntend/validation/validation";
 
-function Page() {
+const Page = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   useEffect(() => {

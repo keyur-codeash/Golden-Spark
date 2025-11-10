@@ -1,4 +1,3 @@
-// components/LoadingSpinner.tsx
 const LoadingSpinner = () => {
   return (
     <div className="fixed inset-0 flex-col flex items-center bg-yellow  justify-center  z-50">
@@ -18,7 +17,6 @@ const LoadingSpinner = () => {
           fill="currentFill"
         />
       </svg>
-      {/* <div className="w-16 h-16 border-4 border-t-4 border-black border-solid rounded-full animate-spin"></div> */}
       <p className="block font-medium pt-5 text-2xl text-black">Please wait</p>
     </div>
   );

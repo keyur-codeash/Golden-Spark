@@ -26,7 +26,6 @@ const BillingDetailsForm = ({
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const router = useRouter();
 
   useEffect(() => {
     // Load countries

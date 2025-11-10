@@ -162,7 +162,11 @@ const ProductTotalCard = ({
   }
 
   return (
-    <div className="lg:me-4 select-none border-2 border-gray-200 bg-white rounded-lg shadow-md overflow-hidden">
+    <div
+      className={`lg:me-4 select-none ${
+        addtocartlist.length && "bg-white hadow-md border-2 border-gray-200  "
+      } rounded-lg s overflow-hidden`}
+    >
       {isPaymnetUI && (
         <div>
           <div className="bg-black hidden sm:block text-white p-4 text-2xl">
@@ -207,7 +211,7 @@ const ProductTotalCard = ({
         </div>
       )}
 
-      <div className="p-4 lg:pt-10">
+      <div className={addtocartlist.length && `p-4 lg:pt-10`}>
         <div className="md:px-4 md:pb-4 2xl:px-6 2xl:pb-0">
           {addtocartlist.length > 0 ? (
             addtocartlist.map((product) => {
@@ -411,14 +415,7 @@ const ProductTotalCard = ({
               );
             })
           ) : (
-            <div className="text-center py-10">
-              <p className="text-xl">Your cart is empty</p>
-              <Button
-                label="Continue Shopping"
-                className="mt-4"
-                onClick={() => router.push("/")}
-              />
-            </div>
+            <p className="text-xl pt-6">Your cart is empty</p>
           )}
         </div>
 

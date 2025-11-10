@@ -14,16 +14,12 @@ const ShoppingCard = ({
   price,
   id,
   isWishList,
-  isLink,
   onCardUpdateData,
 }) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const { addtocartlist, setAddtocartlist, addtocart, removeFromaddtocart } =
-    useAddtocart();
+  const { addtocart } = useAddtocart();
   const handleNavigate = () => {
-    // if (isLink) router.push(`/product/${id}`);
-
     router.push(`/product/${id}`);
   };
 

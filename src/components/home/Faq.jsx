@@ -5,7 +5,7 @@ import Image from "next/image";
 import Accordion from "../Accordion";
 import { getFaqData } from "@/forntend/services/faqServices";
 
-function Faq() {
+const Faq = () => {
   const [faq, setFaq] = useState([]);
   useEffect(() => {
     const getfaq = async () => {

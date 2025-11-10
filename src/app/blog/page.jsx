@@ -22,6 +22,7 @@ export default function BlogPage() {
         const response = await fetchBlog();
         if (response?.isSuccess) {
           setBlogDetails(response.data);
+          setLoading(false);
         }
       } catch (error) {
         console.error("Error fetching blogs:", error);

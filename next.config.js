@@ -2,14 +2,28 @@
 
 module.exports = {
   images: {
-    domains: [
-      "localhost",
-      "192.168.0.144",
-      "192.168.0.125",
-      "192.168.0.150",
-      "192.168.0.111",
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+      {
+        protocol: "https",
+        hostname: "via.placeholder.com",
+      },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "8000",
+        pathname: "/backend/**", 
+      },
     ],
   },
+
   async headers() {
     return [
       {

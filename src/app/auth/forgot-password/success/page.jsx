@@ -1,11 +1,10 @@
 "use client";
 import Button from "@/components/Button";
 import Image from "next/image";
-import { redirect } from "next/navigation";
 import React from "react";
 import { useRouter } from "next/navigation";
 
-function page() {
+const page = () => {
   const router = useRouter();
   return (
     <div className="bg-light-gray-300 min-h-screen flex justify-center items-center p-5">

@@ -9,7 +9,7 @@ import { createOrder } from "@/forntend/services/orderServices";
 import { useRouter } from "next/navigation";
 import { useAddtocart } from "@/forntend/context/AddToCartContext";
 
-function Page() {
+const Page = () => {
   const router = useRouter();
   const [orderErrors, setOrderErrors] = useState([]);
   const { removeAllAddToCartList } = useAddtocart();

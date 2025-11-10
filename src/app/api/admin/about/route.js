@@ -9,7 +9,6 @@ import {
   editAboutValidation,
 } from "@/validation/aboutvalidation";
 import { NextResponse } from "next/server";
-
 const SAVE_PRODUCT_PATH = "backend/product";
 export const runtime = "nodejs";
 
@@ -133,7 +132,6 @@ export const PUT = asyncHandler(async (request) => {
     );
   }
 });
-
 
 // Delete about
 export const DELETE = asyncHandler(async (request) => {

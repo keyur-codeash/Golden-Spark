@@ -4,7 +4,7 @@ import ProductCommonCard from "../ProductCommonCard";
 import { journalData } from "@/data/data";
 import Slider from "react-slick/lib/slider";
 
-function OurJournals() {
+const OurJournals = () => {
   const settings = {
     dots: true,
     infinite: true,

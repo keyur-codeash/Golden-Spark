@@ -26,13 +26,12 @@ const EditCartItemModal = ({ item, isOpen, onClose, onUpdate, onRemove }) => {
         setSelectedColor(item.selectedVariant.color || "");
         setSelectedSize(item.selectedVariant.size || "");
       } else if (item.availableColors?.length > 0) {
-        // Set default color if none selected
         setSelectedColor(item.availableColors[0].id);
       }
     }
   }, [item]);
 
-  // Update available sizes when color changes
+  // Update available sizes when color 
   useEffect(() => {
     if (selectedColor && item.allVariants) {
       const sizesForColor = [];
@@ -86,7 +85,6 @@ const EditCartItemModal = ({ item, isOpen, onClose, onUpdate, onRemove }) => {
     setSelectedColor(colorId);
     setError("");
 
-    // Check if the selected combination exists
     if (selectedSize && !checkVariantExists(colorId, selectedSize)) {
       setError("This color and size combination is not available");
     }
@@ -97,7 +95,6 @@ const EditCartItemModal = ({ item, isOpen, onClose, onUpdate, onRemove }) => {
     setSelectedSize(sizeId);
     setError("");
 
-    // Check if the selected combination exists
     if (selectedColor && !checkVariantExists(selectedColor, sizeId)) {
       setError("This color and size combination is not available");
     }
@@ -150,18 +147,12 @@ const EditCartItemModal = ({ item, isOpen, onClose, onUpdate, onRemove }) => {
     onClose();
   };
 
-  const handleRemove = () => {
-    onRemove(item.productVariantId);
-    onClose();
-  };
-
   if (!isOpen || !item) return null;
 
   return (
     <div className="mt-40">
       <div className=" absolute inset-0 flex items-center justify-center overflow-y-auto bg-white sm:fixed sm:h-screen sm:p-4 sm:bg-transparent">
         <div className="relative w-full max-w-xl sm:h-auto h-full rounded-sm border bg-white p-6 sm:p-8 shadow-xl">
-          {/* Close Button */}
           <button
             onClick={onClose}
             className="absolute right-6 top-6 sm:right-10 sm:top-10 cursor-pointer text-gray-500 transition-colors hover:text-gray-700"

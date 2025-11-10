@@ -10,7 +10,6 @@ import FilterSidebar from "./Filter";
 import { useRouter } from "next/navigation";
 import { useWishlist } from "@/forntend/context/WishlistContext";
 import useToken from "@/forntend/hooks/useToken";
-import Loader from "@/components/Loader";
 import SkeletonShoppingCard from "@/forntend/skeleton/ProductsSkeleton";
 
 const ResponsiveFilter = () => {
@@ -38,7 +37,7 @@ const ResponsiveFilter = () => {
   });
   const { token } = useToken();
   const router = useRouter();
-  const { wishlist, setWishlist, addToWishlist, removeFromWishlist } =
+  const {addToWishlist, removeFromWishlist } =
     useWishlist();
 
   const buildQueryString = () => {
@@ -196,12 +195,13 @@ const ResponsiveFilter = () => {
         </div>
 
         {/* Product Grid */}
+
         <div className="pb-10 flex-1 px-4 xl:px-0">
           <div className="grid grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-y-10">
             {loading ? (
               <SkeletonShoppingCard items={8} />
             ) : products.length === 0 ? (
-              <p className="p-10 text-lg font-semibold h-full">
+              <p className="p-6 text-lg h-full">
                 <div>
                   <h2 className="text-x mb-2">No products found</h2>
                 </div>

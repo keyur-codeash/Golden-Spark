@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 import { GoArrowRight } from "react-icons/go";
 import { useParams } from "next/navigation";
 
-function page() {
+const page = () => {
   const [address, setAddress] = useState({});
   const { id } = useParams();
   console.log("params", id);

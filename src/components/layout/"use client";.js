@@ -6,7 +6,7 @@ import { LuUser, LuSearch, LuX } from "react-icons/lu";
 import { RiShoppingBag4Line } from "react-icons/ri";
 import { FaRegHeart } from "react-icons/fa";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { accountOptions, countries, menuItems } from "@/data/data";
+import { menuItems } from "@/data/data";
 import { CgCloseR } from "react-icons/cg";
 
 export default function Header() {
@@ -18,9 +18,6 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const searchRef = useRef(null);
-
-  const [selectedCountry, setSelectedCountry] = useState(countries[0]);
-  const [selectedAccount, setSelectedAccount] = useState(accountOptions[0]);
 
   useEffect(() => {
     const handleScroll = () => {

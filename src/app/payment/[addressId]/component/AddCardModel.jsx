@@ -6,7 +6,6 @@ import { PiLockKeyThin } from "react-icons/pi";
 import { GoQuestion } from "react-icons/go";
 import Button from "@/components/Button";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import creditCardType from "credit-card-type";

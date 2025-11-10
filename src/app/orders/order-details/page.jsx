@@ -1,15 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CancelOrderModal from "../component/CancelOrderModal";
 import CancelOrder from "../cancel/page";
 import TrackingModalPage from "../component/TrackingModalPage";
-import { fetchSingleOrder } from "@/forntend/services/orderServices";
 
 export default function OrderConfirmation() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTrackingModalOpen, setIsTrakingModalOpen] = useState(false);
   const [orderCancelModalOpen, setOrderCancelModalOpen] = useState(false);
-  
 
   return (
     <div className="pt-2 lg:pt-15">
@@ -100,15 +98,6 @@ export default function OrderConfirmation() {
                     </p>
                   </div>
                 </div>
-
-                {/* <Button
-                    label="CANCEL"
-                    color="blue"
-                    size="md"
-                    variant="outline"
-                    className="!rounded-none !text-black py-2.5 mt-5 flex items-center gap-[10px]"
-                    onClick={() => setIsModalOpen(true)}
-                  /> */}
 
                 {/* Buttons */}
                 <div className="mt-6 flex gap-4 select-none">

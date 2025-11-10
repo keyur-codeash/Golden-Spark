@@ -9,7 +9,7 @@ import { useWishlist } from "@/forntend/context/WishlistContext";
 import { getwishlistData } from "@/forntend/services/wishlistServices";
 import Pagination from "@/components/Pagination";
 
-function WishlistPage() {
+const WishlistPage = () => {
   const { wishlist, setWishlist, removeFromWishlist } = useWishlist();
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -49,7 +49,7 @@ function WishlistPage() {
   return (
     <div data-aos="fade-up">
       <div className="your-cart">
-        <HeroSectionCommon heading="Home / Wishlist" />
+        <HeroSectionCommon heading="Home/Wishlist" />
         <div className="container mx-auto">
           <div className="pt-10 md:pt-20">
             <div className="pb-10 flex-1 px-4">
@@ -91,6 +91,6 @@ function WishlistPage() {
       </div>
     </div>
   );
-}
+};
 
 export default WishlistPage;

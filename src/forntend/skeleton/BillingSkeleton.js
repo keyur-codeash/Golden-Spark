@@ -6,7 +6,7 @@ export default function SkeletonCart({ items = 2, showPaymentUI = false }) {
   const arr = Array.from({ length: items });
 
   return (
-    <div className="lg:me-4 select-none border-2 border-gray-200 bg-[#ffffff65] rounded-lg shadow-md overflow-hidden">
+    <div className="lg:me-4 select-none border-2 border-gray-200 bg-[#755c4e13] rounded-lg shadow-md overflow-hidden">
       {showPaymentUI && (
         <div className="animate-pulse">
           <div className="bg-red-400 hidden sm:block text-white p-4 text-2xl">

@@ -2,7 +2,6 @@
 import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-
 import Button from "@/components/Button";
 import Heading from "@/components/Heading";
 import InputField from "@/components/Input";
@@ -12,14 +11,14 @@ import { useRouter } from "next/navigation";
 import { SignJWT } from "jose";
 import { sendOtp } from "@/forntend/services/authServices";
 
-async function createToken(payload) {
+const createToken = async (payload) => {
   const secret = new TextEncoder().encode("Codeash@123");
   const token = await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setExpirationTime("15m")
     .sign(secret);
   return token;
-}
+};
 
 function ForgotPasswordPage() {
   const router = useRouter();
@@ -38,7 +37,7 @@ function ForgotPasswordPage() {
         .required("Email is required"),
     }),
     onSubmit: async (values) => {
-      const response = await sendOtp({email: values.email});
+      const response = await sendOtp({ email: values.email });
       if (response) {
         const token = await createToken({ email: values.email });
         router.push(`/auth/get-otp/?email=${token}`);

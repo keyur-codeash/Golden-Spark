@@ -3,7 +3,7 @@ import React from "react";
 import Button from "./Button";
 import { useRouter } from "next/navigation";
 
-function ProductCommonCard({ item, key }) {
+const ProductCommonCard =({ item, key }) => {
   const router = useRouter();
   return (
     <div className="xl:w-full text-center px-4">

@@ -6,7 +6,7 @@ export async function generateStaticParams() {
   return [{ blogId: "blog-1" }, { blogId: "blog-2" }];
 }
 
-function page() {
+const page = () => {
   return (
     <div>
       <BlogDetails />

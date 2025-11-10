@@ -6,17 +6,11 @@ import Link from "next/link";
 import React, { useEffect } from "react";
 import { monthfirstformatedDate } from "@/forntend/common/commonDateFormat";
 
-function LatestArticle({ blogDetails = [], loading }) {
+const LatestArticle = ({ blogDetails = [], loading }) => {
    
   if (loading == true) {
     return (
     <h2>hellow</h2>
-      // <div className="pt-10 md:pt-20">
-      //   <div className="container mx-auto px-4">
-      //     <Heading>Latest Article</Heading>
-      //     <BlogSkeleton />
-      //   </div>
-      // </div>
     );
   }
   const [mainArticle, ...restArticles] = blogDetails;

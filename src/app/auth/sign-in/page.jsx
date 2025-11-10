@@ -7,7 +7,7 @@ import "aos/dist/aos.css";
 import useToken from "@/forntend/hooks/useToken";
 import { useRouter } from "next/navigation";
 
-function SignInPage() {
+const SignInPage = () => {
   const { token } = useToken();
   const router = useRouter();
 

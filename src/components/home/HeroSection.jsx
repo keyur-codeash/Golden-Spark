@@ -3,7 +3,7 @@ import Button from "../Button";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-function HeroSection() {
+const HeroSection = () => {
   const router = useRouter();
 
   return (

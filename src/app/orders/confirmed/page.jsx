@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { GoArrowRight } from "react-icons/go";
 
-function page() {
+const page= () => {
   const [address, setAddress] = useState({});
 
   useEffect(() => {

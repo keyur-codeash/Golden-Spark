@@ -18,14 +18,9 @@ const Footer = ({
         className="text-gray-300 relative bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${backgroundImage})` }}
       >
-        {/* Overlay */}
         <div className="bg-black opacity-85 absolute top-0 left-0 right-0 bottom-0"></div>
-
-        {/* Content */}
         <div className="container mx-auto px-4 pt-15 sm:pt-25 pb-10 relative z-10">
-          {/* Newsletter and Links Sections */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-            {/* Newsletter Column */}
             <div className="mb-0">
               <div className="text-left">
                 <h2 className="text-3xl font-bold text-white mb-4">
@@ -79,10 +74,8 @@ const Footer = ({
             ))}
           </div>
 
-          {/* Divider */}
           <div className="border-t-2 border-white opacity-40 my-8"></div>
 
-          {/* Copyright */}
           <div className="text-center text-lg text-gray-400">
             {copyrightText}
           </div>

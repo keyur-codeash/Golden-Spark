@@ -8,7 +8,7 @@ import { getwishlistData } from "@/forntend/services/wishlistServices";
 import { useWishlist } from "@/forntend/context/WishlistContext";
 import useToken from "@/forntend/hooks/useToken";
 
-function FavoriteProducts() {
+const FavoriteProducts = () => {
   const { wishlist, setWishlist, removeFromWishlist } = useWishlist();
   const { token, removeToken } = useToken();
 
@@ -34,6 +34,10 @@ function FavoriteProducts() {
       console.error("Error updating wishlist:", error);
     }
   };
+
+  if(!wishlist.length){
+    return false
+  }
 
   return (
     <div className="shopByCollection sm:pt-10 relative">

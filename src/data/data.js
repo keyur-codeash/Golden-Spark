@@ -1,7 +1,5 @@
 //top bar
 
-import { FcGlobe, FcHome, FcManager, FcOk } from "react-icons/fc";
-
 export const countries = [
   { label: "United States", value: "US", icon: "/icons/country_one.svg" },
   { label: "Canada", value: "CA", icon: "/icons/country_two.svg" },

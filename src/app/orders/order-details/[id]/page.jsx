@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { MdCancel } from "react-icons/md";
 import { fetchTrackOrder } from "@/forntend/services/trackOrderService";
 
-export default function OrderConfirmation({ params }) {
+export default function  OrderConfirmation({ params }) {
   const { id } = params;
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,6 +28,7 @@ export default function OrderConfirmation({ params }) {
         const response = await fetchSingleOrder(id);
         if (response?.isSuccess && response.data?.length > 0) {
           setOrderDetails(response.data[0]);
+          setLoading(false);
         }
       } catch (error) {
         console.error("Error fetching order details:", error);
@@ -222,19 +223,9 @@ export default function OrderConfirmation({ params }) {
                       {orderDetails?.address?.state}{" "}
                       {orderDetails?.address?.country}{" "}
                       {orderDetails?.address?.zipCode}
-                      {/* 50 Washington Square S, New York, NY 10012, USA... */}
                     </p>
                   </div>
                 </div>
-
-                {/* <Button
-                    label="CANCEL"
-                    color="blue"
-                    size="md"
-                    variant="outline"
-                    className="!rounded-none !text-black py-2.5 mt-5 flex items-center gap-[10px]"
-                    onClick={() => setIsModalOpen(true)}
-                  /> */}
 
                 {/* Buttons */}
                 <div className="mt-6 flex gap-4 select-none">
@@ -246,7 +237,6 @@ export default function OrderConfirmation({ params }) {
                   </button>
                   <button
                     className="px-4 py-2 cursor-pointer bg-yellow-800 text-white rounded-md hover:bg- yellow-600"
-                    // onClick={() => setIsTrakingModalOpen(true)}
                     onClick={() => handleTrackOrder(orderDetails.order_id)}
                   >
                     Track
@@ -255,7 +245,6 @@ export default function OrderConfirmation({ params }) {
               </div>
             </div>
           </div>
-          {/* Right Section (Summary) */}
           <div className="pt-5">
             <div className="shadow-md rounded-lg xl:w-md">
               <h2 className="mb-4 px-5 pt-10 text-md sm:text-lg">
@@ -269,7 +258,6 @@ export default function OrderConfirmation({ params }) {
                   Date:{" "}
                   <span>
                     {formatDate(orderDetails?.orderCreated)}
-                    {/* April 13, 2025 */}
                   </span>
                 </li>
                 <li>

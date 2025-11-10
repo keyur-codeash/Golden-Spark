@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { LuUser, LuSearch, LuX } from "react-icons/lu";
+import { LuUser, LuSearch, LuX, LuShoppingBag, LuLogOut } from "react-icons/lu";
 import { RiShoppingBag4Line } from "react-icons/ri";
 import { FaRegHeart } from "react-icons/fa";
 import { MdKeyboardArrowDown } from "react-icons/md";
@@ -76,6 +76,30 @@ export default function Header() {
     setIsSearchOpen(false);
   };
 
+  // profile details
+  const [open, setOpen] = useState(false);
+  const modalRef = useRef(null);
+
+  const user = {
+    name: "Keyur Patel",
+    email: "keyur@example.com",
+  };
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    }
+    if (open) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [open]);
+
+  const handleLogout = () => {
+    console.log("User logged out");
+    setOpen(false);
+  };
+
   return (
     <header
       className={`sticky top-0 w-full z-40 transition-all duration-300 bg-light-gray-300  ${
@@ -84,7 +108,6 @@ export default function Header() {
     >
       <div className="container mx-auto">
         <div className="flex justify-between items-center bg-brown-800 md:bg-transparent px-4 xl:px-0 py-3">
-          {/* Logo + Mobile Toggle */}
           <div className="flex justify-between items-center w-full md:w-auto">
             <Link href="/" className="order-2">
               <img
@@ -193,11 +216,57 @@ export default function Header() {
           {/* Icons + Search */}
           <div className="block" ref={searchRef}>
             <ul className="flex items-center">
-              <li className="ps-4 hidden md:block">
-                <Link href="/auth/sign-in">
-                  <LuUser className="lg:text-xl" />
-                </Link>
+              <li className="relative ps-4 hidden md:block">
+                <button
+                  onClick={() => setOpen(!open)}
+                  className="py-2 rounded-full transition"
+                >
+                  <LuUser className="lg:text-xl cursor-pointer" />
+                </button>
+
+                {/* Dropdown Modal */}
+                {open && (
+                  <div
+                    ref={modalRef}
+                    className="absolute left-1/2 -translate-x-1/2 mt-3 w-64 bg-brown-400  backdrop-blur-xl rounded-lg shadow-lg bg-yellow-400 z-50 animate-fadeIn"
+                  >
+                    <div className="bg-white rounded-xl">
+                      {/* User Info */}
+                      <div className="px-5 py-4 border-b border-gray-100">
+                        <p className="text-sm font-semibold text-gray-900">
+                          {user.name}
+                        </p>
+                        <p className="text-xs text-gray-500 mt-0.5">
+                          {user.email}
+                        </p>
+                      </div>
+
+                      {/* Menu Items */}
+                      <div className="py-2">
+                        <button
+                          onClick={() => {
+                            router.push("/orders");
+                            setOpen(false);
+                          }}
+                          className="flex items-center gap-2 w-full px-5 py-2.5 text-sm cursor-pointer transition"
+                        >
+                          <LuShoppingBag className="text-base" />
+                          <span>My Orders</span>
+                        </button>
+
+                        <button
+                          onClick={handleLogout}
+                          className="flex items-center gap-2 w-full px-5 py-2.5 text-sm text-red-600 cursor-pointer transition"
+                        >
+                          <LuLogOut className="text-base" />
+                          <span>Logout</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </li>
+
               <li className="ps-4 pt-1.5 hidden md:block">
                 <button
                   onClick={() => setIsSearchOpen(!isSearchOpen)}
@@ -218,7 +287,6 @@ export default function Header() {
               </li>
             </ul>
 
-            {/* Universal Search Dropdown */}
             {isSearchOpen && (
               <div className="absolute top-0 left-0 right-0 w-full pb-35 pt-5 bg-yellow-400 rounded-lg shadow-sm border border-gray-200 z-50 overflow-hidden px-4 md:px-0">
                 <div className="container mx-auto pt-4">
@@ -267,7 +335,6 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Mobile Menu */}
         <div
           className={`md:hidden transition-all duration-300 bg-yellow-400 fixed top-[60px] left-0 w-full h-[calc(100vh-60px)] overflow-y-auto z-40 ${
             isMenuOpen ? "block" : "hidden"

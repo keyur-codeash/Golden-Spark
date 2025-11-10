@@ -4,13 +4,10 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import {
-  formatDate,
   monthfirstformatedDate,
 } from "@/forntend/common/commonDateFormat";
-import LoadingSpinner from "@/components/LoadingSpinner";
-import Loading from "@/components/Loading";
 
-function BlogDetails() {
+const BlogDetails = () => {
   const [blogDetails, setBlogDetails] = useState({});
   const { blogId } = useParams();
   const [loading, setLoading] = useState(true);
@@ -18,15 +15,12 @@ function BlogDetails() {
   useEffect(() => {
     const fetchBlogDetails = async () => {
       const response = await fetchSingleBlog(blogId);
-      if (response.isSuccess) {
         setBlogDetails(response.data);
         setLoading(false);
-      }
     };
     fetchBlogDetails();
   }, []);
 
-  console.log("blogDetails======", blogDetails);
 
   if (loading) {
     return (

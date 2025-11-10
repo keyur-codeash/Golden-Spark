@@ -5,11 +5,8 @@ import "aos/dist/aos.css";
 import Button from "@/components/Button";
 import Heading from "@/components/Heading";
 import { useRouter, useSearchParams } from "next/navigation";
-import { jwtVerify } from "jose";
 import { verifyToken } from "@/forntend/verifyToken";
 import { veifyOtp } from "@/forntend/services/authServices";
-
-// Helper to verify JWT
 
 const OtpInput = ({ onSubmit }) => {
   const length = 4;
@@ -18,7 +15,6 @@ const OtpInput = ({ onSubmit }) => {
   const [error, setError] = useState("");
   const inputs = useRef([]);
   const searchParams = useSearchParams();
-
 
   useEffect(() => {
     AOS.init({ duration: 800, once: true });

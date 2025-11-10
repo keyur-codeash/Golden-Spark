@@ -2,7 +2,6 @@
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "@/lib/firebaseConfig";
 import { useState } from "react";
-import Image from "next/image";
 
 export default function GoogleLoginButton() {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,7 +12,6 @@ export default function GoogleLoginButton() {
     try {
       const result = await signInWithPopup(auth, provider);
     } catch (error) {
-      // Only log actual errors (ignore popup closures)
       if (error.code !== "auth/popup-closed-by-user") {
         console.error("Login error:", error);
       }
@@ -31,17 +29,6 @@ export default function GoogleLoginButton() {
       aria-label="Sign in with Google"
     >
       Login
-      {/* {isLoading ? (
-        <div className="w-6 h-6 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin" />
-      ) : (
-        <Image 
-          src="/images/google.svg"
-          alt="Google logo"
-          width={24}
-          height={24}
-          priority
-        />
-      )} */}
     </button>
   );
 }

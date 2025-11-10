@@ -3,8 +3,6 @@ import Button from "@/components/Button";
 import Modal from "@/components/Model";
 import { formatDate } from "@/forntend/common/commonDateFormat";
 import {
-  cancelOrder,
-  fetchSingleOrder,
   orderCancellationReasons,
 } from "@/forntend/services/orderServices";
 import Image from "next/image";
@@ -22,7 +20,6 @@ const CancelOrder = ({
   const [description, setDescription] = useState("");
   const [error, setError] = useState("");
   const [cancellationReasons, setCancellationReasons] = useState([]);
-  // const [ordeerDetails, setOrdeerDetails] = useState([]);
 
   const order = {
     id: "1",

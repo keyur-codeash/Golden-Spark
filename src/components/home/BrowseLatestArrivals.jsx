@@ -9,10 +9,9 @@ import { useWishlist } from "@/forntend/context/WishlistContext";
 import { useRouter } from "next/navigation";
 import useToken from "@/forntend/hooks/useToken";
 
-function BrowseLatestArrivals() {
+const BrowseLatestArrivals = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState([]);
-  const router = useRouter();
 
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const { token } = useToken();
@@ -48,6 +47,10 @@ function BrowseLatestArrivals() {
       return response;
     }
   };
+
+  if (!products.length) {
+    return false;
+  }
 
   return (
     <div className="shopByCollection pt-20">

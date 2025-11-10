@@ -14,7 +14,7 @@ import { fetchProductVariant } from "@/forntend/services/productService";
 import useToken from "@/forntend/hooks/useToken";
 import { fetchAddress } from "@/forntend/services/addressServices";
 
-function CartPage() {
+const CartPage = () => {
   const [editingItem, setEditingItem] = useState(null);
   const [stockErrors, setStockErrors] = useState([]);
   const [isCheckingStock, setIsCheckingStock] = useState(false);
@@ -170,7 +170,7 @@ function CartPage() {
     <div className="your-cart">
       <div>
         <HeroSectionCommon heading="Home/Your Cart" />
-        <div className="pt-10 md:pt-20">
+        <div className={stockErrors.length && `pt-10 md:pt-20`}>
           <div className="container mx-auto">
             {/* Stock Error Messages */}
             {stockErrors.length > 0 && (
@@ -472,6 +472,6 @@ function CartPage() {
       )}
     </div>
   );
-}
+};
 
 export default CartPage;

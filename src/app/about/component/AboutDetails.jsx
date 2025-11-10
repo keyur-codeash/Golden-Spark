@@ -2,82 +2,66 @@ import Image from "next/image";
 import Heading from "@/components/Heading";
 import { fetchAbout } from "@/forntend/services/aboutServices";
 import { useEffect, useState } from "react";
+import AboutSkeleton from "@/forntend/skeleton/AboutSkeleton";
 
-function AboutDetails() {
+const AboutDetails = () => {
   const [aboutDetails, setAboutDetails] = useState({});
-  const aboutUsData = [
-    {
-      heading: "Our Story",
-      subHeading: "THE HIGH STRESS FAVOURITE",
-      text: "We believe jewellery is more than adornment — it's an expression of identity, emotion, and timeless beauty. Our journey began with a simple idea: to create pieces that speak without words, that carry meaning, and that become part of your story. Rooted in craftsmanship and inspired by the elegance of everyday moments, our designs blend classic artistry with modern sensibility. Whether it's a delicate ring, a statement necklace, or an heirloom in the making, each piece is thoughtfully crafted for the moments that matter most.",
-      image: "/images/about_one.png",
-    },
-    {
-      heading: "Who We Are?",
-      subHeading: "THE HIGH STRESS FAVOURITE",
-      text: "We believe jewellery is more than adornment — it's an expression of identity, emotion, and timeless beauty. Our journey began with a simple idea: to create pieces that speak without words, that carry meaning, and that become part of your story. Rooted in craftsmanship and inspired by the elegance of everyday moments, our designs blend classic artistry with modern sensibility.",
-      image: "/images/about_two.png",
-    },
-    {
-      heading: "Our Mission",
-      subHeading: "THE HIGH STRESS FAVOURITE",
-      text: "We believe jewellery is more than adornment — it's an expression of identity, emotion, and timeless beauty. Our journey began with a simple idea: to create pieces that speak without words, that carry meaning, and that become part of your story. Rooted in craftsmanship and inspired by the elegance of everyday moments, our designs blend classic artistry with modern sensibility.",
-      image: "/images/about_three.png",
-    },
-  ];
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchAboutDetails = async () => {
       const responce = await fetchAbout();
-      if (responce.isSuccess) {
-        setAboutDetails(responce.data);
-      }
-    };
-
+      setAboutDetails(responce.data);
+      setLoading(false);
+    };  
+    setLoading(false);
     fetchAboutDetails();
   }, []);
 
-  console.log("aboutDetails=======", aboutDetails);
+  if (loading) {
+    return <AboutSkeleton />;
+  }
 
   return (
     <div className="pt-10 lg:pt-28">
       <div className="container">
-        {aboutDetails.length && aboutDetails?.map((item, index) => {
-          const isEven = index % 2 === 0;
-          return (
-            <div
-              key={index}
-              className={`grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-x-10 px-4 sm:px-0 mb-8 md:px-8 lg:px-4 xl:px-0 lg:pb-5 2xl:pb-7`}
-            >
-              {/* Image Block */}
-              <div className={`h-full ${isEven ? "lg:order-2" : "lg:order-1"}`}>
-                <div className="h-[250px] sm:h-[300px] lg:h-full w-full relative">
-                  <Image
-                    src={item.image}
-                    alt="about"
-                    fill
-                    className="object-cover h-full w-full rounded-xl"
-                  />
+        {aboutDetails.length &&
+          aboutDetails?.map((item, index) => {
+            const isEven = index % 2 === 0;
+            return (
+              <div
+                key={index}
+                className={`grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-x-10 px-4 sm:px-0 mb-8 md:px-8 lg:px-4 xl:px-0 lg:pb-5 2xl:pb-7`}
+              >
+                <div
+                  className={`h-full ${isEven ? "lg:order-2" : "lg:order-1"}`}
+                >
+                  <div className="h-[250px] sm:h-[300px] lg:h-full w-full relative">
+                    <Image
+                      src={item.image}
+                      alt="about"
+                      fill
+                      className="object-cover h-full w-full rounded-xl"
+                    />
+                  </div>
+                </div>
+
+                <div
+                  className={`lg:pb-15 xl:pb-20 2xl:pb-25 ${
+                    isEven ? "lg:order-1" : "lg:order-2"
+                  }`}
+                >
+                  <Heading className="text-start !px-0">{item.heading}</Heading>
+                  <p className="relative pl-8 py-5 text-nowrap tracking-widest opacity-70 text-sm md:text-lg before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-7 before:h-[2px] before:bg-gray-400">
+                    {item.sub_heading}
+                  </p>
+                  <p className="text-gray-500 text-sm md:text-lg lg:text-sm 2xl:text-xl">
+                    {item.content}
+                  </p>
                 </div>
               </div>
-
-              {/* Text Block */}
-              <div
-                className={`lg:pb-15 xl:pb-20 2xl:pb-25 ${
-                  isEven ? "lg:order-1" : "lg:order-2"
-                }`}
-              >
-                <Heading className="text-start !px-0">{item.heading}</Heading>
-                <p className="relative pl-8 py-5 text-nowrap tracking-widest opacity-70 text-sm md:text-lg before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-7 before:h-[2px] before:bg-gray-400">
-                  {item.sub_heading}
-                </p>
-                <p className="text-gray-500 text-sm md:text-lg lg:text-sm 2xl:text-xl">
-                  {item.content}
-                </p>
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
     </div>
   );

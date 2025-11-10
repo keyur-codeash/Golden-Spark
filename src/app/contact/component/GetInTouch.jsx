@@ -31,7 +31,6 @@ const GetInTouch = () => {
     <div className="getInTouch py-12">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 xl:gap-12">
-          {/* Left Column - Can add image or additional content */}
           <div className="rounded-lg">
             <div className="pb-5 md:pb-5 xl:pb-10">
               <Heading className="text-start !px-0 ">Get In Touch</Heading>
@@ -44,12 +43,7 @@ const GetInTouch = () => {
               service team first.
             </p>
           </div>
-          {/* Right Column - Form */}
           <div className=" pt-0 rounded-lg">
-            {/* <h2 className="text-3xl font-bold mb-6 text-gray-800">
-              Contact Us
-            </h2> */}
-
             <form className="space-y-6" onSubmit={formik.handleSubmit}>
               <InputField
                 id="firstName"

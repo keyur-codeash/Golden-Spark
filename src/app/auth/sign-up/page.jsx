@@ -4,7 +4,7 @@ import AuthCommon from "@/components/AuthCommon";
 import SignInForm from "@/components/auth/SignInForm.js";
 import SignUpFrom from "@/components/auth/SignUpFrom";
 
-function SignUpPage() {
+const SignUpPage = () => {
   return (
     <div data-aos="fade-up">
       <AuthCommon

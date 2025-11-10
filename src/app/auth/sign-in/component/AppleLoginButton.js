@@ -9,7 +9,6 @@ import {
 } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { app } from "@/lib/firebaseConfig";
-import { FaApple } from "react-icons/fa";
 import { IoLogoApple } from "react-icons/io5";
 
 const AppleButton = () => {

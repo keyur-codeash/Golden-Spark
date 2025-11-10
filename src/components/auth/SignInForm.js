@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 import useToken from "@/forntend/hooks/useToken";
 import { signInValidation } from "@/forntend/validation/validation";
 
-function SignInForm() {
+const SignInForm =() => {
   const router = useRouter();
   const { token, removeToken } = useToken();
 

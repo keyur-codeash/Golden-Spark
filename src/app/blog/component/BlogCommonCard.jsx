@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-function BlogCommonCard({ items }) {
+const BlogCommonCard = ({ items }) => {
   return (
     <div className="px-4 sm:px-0">
       <div className="h-[250px] md:h-[250px] xl:h-[320px] w-full relative rounded-sm overflow-hidden">

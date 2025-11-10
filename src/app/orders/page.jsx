@@ -14,7 +14,7 @@ import { fetchOrder } from "@/forntend/services/orderServices";
 import { fetchTrackOrder } from "@/forntend/services/trackOrderService";
 import { formatDate } from "@/forntend/common/commonDateFormat";
 
-function Page() {
+const Page = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTrackingModalOpen, setIsTrackingModalOpen] = useState(false);
   const [orderCancelModalOpen, setOrderCancelModalOpen] = useState(false);
@@ -37,8 +37,6 @@ function Page() {
       setCancelId(null);
     }
   }, [cancelId]);
-
-  // Format date
 
   //  Group orders by order_id
   const groupedOrders = useMemo(() => {
@@ -254,6 +252,6 @@ function Page() {
       </div>
     </div>
   );
-}
+};
 
 export default Page;

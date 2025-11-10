@@ -8,7 +8,7 @@ import Instagram from "@/components/home/Instagram";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-function Page() {
+const Page = () => {
   useEffect(() => {
     AOS.init({
       duration: 1000,
