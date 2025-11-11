@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
       <body>
         <div data-aos="fade-up">
           <div className="blog">
-            <HeroSectionCommon heading="Home/Blog" />
+            <HeroSectionCommon heading="Blog" />
           </div>
           {children}
         </div>

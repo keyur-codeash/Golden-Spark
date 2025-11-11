@@ -1,7 +1,37 @@
+"use client";
 import React from "react";
 import Heading from "../Heading";
 import Image from "next/image";
-import { instagram } from "@/data/data";
+
+import Link from "next/link";
+
+export const instagram = [
+  {
+    postUrl:
+      "https://www.instagram.com/p/CEuqUvxBqGB/?utm_source=ig_web_button_share_sheet",
+    image: "/images/instagram_one.png",
+  },
+  {
+    postUrl:
+      "https://www.instagram.com/p/CEuqUvxBqGB/?utm_source=ig_web_button_share_sheet",
+    image: "/images/instagram_two.png",
+  },
+  {
+    postUrl:
+      "https://www.instagram.com/p/CEuqUvxBqGB/?utm_source=ig_web_button_share_sheet",
+    image: "/images/instagram_three.png",
+  },
+  {
+    postUrl:
+      "https://www.instagram.com/p/CEuqUvxBqGB/?utm_source=ig_web_button_share_sheet",
+    image: "/images/instagram_four.png",
+  },
+  {
+    postUrl:
+      "https://www.instagram.com/p/CEuqUvxBqGB/?utm_source=ig_web_button_share_sheet",
+    image: "/images/instagram_five.png",
+  },
+];
 
 const Instagram = () => {
   return (
@@ -19,15 +49,17 @@ const Instagram = () => {
         </div>
         <div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-5 sm:gap-10 xl:gap-0 xl:grid-cols-5">
-            {instagram.map((item, index) => {
+            {instagram?.map((item, index) => {
               return (
-                <div className="relative sm:w-full  h-[288px]">
-                  <Image
-                    src={item.image}
-                    alt="auth image"
-                    fill
-                    className="object-cover"
-                  />
+                <div className="relative sm:w-full h-[288px]">
+                  <Link href={item.postUrl}>
+                    <Image
+                      src={item.image}
+                      alt="auth image"
+                      fill
+                      className="object-cover"
+                    />
+                  </Link>
                 </div>
               );
             })}
@@ -36,6 +68,6 @@ const Instagram = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Instagram;

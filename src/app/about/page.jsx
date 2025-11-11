@@ -19,7 +19,7 @@ const Page = () => {
   return (
     <div>
       <div data-aos="fade-up">
-        <HeroSectionCommon heading="Home/About" />
+        <HeroSectionCommon heading="About" />
       </div>
       <div className="container mx-auto space-y-12">
         <div data-aos="fade-up">

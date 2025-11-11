@@ -73,7 +73,7 @@ export default function Home() {
           <div data-aos="zoom-out-down">
             <PerfectChoice />
           </div>
-          <div data-aos="zoom-out-down">
+          <div>
             <BrowseLatestArrivals />
           </div>
           <div data-aos="zoom-out-up">

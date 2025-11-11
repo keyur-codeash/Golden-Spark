@@ -13,8 +13,7 @@ const AboutDetails = () => {
       const responce = await fetchAbout();
       setAboutDetails(responce.data);
       setLoading(false);
-    };  
-    setLoading(false);
+    };
     fetchAboutDetails();
   }, []);
 
@@ -65,6 +64,6 @@ const AboutDetails = () => {
       </div>
     </div>
   );
-}
+};
 
 export default AboutDetails;

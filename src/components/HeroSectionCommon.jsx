@@ -1,5 +1,6 @@
 import React from "react";
 import Heading from "./Heading";
+import Link from "next/link";
 
 const HeroSectionCommon = ({ heading }) => {
   return (
@@ -10,11 +11,12 @@ const HeroSectionCommon = ({ heading }) => {
 
       <div className="relative z-20 flex items-center justify-center h-full">
         <Heading color="text-white" className="!font-bold">
+          <Link href="/">Home/</Link>
           {heading}
         </Heading>
       </div>
     </div>
   );
-}
+};
 
 export default HeroSectionCommon;

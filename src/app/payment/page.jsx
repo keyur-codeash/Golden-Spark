@@ -18,7 +18,7 @@ function page() {
   return (
     <div>
       <div data-aos="fade-up">
-        <HeroSectionCommon heading="Home/Payment" />
+        <HeroSectionCommon heading="Payment" />
       </div>
       <div className="container mx-auto">
         <div className="pt-10 lg:pt-20">

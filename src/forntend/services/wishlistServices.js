@@ -36,7 +36,7 @@ export const addWishlistData = async (body) => {
 
     if (
       error?.response?.data.isSuccess == false &&
-      error?.response?.data?.error == "Authorization token missing"
+      error?.response?.data?.message == "Authorization token missing"
     ) {
       return { token: false };
     }

@@ -17,17 +17,17 @@ const ForThePeople = () => {
     {
       id: 2,
       content:
-        "Now I don't care about football, I always hate it. A great quiver now, in the sauce of God's property. I am worried about my children. No Lacinia pulvinar policy. Until the end of the flight, the airline is not going to be able to finance the members of the group. It is important to drink at the borders of the land.",
-      author: "John Doe",
-      role: "Developer",
+        "The legendary actress, singer, playwright, screenwriter, and comedian, Mae West, has a fantastic quote about dieting and diamonds Jewelry has the power to be the one little thing that makes you feel unique.You can’t cry on a diamond’s shoulder, and diamonds won’t keep you warm at night, but they’re sure fun when the sun shines. ",
+      author: "Mark wood",
+      role: "Designer",
       profilePicture: "./images/browse_two.png",
     },
     {
       id: 3,
       content:
-        "Now I don't care about football, I always hate it. A great quiver now, in the sauce of God's property. I am worried about my children. No Lacinia pulvinar policy. Until the end of the flight, the airline is not going to be able to finance the members of the group. It is important to drink at the borders of the land.",
-      author: "Jane Smith",
-      role: "Product Manager",
+        "Jewelry is a very personal thing... it should tell a story about the person who’s wearing it.I like for jewelry to tell a story and to be able to talk about what I’m wearing. That’s more important to me than a name, brand, or label. For today’s post, we’ve compiled a list of some of our favorite jewelry quotes of all time.",
+      author: "Tahlia McGrath",
+      role: "Designer",
       profilePicture: "./images/browse_three.png",
     },
   ];
@@ -36,12 +36,14 @@ const ForThePeople = () => {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 800,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 5000,
     arrows: false,
+    fade: true, //
+    cssEase: "linear",
     appendDots: (dots) => (
       <div>
         <ul className="flex justify-center gap-2 mt-4">{dots}</ul>
@@ -52,11 +54,30 @@ const ForThePeople = () => {
     ),
   };
 
+  // const settings = {
+  //   dots: true,
+  //   infinite: true,
+  //   speed: 500,
+  //   slidesToShow: 1,
+  //   slidesToScroll: 1,
+  //   autoplay: true,
+  //   autoplaySpeed: 5000,
+  //   arrows: false,
+  //   appendDots: (dots) => (
+  //     <div>
+  //       <ul className="flex justify-center gap-2 mt-4">{dots}</ul>
+  //     </div>
+  //   ),
+  //   customPaging: () => (
+  //     <div className="w-[16px] h-[16px] rounded-full bg-white"></div>
+  //   ),
+  // };
+
   return (
     <div className="forThePeople bg-brown-500 mx-2 sm:mx-0 py-10 sm:py-20 mb-10 mt-20">
       <div className="container mx-auto">
         <p className="text-center pb-4">Testimonial</p>
-        <Heading color="text-brown-900">Shop By Collection</Heading>
+        <Heading color="text-brown-900">Shop By Collection</Heading>
         <div className="flex justify-center py-8">
           <img src="/images/comma.png" alt="images" className="w-14" />
         </div>
@@ -69,20 +90,22 @@ const ForThePeople = () => {
                     "{testimonial.content}"
                   </p>
                   <div className=" pt-4 flex justify-center items-center">
-                    <div className="w-[80px] h-[80px] me-5">
-                      <img
-                        src={testimonial.profilePicture}
-                        alt="testimonial img"
-                        className="w-full h-full  rounded-full "
-                      />
-                    </div>
-                    <div>
-                      <p className="font-semibold text-start text-xl text-gray-900">
-                        {testimonial.author}
-                      </p>
-                      <p className="text-gray-600 text-start text-lg">
-                        {testimonial.role}
-                      </p>
+                    <div className="flex min-w-64">
+                      <div className="w-[80px] h-[80px] me-5">
+                        <img
+                          src={testimonial.profilePicture}
+                          alt="testimonial img"
+                          className="w-full h-full  rounded-full object-cover"
+                        />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-start text-xl text-gray-900">
+                          {testimonial.author}
+                        </p>
+                        <p className="text-gray-600 text-start text-lg">
+                          {testimonial.role}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -93,6 +116,6 @@ const ForThePeople = () => {
       </div>
     </div>
   );
-}
+};
 
 export default ForThePeople;

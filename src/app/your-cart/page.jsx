@@ -169,8 +169,8 @@ const CartPage = () => {
   return (
     <div className="your-cart">
       <div>
-        <HeroSectionCommon heading="Home/Your Cart" />
-        <div className={stockErrors.length && `pt-10 md:pt-20`}>
+        <HeroSectionCommon heading="Your Cart" />
+        <div className={addtocartlist.length && `pt-10 md:pt-20`}>
           <div className="container mx-auto">
             {/* Stock Error Messages */}
             {stockErrors.length > 0 && (

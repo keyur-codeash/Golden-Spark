@@ -65,7 +65,7 @@ export const GET = asyncHandler(async (request, { params }) => {
         product: product._id,
       });
     }
-    
+
     const sizeIds = [...new Set(allVariants.map((v) => v.size?.toString()))];
     const colorIds = [...new Set(allVariants.map((v) => v.color?.toString()))];
 
@@ -141,22 +141,22 @@ export const GET = asyncHandler(async (request, { params }) => {
               price: selectedVariant.price,
               stock: selectedVariant.stock,
               sku: selectedVariant.sku,
-              color: selectedColor._id
-                ||  null,
-              size: selectedSize._id
-                || null,
+              color: selectedColor._id || null,
+              size: selectedSize._id || null,
             }
           : null,
-                  allVariants: allVariants.length
+        allVariants: allVariants.length
           ? allVariants.map((items) => {
-            {console.log(items)}
+              {
+                console.log(items);
+              }
               return {
                 id: items._id,
                 price: items.price,
                 stock: items.stock,
                 sku: items.sku,
                 color: items.color || null,
-                size: items.size || null
+                size: items.size || null,
               };
             })
           : null,

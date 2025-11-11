@@ -5,7 +5,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <div className="blog">
-          <HeroSectionCommon heading="Home/Check Out" />
+          <HeroSectionCommon heading="Check Out" />
         </div>
         {children}
       </body>

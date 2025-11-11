@@ -241,7 +241,7 @@ const ProductDetailsPage = () => {
     const fetchSingleProductData = async () => {
       try {
         const product = await fetchSingleProduct(params.product, token);
-        const productData = product.data || {
+        const productData = product?.data || {
           title: "",
           brand: "",
           images: [],
@@ -266,6 +266,7 @@ const ProductDetailsPage = () => {
           setSelectedVariant(productData.selectedVariant);
         }
       } catch (error) {
+        setLoading(false);
         console.error("Error fetching product:", error);
       }
     };
@@ -365,7 +366,7 @@ const ProductDetailsPage = () => {
                 <div>
                   <p className="text-xl font-medium mb-2">Size</p>
                   <div className="flex flex-wrap gap-2">
-                    {productDetails.availableSizes.map((size) => (
+                    {productDetails?.availableSizes?.map((size) => (
                       <button
                         key={size.id}
                         onClick={() => handleSizeSelect(size.id)}
@@ -384,7 +385,7 @@ const ProductDetailsPage = () => {
                     <div>
                       <p className="text-xl font-medium mb-2 pt-4">Colors</p>
                       <div className="flex gap-2">
-                        {productDetails.availableColors.map((colorOption) => (
+                        {productDetails?.availableColors?.map((colorOption) => (
                           <button
                             key={colorOption.id}
                             onClick={() => handleColorSelect(colorOption.id)}
@@ -478,7 +479,7 @@ const ProductDetailsPage = () => {
           {/* Modal */}
           {isModalOpen && productDetails.images.length > 0 && (
             <div className="fixed inset-0 z-50 bg-black-200 bg-opacity-90 flex items-center justify-center p-4 overflow-hidden">
-              <div className="relative w-full bg-brown-500 max-w-6xl border-4 border-gray-600 p-5 sm:p-10 shadow-lg rounded-3xl overflow-hidden h-[70vh] sm:h-[80vh] flex flex-col">
+              <div className="relative w-full bg-yellow-400 max-w-6xl border-4 border-gray-600 p-5 sm:p-10 shadow-lg rounded-3xl overflow-hidden h-[70vh] sm:h-[80vh] flex flex-col">
                 <button
                   onClick={() => setIsModalOpen(false)}
                   className="absolute cursor-pointer top-5 right-5 text-black text-3xl z-50"
@@ -539,6 +540,6 @@ const ProductDetailsPage = () => {
       )}
     </>
   );
-}
+};
 
 export default ProductDetailsPage;

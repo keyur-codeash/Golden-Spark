@@ -11,6 +11,7 @@ import { CgCloseR } from "react-icons/cg";
 import Button from "../Button";
 import Dropdown from "../Dropdown";
 import { useRouter } from "next/navigation";
+import useToken from "@/forntend/hooks/useToken";
 
 export default function Header() {
   const pathname = usePathname();
@@ -24,6 +25,7 @@ export default function Header() {
   const router = useRouter();
   const [selectedCountry, setSelectedCountry] = useState(countries[0]);
   const [selectedAccount, setSelectedAccount] = useState(accountOptions[0]);
+  const { token } = useToken();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -94,11 +96,6 @@ export default function Header() {
     if (open) document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [open]);
-
-  const handleLogout = () => {
-    console.log("User logged out");
-    setOpen(false);
-  };
 
   return (
     <header
@@ -216,56 +213,57 @@ export default function Header() {
           {/* Icons + Search */}
           <div className="block" ref={searchRef}>
             <ul className="flex items-center">
-              <li className="relative ps-4 hidden md:block">
-                <button
-                  onClick={() => setOpen(!open)}
-                  className="py-2 rounded-full transition"
-                >
+              {!token ? (
+                <Link href="/auth/sign-in">
                   <LuUser className="lg:text-xl cursor-pointer" />
-                </button>
-
-                {/* Dropdown Modal */}
-                {open && (
-                  <div
-                    ref={modalRef}
-                    className="absolute left-1/2 -translate-x-1/2 mt-3 w-64 bg-brown-400  backdrop-blur-xl rounded-lg shadow-lg bg-yellow-400 z-50 animate-fadeIn"
+                </Link>
+              ) : (
+                <li
+                  className="relative ps-4 hidden md:block"
+                  onMouseLeave={() => setOpen(false)}
+                >
+                  <button
+                    onMouseEnter={() => setOpen(true)}
+                    className="py-2 rounded-full transition"
                   >
-                    <div className="bg-white rounded-xl">
-                      {/* User Info */}
-                      <div className="px-5 py-4 border-b border-gray-100">
-                        <p className="text-sm font-semibold text-gray-900">
-                          {user.name}
-                        </p>
-                        <p className="text-xs text-gray-500 mt-0.5">
-                          {user.email}
-                        </p>
-                      </div>
+                    <LuUser className="lg:text-xl cursor-pointer" />
+                  </button>
 
-                      {/* Menu Items */}
-                      <div className="py-2">
-                        <button
-                          onClick={() => {
-                            router.push("/orders");
-                            setOpen(false);
-                          }}
-                          className="flex items-center gap-2 w-full px-5 py-2.5 text-sm cursor-pointer transition"
-                        >
-                          <LuShoppingBag className="text-base" />
-                          <span>My Orders</span>
-                        </button>
+                  {/* Dropdown Modal */}
+                  {open && (
+                    <div
+                      ref={modalRef}
+                      className="absolute left-1/2 -translate-x-1/2 pt-3 w-64 bg-brown-400  backdrop-blur-xl rounded-lg shadow-lg bg-yellow-400 z-50 animate-fadeIn"
+                    >
+                      <div className="bg-white rounded-xl">
+                        {/* User Info */}
+                        <div className="px-5 py-4 border-b border-gray-100">
+                          <p className="text-sm font-semibold text-gray-900">
+                            {user.name}
+                          </p>
+                          <p className="text-xs text-gray-500 mt-0.5">
+                            {user.email}
+                          </p>
+                        </div>
 
-                        <button
-                          onClick={handleLogout}
-                          className="flex items-center gap-2 w-full px-5 py-2.5 text-sm text-red-600 cursor-pointer transition"
-                        >
-                          <LuLogOut className="text-base" />
-                          <span>Logout</span>
-                        </button>
+                        {/* Menu Items */}
+                        <div className="py-2">
+                          <button
+                            onClick={() => {
+                              router.push("/orders");
+                              setOpen(false);
+                            }}
+                            className="flex items-center gap-2 w-full px-5 py-2.5 text-sm cursor-pointer transition"
+                          >
+                            <LuShoppingBag className="text-base" />
+                            <span>My Orders</span>
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
-              </li>
+                  )}
+                </li>
+              )}
 
               <li className="ps-4 pt-1.5 hidden md:block">
                 <button

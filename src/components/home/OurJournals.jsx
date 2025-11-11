@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Heading from "../Heading";
 import ProductCommonCard from "../ProductCommonCard";
 import { journalData } from "@/data/data";
 import Slider from "react-slick/lib/slider";
+import { fetchBlog } from "@/forntend/services/blogServices";
 
 const OurJournals = () => {
+  const [blogDetails, setBlogDetails] = useState({});
+  const [loading, setLoading] = useState(true);
   const settings = {
     dots: true,
     infinite: true,
@@ -54,6 +57,29 @@ const OurJournals = () => {
     ],
   };
 
+  // Fetch blogs
+  useEffect(() => {
+    const fetchAllBlogs = async () => {
+      try {
+        const response = await fetchBlog();
+        if (response?.isSuccess) {
+          setBlogDetails(response.data);
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error("Error fetching blogs:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAllBlogs();
+  }, []);
+
+  if (!blogDetails.length) {
+    return false;
+  }
+
   return (
     <div className="shopByCollection relative py-10 lg:py-20 xl:pt-30">
       <div className="container mx-auto">
@@ -67,12 +93,16 @@ const OurJournals = () => {
             Ambistat proskade tempofiering, reamatisk megaosmsos.
           </p>
         </div>
-        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-0"> */}
-        <Slider {...settings}>
-          {journalData.map((item, index) => (
-            <ProductCommonCard key={index} item={item} />
-          ))}
-        </Slider>
+        {/* <Slider {...settings}> */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 ">
+          {blogDetails.length &&
+            blogDetails
+              ?.slice(0, 3)
+              ?.map((item, index) => (
+                <ProductCommonCard key={index} item={item} />
+              ))}
+        </div>
+        {/* </Slider> */}
       </div>
       <div className="absolute md:top-auto bottom-0 right-0 xl:bottom-0 w-[70px] md:w-[103px] h-[113px]">
         <img
@@ -84,6 +114,6 @@ const OurJournals = () => {
       {/* </div> */}
     </div>
   );
-}
+};
 
 export default OurJournals;

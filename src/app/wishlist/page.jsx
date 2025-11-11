@@ -49,10 +49,10 @@ const WishlistPage = () => {
   return (
     <div data-aos="fade-up">
       <div className="your-cart">
-        <HeroSectionCommon heading="Home/Wishlist" />
+        <HeroSectionCommon heading="Wishlist" />
         <div className="container mx-auto">
-          <div className="pt-10 md:pt-20">
-            <div className="pb-10 flex-1 px-4">
+          <div className={wishlist?.length && `pt-10 md:pt-20`}>
+            <div className="flex-1 px-4">
               <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-y-10">
                 {wishlist?.map((item) => (
                   <ShoppingCard

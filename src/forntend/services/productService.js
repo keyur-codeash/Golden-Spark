@@ -35,7 +35,7 @@ export const fetchProducts = async (query, token) => {
       return null;
     }
   } catch (error) {
-    Toast.error(error?.response?.data?.error || "Something went wrong!");
+    Toast.error(error?.response?.data?.message || "Something went wrong!");
     return null;
   }
 };
@@ -54,7 +54,9 @@ export const fetchSingleProduct = async (id, token) => {
       return null;
     }
   } catch (error) {
-    Toast.error(error?.response?.data?.error || "Something went wrong!");
+    console.log(error.response.data);
+    
+    Toast.error(error?.response?.data?.message || "Something went wrong!");
     return null;
   }
 };
@@ -75,7 +77,7 @@ export const fetchProductVariant = async (id, token) => {
       return null;
     }
   } catch (error) {
-    Toast.error(error?.response?.data?.error || "Something went wrong!");
+    Toast.error(error?.response?.data?.message || "Something went wrong!");
     return null;
   }
 };

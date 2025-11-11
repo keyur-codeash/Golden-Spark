@@ -255,7 +255,7 @@ export const productAccoudianData = [
     question: "Shipping & Return:",
     answer:
       "The boat is advertised, the land is located, and the bed is laid. No amount of concern for life can calm the masses.",
-  }
+  },
 ];
 
 export const footerData = {

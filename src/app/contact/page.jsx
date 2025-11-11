@@ -13,7 +13,7 @@ function page() {
   
   return (
 <div data-aos="fade-up">
-      <HeroSectionCommon heading="Home/Contact" />
+      <HeroSectionCommon heading="Contact" />
       <div className="container mx-auto">
       </div>
       <GethInThouch />

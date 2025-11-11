@@ -23,7 +23,6 @@ export default function HeaderWithDropdowns() {
     if (token) {
       Swal.fire({
         title: "Are you sure you want to log out?",
-
         text: "This will end your session, and you'll need to log in again.",
         icon: "warning",
         showCancelButton: true,
