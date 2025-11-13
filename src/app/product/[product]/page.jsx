@@ -465,7 +465,9 @@ const ProductDetailsPage = () => {
                       size="lg"
                       variant="solid"
                       className="!bg-yellow-800 w-full !rounded-0 !py-2.5 flex items-center gap-[10px]"
-                      onClick={() => redirect("/check-out/address")}
+                      onClick={() =>
+                        redirect(token ? "/check-out/address" : "/auth/sign-in")
+                      }
                     />
                   </div>
                   <div className="pt-8">

@@ -1,10 +1,8 @@
-import React from 'react'
-import LoadingSpinner from './LoadingSpinner'
+import React from "react";
+import LoadingSpinner from "./LoadingSpinner";
 
 function Loading() {
-  return (
-    <LoadingSpinner />
-  )
+  return <LoadingSpinner />;
 }
 
-export default Loading
+export default Loading;

@@ -6,6 +6,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 
 const page = () => {
+  
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
   }, []);
@@ -14,7 +15,7 @@ const page = () => {
     <>
       <div data-aos="fade-up">
         <HeroSectionCommon heading="Product" />
-      </div>
+      </div>  
 
       <div className="container mx-auto">
         <ResponsiveFilter />

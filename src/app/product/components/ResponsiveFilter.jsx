@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { useWishlist } from "@/forntend/context/WishlistContext";
 import useToken from "@/forntend/hooks/useToken";
 import SkeletonShoppingCard from "@/forntend/skeleton/ProductsSkeleton";
+import { useShopByCallection } from "@/forntend/context/ShopBycallection";
 
 const ResponsiveFilter = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,11 +23,13 @@ const ResponsiveFilter = () => {
   const [maxPrice, setMaxPrice] = useState(0);
   const [priceRange, setPriceRange] = useState([0, 0]);
   const [stock, setStock] = useState({ inStock: 0, outStock: 0 });
+  const { shopBy } = useShopByCallection();
+
   const [filters, setFilters] = useState({
     collections: [],
     stock: false,
     outOfStock: false,
-    brands: [],
+    brands: [shopBy],
     sizes: [],
     colors: [],
     minPrice: 0,
@@ -37,8 +40,7 @@ const ResponsiveFilter = () => {
   });
   const { token } = useToken();
   const router = useRouter();
-  const {addToWishlist, removeFromWishlist } =
-    useWishlist();
+  const { addToWishlist, removeFromWishlist } = useWishlist();
 
   const buildQueryString = () => {
     const queryParams = [];

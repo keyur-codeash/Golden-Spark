@@ -75,7 +75,7 @@ export default function HeaderWithDropdowns() {
 
           <div className="hidden md:flex items-center gap-6">
             {/* Country Dropdown */}
-            <Dropdown
+            {/* <Dropdown
               options={countries}
               selectedOption={selectedCountry}
               onSelect={setSelectedCountry}
@@ -100,16 +100,16 @@ export default function HeaderWithDropdowns() {
                 </div>
               )}
               dropdownClassName="w-56 shadow-lg bg-white text-black rounded-lg"
-            />
+            /> */}
 
             {/* Account Dropdown */}
-            <Dropdown
+            {/* <Dropdown
               options={accountOptions}
               selectedOption={selectedAccount}
               onSelect={setSelectedAccount}
               className="w-32"
               dropdownClassName="w-36 shadow-lg bg-white text-black rounded-lg"
-            />
+            /> */}
 
             {/* Login/Logout Button */}
             <Button

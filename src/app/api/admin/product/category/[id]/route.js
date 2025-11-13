@@ -1,10 +1,10 @@
-import Brand from "@/model/brandSchema";
+import categorySchema from "@/model/categorySchema";
 import { asyncHandler } from "@/utils/asyncHandler";
 
 export const GET = asyncHandler(async (_, { params }) => {
   try {
-    const brand = await Brand.findById(params.id);
-    if (!brand) throw new Error("Brand not found");
+    const brand = await categorySchema.findById(params.id);
+    if (!brand) throw new Error("categorySchema not found");
     return Response.json({ success: true, data: brand });
   } catch (error) {
     return Response.json(
@@ -17,11 +17,15 @@ export const GET = asyncHandler(async (_, { params }) => {
 export const POST = asyncHandler(async (req, { params }) => {
   try {
     const body = await req.json();
-    const updatedBrand = await Brand.findByIdAndUpdate(params.id, body, {
-      new: true,
-      runValidators: true,
-    });
-    if (!updatedBrand) throw new Error("Brand not found");
+    const updatedBrand = await categorySchema.findByIdAndUpdate(
+      params.id,
+      body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    if (!updatedBrand) throw new Error("categorySchema not found");
     return Response.json({ isSuccess: true, data: updatedBrand });
   } catch (error) {
     return Response.json(
@@ -33,8 +37,8 @@ export const POST = asyncHandler(async (req, { params }) => {
 
 export const DELETE = asyncHandler(async (_, { params }) => {
   try {
-    const deletedBrand = await Brand.findByIdAndDelete(params.id);
-    if (!deletedBrand) throw new Error("Brand not found");
+    const deletedBrand = await categorySchema.findByIdAndDelete(params.id);
+    if (!deletedBrand) throw new Error("categorySchema not found");
     return Response.json({
       isSuccess: true,
       message: "Brand deleted successfully",

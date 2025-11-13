@@ -11,7 +11,6 @@ const SAVE_PRODUCT_PATH = "backend/product";
 import { getBrandById } from "@/lib/getBrand";
 import { asyncHandler } from "@/utils/asyncHandler";
 import productVariantSchema from "@/model/product_variants";
-import mongoose from "mongoose";
 import wishlistSchema from "@/model/wishlistSchema";
 import { userAuthentication } from "@/middlewares/auth";
 

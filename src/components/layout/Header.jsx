@@ -411,7 +411,7 @@ export default function Header() {
             />
             <div className="border-b border-gray-300 mt-10"></div>
             <div className="flex items-center gap-4 ">
-              <div>
+              {/* <div>
                 <Dropdown
                   options={countries}
                   selectedOption={selectedCountry}
@@ -439,15 +439,15 @@ export default function Header() {
                   className="w-50"
                   dropdownClassName="w-48 !bg-transparent !shadow-xl"
                 />
-              </div>
+              </div> */}
 
-              <Dropdown
+              {/* <Dropdown
                 options={accountOptions}
                 selectedOption={selectedAccount}
                 onSelect={setSelectedAccount}
                 className="w-30"
                 dropdownClassName="w-48 !bg-transparent !shadow-xl"
-              />
+              /> */}
             </div>
           </div>
         </div>

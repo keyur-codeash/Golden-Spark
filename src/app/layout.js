@@ -5,6 +5,7 @@ import { Toaster } from "sonner";
 import { WishlistProvider } from "@/forntend/context/WishlistContext";
 import { AddToCartProvider } from "@/forntend/context/AddToCartContext";
 import "./globals.css";
+import { ShopByCallectionProvider } from "@/forntend/context/ShopBycallection";
 
 const frank = Frank_Ruhl_Libre({
   subsets: ["latin"],
@@ -35,12 +36,14 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <WishlistProvider>
         <AddToCartProvider>
-          <body
-            className={`${geistSans.variable} ${geistMono.variable} ${frank.variable} antialiased`}
-          >
-            <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
-            <Toaster position="bottom-right" richColors />
-          </body>
+          <ShopByCallectionProvider>
+            <body
+              className={`${geistSans.variable} ${geistMono.variable} ${frank.variable} antialiased`}
+            >
+              <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
+              <Toaster position="bottom-right" richColors />
+            </body>
+          </ShopByCallectionProvider>
         </AddToCartProvider>
       </WishlistProvider>
     </html>

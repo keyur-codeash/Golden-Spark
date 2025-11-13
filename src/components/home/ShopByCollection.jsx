@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import Heading from "../Heading";
 import CardCommon from "../CardCommon";
 import { shortBy } from "@/data/data";
 import Image from "next/image";
+import { fetchShopByCallection } from "@/forntend/services/shopbyCalllection";
 
 const ShopByCollection = () => {
+  const [shapbycallection, setShapbycallection] = useState([]);
+
   const settings = {
     dots: true,
     arrows: false,
@@ -66,9 +69,19 @@ const ShopByCollection = () => {
     ],
   };
 
+  useEffect(() => {
+    const fetchCallecttion = async () => {
+      const response = await fetchShopByCallection();
+      setShapbycallection(response.data);
+    };
+
+    fetchCallecttion();
+  }, []);
+
+  console.log("shapbycallection======", shapbycallection);
+
   return (
-    
-    <div data-aos="fade-up">
+    <div data-aos="fade-up w-full">
       <div className="shopByCollection">
         <div className="container mx-auto">
           <Heading className="text-brown-900" color="text-brown-800">
@@ -85,9 +98,19 @@ const ShopByCollection = () => {
 
           <div className="slider-container">
             <Slider {...settings}>
-              {shortBy.map((item, index) => (
-                <CardCommon key={index} image={item.image} text={item.text} />
-              ))}
+              {(() => {
+                const minItems = 8;
+                const items = [...shapbycallection];
+
+                while (items.length < minItems && shapbycallection.length > 0) {
+                  items.push(...shapbycallection);
+                }
+                const finalItems = items.slice(0, minItems);
+
+                return finalItems.map((item, index) => (
+                  <CardCommon key={index} item={item} />
+                ));
+              })()}
             </Slider>
           </div>
         </div>
@@ -125,6 +148,6 @@ const ShopByCollection = () => {
       </div>
     </div>
   );
-}
+};
 
 export default ShopByCollection;
