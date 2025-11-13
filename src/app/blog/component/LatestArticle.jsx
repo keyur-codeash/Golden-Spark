@@ -7,23 +7,21 @@ import React, { useEffect } from "react";
 import { monthfirstformatedDate } from "@/forntend/common/commonDateFormat";
 
 const LatestArticle = ({ blogDetails = [], loading }) => {
-   
   if (loading == true) {
-    return (
-    <h2>hellow</h2>
-    );
+    return <h2>hellow</h2>;
   }
   const [mainArticle, ...restArticles] = blogDetails;
 
   return (
-    <div data-aos="fade-up" className="latestArticle pt-10 md:pt-20">
+    <div className="latestArticle pt-10 md:pt-20">
       <div className="container mx-auto px-4">
-        <Heading>Latest Article</Heading>
-
+        <div data-aos="fade-down">
+          <Heading>Latest Article</Heading>
+        </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-5 mt-10">
           {/* Main Article */}
           <div>
-            <div className="h-[250px] md:h-[400px] w-full relative rounded-sm overflow-hidden">
+            <div className="h-[250px] md:h-[400px] w-full relative rounded-sm overflow-hidden" data-aos="fade-right">
               <Image
                 src={mainArticle?.image}
                 alt="main article"
@@ -48,7 +46,7 @@ const LatestArticle = ({ blogDetails = [], loading }) => {
           </div>
 
           {/* Side Articles */}
-          <div className="grid grid-cols-1 gap-5 md:gap-7 lg:gap-5">
+          <div className="grid grid-cols-1 gap-5 md:gap-7 lg:gap-5" data-aos="fade-left">
             {restArticles.slice(0, 3).map((item, index) => (
               <div
                 key={index}
@@ -83,10 +81,9 @@ const LatestArticle = ({ blogDetails = [], loading }) => {
       </div>
     </div>
   );
-}
+};
 
 export default LatestArticle;
-
 
 // "use client";
 

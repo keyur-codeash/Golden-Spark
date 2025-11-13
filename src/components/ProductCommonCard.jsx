@@ -19,7 +19,7 @@ const ProductCommonCard = ({ item, key }) => {
 
   const router = useRouter();
   return (
-    <div className="xl:w-full px-4">
+    <div className="xl:w-full px-4" data-aos="zoom-out">
       <div className="relative w-full h-[290px]">
         <Image
           src={item.image}

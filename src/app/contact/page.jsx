@@ -1,24 +1,25 @@
-"use client"
+"use client";
 import HeroSectionCommon from "@/components/HeroSectionCommon";
 import React, { useEffect } from "react";
 import GethInThouch from "./component/GetInTouch";
 import Map from "./component/Map";
-  import AOS from "aos";
+import AOS from "aos";
 import "aos/dist/aos.css";
 
 function page() {
-    useEffect(() => {
+  useEffect(() => {
     AOS.init({ duration: 800, once: true });
   }, []);
-  
+
   return (
-<div data-aos="fade-up">
+    <>
       <HeroSectionCommon heading="Contact" />
-      <div className="container mx-auto">
+      <div data-aos="fade-up">
+        <div className="container mx-auto"></div>
+        <GethInThouch />
+        <Map />
       </div>
-      <GethInThouch />
-      <Map />
-    </div>
+    </>
   );
 }
 

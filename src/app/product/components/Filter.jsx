@@ -96,8 +96,7 @@ const FilterSidebar = ({
             stock: false,
           };
         }
-      }
-      else {
+      } else {
         updated = prev[group].includes(value)
           ? prev[group].filter((v) => v !== value)
           : [...prev[group], value];
@@ -134,7 +133,7 @@ const FilterSidebar = ({
 
   return (
     <div className="p-4 w-[300px] md:w-[250px] lg:w-[300px]" data-aos="fade-up">
-      <h1 className="fixed lg:static top-4 left-8 z-30 text-4xl font-medium mb-10">
+      <h1 className="fixed lg:static -top-8 left-3 z-30 text-4xl font-medium ">
         Filters
       </h1>
 

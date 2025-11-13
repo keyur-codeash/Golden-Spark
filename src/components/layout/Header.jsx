@@ -42,17 +42,17 @@ export default function Header() {
     };
   }, [isMenuOpen]);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
-        setIsSearchOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (searchRef.current && !searchRef.current.contains(event.target)) {
+  //       setIsSearchOpen(false);
+  //     }
+  //   };
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, []);
 
   const isActive = (itemPath) => {
     return itemPath === "/" ? pathname === "/" : pathname.startsWith(itemPath);
@@ -88,13 +88,16 @@ export default function Header() {
   };
 
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        setOpen(false);
+    if (window.innerWidth >= 768) {
+      function handleClickOutside(event) {
+        if (modalRef.current && !modalRef.current.contains(event.target)) {
+          setOpen(false);
+        }
       }
+      if (open) document.addEventListener("mousedown", handleClickOutside);
+      return () =>
+        document.removeEventListener("mousedown", handleClickOutside);
     }
-    if (open) document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [open]);
 
   return (
@@ -144,13 +147,62 @@ export default function Header() {
 
             <div className="md:hidden order-3">
               <ul className="flex items-center">
+                {!token ? (
+                  <Link href="/auth/sign-in">
+                    <LuUser className="lg:text-xl cursor-pointer text-2xl text-white" />
+                  </Link>
+                ) : (
+                  <li className="relative ps-4">
+                    <button
+                      onClick={() => setOpen(true)}
+                      className="py-2 rounded-full transition"
+                    >
+                      <LuUser className="lg:text-xl cursor-pointer  text-white text-2xl" />
+                    </button>
+
+                    {/* Dropdown Modal */}
+                    {open && (
+                      <div
+                        ref={modalRef}
+                        className="absolute left-1/2 -translate-x-1/2  w-40 bg-brown-400  backdrop-blur-xl rounded-lg shadow-lg bg-yellow-400 z-50 animate-fadeIn "
+                      >
+                        <div className="bg-white rounded-xl">
+                          {/* User Info */}
+                          <div className="px-5 py-4 border-b border-gray-100">
+                            <p className="text-sm font-semibold text-gray-900">
+                              {user.name}
+                            </p>
+                            <p className="text-xs text-gray-500 mt-0.5">
+                              {user.email}
+                            </p>
+                          </div>
+
+                          {/* Menu Items */}
+                          <div className="py-2">
+                            <Link
+                              href="/orders"
+                              className="flex items-center gap-2 w-full px-5 py-2.5 text-sm cursor-pointer transition"
+                              onClick={() => {
+                                setOpen(false);
+                                setIsMenuOpen(false); // Close mobile menu
+                              }}
+                            >
+                              <LuShoppingBag className="text-base" />
+                              <span>My Orders</span>
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </li>
+                )}
                 <li className="ps-4 pt-2">
                   <button onClick={() => setIsSearchOpen(true)}>
                     <LuSearch size={24} className="text-white" />
                   </button>
                 </li>
                 <li className="ps-4">
-                  <Link href="/your-cart">
+                  <Link href="/your-cacrt">
                     <RiShoppingBag4Line size={24} className="text-white " />
                   </Link>
                 </li>
@@ -212,7 +264,7 @@ export default function Header() {
 
           {/* Icons + Search */}
           <div className="block" ref={searchRef}>
-            <ul className="flex items-center">
+            <ul className="md:flex items-center hidden ">
               {!token ? (
                 <Link href="/auth/sign-in">
                   <LuUser className="lg:text-xl cursor-pointer" />
@@ -229,14 +281,12 @@ export default function Header() {
                     <LuUser className="lg:text-xl cursor-pointer" />
                   </button>
 
-                  {/* Dropdown Modal */}
                   {open && (
                     <div
                       ref={modalRef}
                       className="absolute left-1/2 -translate-x-1/2 pt-3 w-64 bg-brown-400  backdrop-blur-xl rounded-lg shadow-lg bg-yellow-400 z-50 animate-fadeIn"
                     >
                       <div className="bg-white rounded-xl">
-                        {/* User Info */}
                         <div className="px-5 py-4 border-b border-gray-100">
                           <p className="text-sm font-semibold text-gray-900">
                             {user.name}
@@ -248,17 +298,30 @@ export default function Header() {
 
                         {/* Menu Items */}
                         <div className="py-2">
+                          <Link
+                            href="/orders"
+                            className="flex items-center gap-2 w-full px-5 py-2.5 text-sm cursor-pointer transition"
+                            onClick={() => {
+                              setOpen(false); // Close the dropdown when navigating
+                              setIsMenuOpen(false); // Close mobile menu if applicable
+                            }}
+                          >
+                            <LuShoppingBag className="text-base" />
+                            <span>My Orders</span>
+                          </Link>
+                        </div>
+                        {/* <div className="py-2">
                           <button
                             onClick={() => {
                               router.push("/orders");
-                              setOpen(false);
+                              // setOpen();
                             }}
                             className="flex items-center gap-2 w-full px-5 py-2.5 text-sm cursor-pointer transition"
                           >
                             <LuShoppingBag className="text-base" />
                             <span>My Orders</span>
                           </button>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   )}

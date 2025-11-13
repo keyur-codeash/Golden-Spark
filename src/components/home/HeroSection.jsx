@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "../Button";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -7,11 +7,14 @@ const HeroSection = () => {
   const router = useRouter();
 
   return (
-    <div className="min-h-auto md:h-[calc(100vh-10rem)] ">
+    <div className="min-h-[600px] md:min-h-[450px]  lg:min-h-[670px] md:h-[calc(100vh-8rem)] ">
       <div data-aos="fade-up"></div>
-      <div className="container mx-auto h-full">
+      <div className="container mx-auto h-full ">
         <div className="grid grid-cols-1 md:grid-cols-2 h-full">
-          <div className="flex items-center px-4 order-2 md:order-1">
+          <div
+            className="flex items-center px-4 order-2 md:order-1 "
+            data-aos="fade-right"
+          >
             <div className="xl:pe-14">
               <h2 className="text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl text-brown-900 xl:leading-16 font-medium">
                 Your Enchanting Jewellery Emporium.
@@ -33,20 +36,28 @@ const HeroSection = () => {
             </div>
           </div>
           <div className="order-1 md:order-2">
-            <div className="py-10 h-full pe-6 xl:px-0">
-              <div className="relative w-full sm:h-[300px] h-[240px] md:h-full">
+            <div className="py-10 h-full pe-6 xl:px-0 flex items-center">
+              <Image
+                src="/images/hero-bg.png"
+                alt="Hero background"
+                width={1920}
+                height={1080}
+                className="w-full h-auto object-cover"
+              />
+
+              {/* <div className="relative w-full sm:h-[300px] h-[240px] md:h-full">
                 <Image
                   src="/images/hero-bg.png"
                   alt="auth image"
                   fill
                   className="object-cover"
                 />
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
       </div>
-      <div>
+      {/* <div>
         <div className="md:absolute bottom-0 xl:bottom-25  pt-5 w-[80px] md:w-[103px] h-[113px]">
           <Image
             src="/images/side-icon-down.png"
@@ -56,9 +67,9 @@ const HeroSection = () => {
             className="object-cover"
           />
         </div>
-      </div>
+      </div> */}
     </div>
   );
-}
+};
 
 export default HeroSection;

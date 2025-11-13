@@ -76,10 +76,12 @@ const ForThePeople = () => {
   return (
     <div className="forThePeople bg-brown-500 mx-2 sm:mx-0 py-10 sm:py-20 mb-10 mt-20">
       <div className="container mx-auto">
-        <p className="text-center pb-4">Testimonial</p>
-        <Heading color="text-brown-900">Shop By Collection</Heading>
-        <div className="flex justify-center py-8">
-          <img src="/images/comma.png" alt="images" className="w-14" />
+        <div data-aos="fade-down">
+          <p className="text-center pb-4">Testimonial</p>
+          <Heading color="text-brown-900">Shop By Collection</Heading>
+          <div className="flex justify-center py-8">
+            <img src="/images/comma.png" alt="images" className="w-14" />
+          </div>
         </div>
         <div className="max-w-6xl text-center mx-auto sm:px-4">
           <Slider {...settings}>

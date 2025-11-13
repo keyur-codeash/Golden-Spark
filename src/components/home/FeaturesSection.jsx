@@ -38,10 +38,10 @@ const FeaturesSection = () => {
   ];
 
   return (
-    <section className="pb-5 pt-10 sm:py-18 px-4 sm:px-6 lg:px-8">
+    <section className="pb-5 pt-10 sm:py-18 px-4 sm:px-6 lg:px-8" >
       <div className="container mx-auto">
         <div className="w-full">
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4" >
             {features.map((feature) => (
               <div
                 key={feature.id}

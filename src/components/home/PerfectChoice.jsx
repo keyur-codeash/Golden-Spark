@@ -8,12 +8,12 @@ const PerfectChoice = () => {
   const router = useRouter();
 
   return (
-    <div data-aos="zoom-in">
+    <div >
     <div className="perfectChoice relative ">
       <div className="container mx-auto h-full">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-10 lg:gap-16 xl:gap-24 h-full py-4">
           <div className="flex items-center px-4  lg:min-h-[86vh] order-2 md:order-2">
-            <div className="xl:pe-14">
+            <div className="xl:pe-14" data-aos="fade-left">
               <h2 className="text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl text-brown-900 xl:leading-16 font-medium">
                 The Perfect Choice <br /> Of Beauty.
               </h2>
@@ -33,7 +33,7 @@ const PerfectChoice = () => {
               />
             </div>
           </div>
-          <div className="order-1 md:order-1">
+          <div className="order-1 md:order-1" data-aos="fade-right">
             <div className="sm:py-10 h-full xl:px-0">
               <div className="relative w-full h-[400px] md:h-[320px] lg:h-full">
                 <Image

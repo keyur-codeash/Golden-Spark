@@ -83,6 +83,8 @@ const OurJournals = () => {
   return (
     <div className="shopByCollection relative py-10 lg:py-20 xl:pt-30">
       <div className="container mx-auto">
+                <div data-aos="fade-down">
+
         <Heading className="text-brown-900" color="text-brown-800">
           From Our Journals
         </Heading>
@@ -93,8 +95,9 @@ const OurJournals = () => {
             Ambistat proskade tempofiering, reamatisk megaosmsos.
           </p>
         </div>
+        </div>
         {/* <Slider {...settings}> */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 ">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5=">
           {blogDetails.length &&
             blogDetails
               ?.slice(0, 3)

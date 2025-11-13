@@ -5,14 +5,13 @@ import React from "react";
 export default function SkeletonShoppingCard({ items = 3 }) {
   const arr = Array.from({ length: items });
 
-  return (  
+  return (
     <>
-      {arr.map((_, i) => (
-        <div>
-          <div
-            key={i}
-            className="rounded-t-full bg-[#bb937b17] mx-2 sm:mx-4 animate-pulse "
-          >
+      {arr.map((_, index) => (
+        <div key={index}>
+          {" "}
+          {/* Add the key here */}
+          <div className="rounded-t-full bg-[#bb937b17] mx-2 sm:mx-4 animate-pulse ">
             {/* Image placeholder */}
             <div className="h-[200px] sm:h-[400px] xl:h-[340px] px-3 sm:px-5 pt-5">
               <div className="w-full h-full rounded-full border-6 border-[#bb937b1e] bg-[#bb937b17]" />

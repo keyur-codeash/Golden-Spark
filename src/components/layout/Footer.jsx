@@ -13,7 +13,9 @@ const Footer = ({
 }) => {
   return (
     <>
-      <FeaturesSection />
+      <div data-aos="fade-up">
+        <FeaturesSection />
+      </div>
       <footer
         className="text-gray-300 relative bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${backgroundImage})` }}

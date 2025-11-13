@@ -191,7 +191,7 @@ const Page = () => {
                   <div className="relative w-full sm:w-40 md:w-48 lg:w-[200px] h-[250px] md:h-[150px] rounded-sm overflow-hidden">
                     <Image
                       src={firstProduct.image}
-                      alt={firstProduct.product_name}
+                      alt={firstProduct?.product_name || "img"}
                       fill
                       className="object-cover"
                     />

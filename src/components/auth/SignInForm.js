@@ -26,7 +26,7 @@ const SignInForm =() => {
       });
       formik.setFieldValue("rememberMe", true);
     }
-  }, []);
+  }, [formik]);
 
   const formik = useFormik({
     initialValues: {

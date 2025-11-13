@@ -76,17 +76,14 @@ const DesignInnovationJourney = () => {
         <div className="relative w-full pb-10 sm:py-10 md:py-15 lg:20">
           {/* Background Image */}
           <div className="absolute inset-0 mx-4 sm:mx-0 bg-[url('/images/about-bg.png')] rounded-lg bg-cover bg-center z-0" />
-
-          {/* Dark Overlay */}
           <div className="absolute inset-0 mx-4 sm:mx-0 bg-black rounded-lg opacity-60 z-10" />
 
           {/* Content */}
           <div className="relative z-20 h-full pb-5 sm:pb-0">
             <Slider {...settings}>
-              {designInnovationJourney.map((item, index) => (
+              {designInnovationJourney?.map((item, index) => (
                 <div key={index} className="px-4">
-                  <div className="flex flex-col items-center px-2 pb-4 pt-10 sm:py-8">
-                    {/* Circle Image Container */}
+                  <div className="flex flex-col items-center px-2 pb-4 pt-10 sm:py-8" data-aos="flip-up">
                     <div className="h-[125px] w-[125px] rounded-full bg-yellow-800 relative overflow-hidden">
                       <Image
                         src={item.img}

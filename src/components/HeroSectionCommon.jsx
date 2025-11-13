@@ -9,7 +9,7 @@ const HeroSectionCommon = ({ heading }) => {
 
       <div className="absolute inset-0 bg-black-100 opacity-50 z-10" />
 
-      <div className="relative z-20 flex items-center justify-center h-full">
+      <div className="relative z-20 flex items-center justify-center h-full"  data-aos="fade-up">
         <Heading color="text-white" className="!font-bold">
           <Link href="/">Home/</Link>
           {heading}

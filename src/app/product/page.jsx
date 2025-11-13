@@ -13,10 +13,7 @@ const page = () => {
 
   return (
     <>
-      <div data-aos="fade-up">
-        <HeroSectionCommon heading="Product" />
-      </div>  
-
+       <HeroSectionCommon heading="Product" />
       <div className="container mx-auto">
         <ResponsiveFilter />
       </div>

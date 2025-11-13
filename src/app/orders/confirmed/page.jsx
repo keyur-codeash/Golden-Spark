@@ -2,7 +2,6 @@
 import Button from "@/components/Button";
 import Heading from "@/components/Heading";
 import { fetchSingleAddress } from "@/forntend/services/addressServices";
-import Aos from "aos";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -10,10 +9,6 @@ import { GoArrowRight } from "react-icons/go";
 
 const page= () => {
   const [address, setAddress] = useState({});
-
-  useEffect(() => {
-    Aos.init({ duration: 800, once: true });
-  }, []);
 
   useEffect(() => {
     const fetchSingleAddressDetail = async () => {

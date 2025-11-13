@@ -42,6 +42,8 @@ const FavoriteProducts = () => {
   return (
     <div className="shopByCollection sm:pt-10 relative">
       <div className="container mx-auto">
+                <div data-aos="fade-down">
+
         <Heading className="text-brown-900 !px-1" color="text-brown-900">
           Your Favorite Products
         </Heading>
@@ -51,6 +53,7 @@ const FavoriteProducts = () => {
             Our fashion jewellery is inspired by minimalism, focused on minimal
             simplicity, perfect for everyday wear and cherished for years.
           </p>
+        </div>
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-y-10 gap-x-0 lg:gap-x-0">

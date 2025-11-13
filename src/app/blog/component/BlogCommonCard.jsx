@@ -5,7 +5,7 @@ import React from "react";
 
 const BlogCommonCard = ({ items }) => {
   return (
-    <div className="px-4 sm:px-0">
+    <div className="px-4 sm:px-0 " data-aos="flip-right">
       <div className="h-[250px] md:h-[250px] xl:h-[320px] w-full relative rounded-sm overflow-hidden">
         <Image
           src={items.image}
@@ -30,6 +30,6 @@ const BlogCommonCard = ({ items }) => {
       </div>
     </div>
   );
-}
+};
 
 export default BlogCommonCard;

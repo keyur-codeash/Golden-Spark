@@ -1,14 +1,18 @@
 import { useShopByCallection } from "@/forntend/context/ShopBycallection";
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 const CardCommon = ({ item }) => {
   const { shopBy, setShopBy } = useShopByCallection();
   const router = useRouter();
 
-  const handleCallection = (id) => {
+  const handleCallection = (id) => {``
     setShopBy(id);
     router.push("/product");
   };
+
+  useEffect(() => {
+    return () => setShopBy(null);
+  }, []);
 
   return (
     <div

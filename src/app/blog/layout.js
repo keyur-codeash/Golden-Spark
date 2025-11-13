@@ -13,12 +13,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <div data-aos="fade-up">
-          <div className="blog">
-            <HeroSectionCommon heading="Blog" />
-          </div>
-          {children}
+        <div className="blog">
+          <HeroSectionCommon heading="Blog" />
         </div>
+        <div data-aos="fade-up">{children}</div>
       </body>
     </html>
   );

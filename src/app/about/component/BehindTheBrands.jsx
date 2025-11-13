@@ -57,20 +57,22 @@ const BehindTheBrands = () => {
   return (
     <div className="instagram relative pt-10 lg:pt-25">
       <div className="container mx-auto">
-        <Heading>Behind The Brands</Heading>
-        <div className="flex justify-center sm:pb-7">
-          <p className="text-gray-500 text-sm md:text-sm xl:text-md xl:text-lg py-4 px-4 w-6xl text-center">
-            We are a female-founded, 100% woman-led team of collaborative
-            dreamers who value innovation, curiosity and free-thinking
-            fearlessness in everything that we do. We take immeasurable pride in
-            our work, intentionally stitching love into the very fiber and
-            fabric of our designs...
-          </p>
+        <div data-aos="fade-up">
+          <Heading>Behind The Brands</Heading>
+          <div className="flex justify-center sm:pb-7">
+            <p className="text-gray-500 text-sm md:text-sm xl:text-md xl:text-lg py-4 px-4 w-6xl text-center">
+              We are a female-founded, 100% woman-led team of collaborative
+              dreamers who value innovation, curiosity and free-thinking
+              fearlessness in everything that we do. We take immeasurable pride
+              in our work, intentionally stitching love into the very fiber and
+              fabric of our designs...
+            </p>
+          </div>
         </div>
 
         <Slider {...settings} className="pb-5 sm:pb-10">
           {behindTheBrands.map((item, index) => (
-            <div key={index} className="px-4">
+            <div key={index} className="px-4" data-aos="flip-up">
               <div className="text-center">
                 <div className="relative w-full h-[300px] xl:h-[400px] mx-auto">
                   <Image

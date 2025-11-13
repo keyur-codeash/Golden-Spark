@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import Heading from "../Heading";
 import CardCommon from "../CardCommon";
-import { shortBy } from "@/data/data";
 import Image from "next/image";
 import { fetchShopByCallection } from "@/forntend/services/shopbyCalllection";
 
@@ -78,14 +77,24 @@ const ShopByCollection = () => {
     fetchCallecttion();
   }, []);
 
-  console.log("shapbycallection======", shapbycallection);
-
   return (
-    <div data-aos="fade-up w-full">
+    <div data-aos="fade-up">
+      <div>
+        <div className="md:absolute -top-30 xl:bottom-25  pt-5 w-[80px] md:w-[103px] h-[113px]">
+          <Image
+            src="/images/side-icon-down.png"
+            alt="auth image"
+            width={103}
+            height={113}
+            className="object-cover"
+          />
+        </div>
+      </div>
       <div className="shopByCollection">
         <div className="container mx-auto">
+          {/* <div data-aos="fade-down"> */}
           <Heading className="text-brown-900" color="text-brown-800">
-            Shop By Collection
+            Shop By Collection
           </Heading>
 
           <div className="flex justify-center pb-7">
@@ -95,24 +104,30 @@ const ShopByCollection = () => {
               pieces.
             </p>
           </div>
+          {/* </div> */}
 
-          <div className="slider-container">
-            <Slider {...settings}>
-              {(() => {
-                const minItems = 8;
-                const items = [...shapbycallection];
+          {shapbycallection?.length && (
+            <div className="slider-container">
+              <Slider {...settings}>
+                {(() => {
+                  const minItems = 8;
+                  const items = [...shapbycallection];
 
-                while (items.length < minItems && shapbycallection.length > 0) {
-                  items.push(...shapbycallection);
-                }
-                const finalItems = items.slice(0, minItems);
+                  while (
+                    items.length < minItems &&
+                    shapbycallection.length > 0
+                  ) {
+                    items.push(...shapbycallection);
+                  }
+                  const finalItems = items.slice(0, minItems);
 
-                return finalItems.map((item, index) => (
-                  <CardCommon key={index} item={item} />
-                ));
-              })()}
-            </Slider>
-          </div>
+                  return finalItems.map((item, index) => (
+                    <CardCommon key={index} item={item} />
+                  ));
+                })()}
+              </Slider>
+            </div>
+          )}
         </div>
         <div className="pt-20">
           <div className="bg-brown-1000 flex items-center justify-center text-white py-3">
@@ -124,7 +139,7 @@ const ShopByCollection = () => {
               className="object-cover w-8 xl:me-4"
             />
             <p className="text-[10px] md:text-lg lg:text-lg xl:text-xl">
-              DISCOVER LATEST COLLECTIONS AND TOP DESIGNERS 
+              DISCOVER LATEST COLLECTIONS AND TOP DESIGNERS
             </p>
             <Image
               src="/icons/star.svg"
@@ -134,7 +149,7 @@ const ShopByCollection = () => {
               className="object-cover w-8 xl:mx-4"
             />
             <p className="hidden lg:block text-[10px] lg:text-lg xl:text-xl">
-              DISCOVER LATEST COLLECTIONS AND TOP DESIGNERS 
+              DISCOVER LATEST COLLECTIONS AND TOP DESIGNERS
             </p>
             <Image
               src="/icons/star.svg"

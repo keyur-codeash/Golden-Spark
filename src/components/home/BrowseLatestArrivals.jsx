@@ -55,7 +55,7 @@ const BrowseLatestArrivals = () => {
   return (
     <div className="shopByCollection pt-20">
       <div className="container mx-auto">
-        <div data-aos="fade-up">
+        <div data-aos="fade-down">
           <Heading className="text-brown-900" color="text-brown-900">
             Browse Latest Arrivals
           </Heading>

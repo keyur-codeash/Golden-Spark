@@ -5,41 +5,21 @@ import AboutDetails from "./component/AboutDetails";
 import DesignInnovationJourney from "./component/DesignInnovationJourney";
 import BehindTheBrands from "./component/BehindTheBrands";
 import Instagram from "@/components/home/Instagram";
-import AOS from "aos";
-import "aos/dist/aos.css";
 
 const Page = () => {
-  useEffect(() => {
-    AOS.init({
-      duration: 1000,
-      once: true,
-    });
-  }, []);
-
   return (
     <div>
-      <div data-aos="fade-up">
+      <div>
         <HeroSectionCommon heading="About" />
       </div>
-      <div className="container mx-auto space-y-12">
-        <div data-aos="fade-up">
-          <AboutDetails />
-        </div>
-
-        <div data-aos="fade-right">
-          <DesignInnovationJourney />
-        </div>
-
-        <div data-aos="fade-left">
-          <BehindTheBrands />
-        </div>
-
-        <div data-aos="zoom-in">
-          <Instagram />
-        </div>
+      <div className="space-y-12">
+        <AboutDetails />
+        <DesignInnovationJourney />
+        <BehindTheBrands />
+        <Instagram />
       </div>
     </div>
   );
-}
+};
 
 export default Page;

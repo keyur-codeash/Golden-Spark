@@ -248,7 +248,7 @@ const ResponsiveFilter = () => {
                     stock={stock}
                   />
                 </div>
-              </div>
+              </div>  
             </div>
           </div>
         )}

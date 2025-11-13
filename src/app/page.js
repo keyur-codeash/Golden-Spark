@@ -29,7 +29,7 @@ export default function Home() {
     const images = Array.from(document.images);
     const total = images.length;
     let loaded = 0;
-
+    
     if (total === 0) {
       setLoadingImages(false);
       return;
@@ -60,35 +60,21 @@ export default function Home() {
   }, []);
 
   return (
-    <div>
+    <div className="overflow-x-hidden">
       {loadingImages && <LoadingSpinner />}
       {!loadingImages && (
         <>
-          <div data-aos="fade-up">
-            <HeroSection />
-          </div>
-          <div data-aos="zoom-out-up">
-            <ShopByCollection />
-          </div>
-          <div data-aos="zoom-out-down">
-            <PerfectChoice />
-          </div>
+          <HeroSection />
+          <ShopByCollection />
+          <PerfectChoice />
           <div>
             <BrowseLatestArrivals />
           </div>
-          <div data-aos="zoom-out-up">
-            <Faq />
-          </div>
-          <div data-aos="zoom-out-down">
-            <ForThePeople />
-          </div>
+          <Faq />
+          <ForThePeople />
           {token && <FavoriteProducts />}
-          <div data-aos="fade-up">
-            <OurJournals />
-          </div>
-          <div data-aos="fade-down">
-            <Instagram />
-          </div>
+          <OurJournals />
+          <Instagram />
         </>
       )}
     </div>

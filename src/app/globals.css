@@ -132,3 +132,9 @@ body {
 /* *{
   border: 1px solid red;
 } */
+
+
+/* body, html {
+    overflow-x: hidden !important;
+    overflow-y: auto;
+} */
