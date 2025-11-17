@@ -1,7 +1,5 @@
 "use client";
 import React, { useEffect } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
 import Button from "@/components/Button";
 import Heading from "@/components/Heading";
 import InputField from "@/components/Input";
@@ -22,10 +20,6 @@ const createToken = async (payload) => {
 
 function ForgotPasswordPage() {
   const router = useRouter();
-
-  useEffect(() => {
-    AOS.init({ duration: 800, once: true });
-  }, []);
 
   const formik = useFormik({
     initialValues: {

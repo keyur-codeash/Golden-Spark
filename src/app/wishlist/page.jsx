@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
 import HeroSectionCommon from "@/components/HeroSectionCommon";
 import ShoppingCard from "@/components/ShoppingCard";
 import { useWishlist } from "@/forntend/context/WishlistContext";
@@ -14,10 +12,6 @@ const WishlistPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
-
-  useEffect(() => {
-    AOS.init({ duration: 800, once: true });
-  }, []);
 
   useEffect(() => {
     getWishList();

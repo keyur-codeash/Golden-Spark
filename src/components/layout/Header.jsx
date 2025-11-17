@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { LuUser, LuSearch, LuX, LuShoppingBag, LuLogOut } from "react-icons/lu";
+import { LuUser, LuSearch, LuShoppingBag } from "react-icons/lu";
 import { RiShoppingBag4Line } from "react-icons/ri";
 import { FaRegHeart } from "react-icons/fa";
 import { MdKeyboardArrowDown } from "react-icons/md";
@@ -12,6 +12,10 @@ import Button from "../Button";
 import Dropdown from "../Dropdown";
 import { useRouter } from "next/navigation";
 import useToken from "@/forntend/hooks/useToken";
+import { fetchBrand } from "@/forntend/services/brandServices";
+import { useShopByCallection } from "@/forntend/context/ShopBycallection";
+import { IoSearchOutline } from "react-icons/io5";
+import { getUserProfileData } from "@/forntend/services/userServvices";
 
 export default function Header() {
   const pathname = usePathname();
@@ -23,9 +27,11 @@ export default function Header() {
   const [searchResults, setSearchResults] = useState([]);
   const searchRef = useRef(null);
   const router = useRouter();
-  const [selectedCountry, setSelectedCountry] = useState(countries[0]);
-  const [selectedAccount, setSelectedAccount] = useState(accountOptions[0]);
+  const [brand, setBrand] = useState([]);
   const { token } = useToken();
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const { shopBy, setShopBy } = useShopByCallection();
+  const [userDetails, setUserDetails] = useState();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -65,12 +71,16 @@ export default function Header() {
       setSearchResults([]);
       return;
     }
-
-    // TODO: Replace this with actual filtered results
-    setSearchResults([
-      { id: 1, name: "Sample Result", url: "#", category: "Example" },
-    ]);
+    filterByName(query.trim());
   };
+
+  function filterByName(query) {
+    setSearchResults(
+      brand.filter((item) =>
+        item.name.toLowerCase().includes(query.toLowerCase())
+      )
+    );
+  }
 
   const clearSearch = () => {
     setSearchQuery("");
@@ -88,17 +98,80 @@ export default function Header() {
   };
 
   useEffect(() => {
-    if (window.innerWidth >= 768) {
-      function handleClickOutside(event) {
-        if (modalRef.current && !modalRef.current.contains(event.target)) {
+    // if (window.innerWidth >= 768) {
+    function handleClickOutside(event) {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setTimeout(() => {
           setOpen(false);
-        }
+        }, 50);
       }
-      if (open) document.addEventListener("mousedown", handleClickOutside);
-      return () =>
-        document.removeEventListener("mousedown", handleClickOutside);
     }
+    if (open) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+    // }
   }, [open]);
+
+  useEffect(() => {
+    const fetchBrandDetails = async () => {
+      const response = await fetchBrand();
+      setBrand(response?.data);
+    };
+    fetchBrandDetails();
+  }, []);
+
+  //  Search data
+
+  // Handle keyboard navigation
+  const handleKeyDown = (e) => {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setSelectedIndex((prev) =>
+        prev < searchResults.length - 1 ? prev + 1 : 0
+      );
+      setSearchQuery(
+        searchResults[
+          selectedIndex < searchResults.length - 1 ? selectedIndex + 1 : 0
+        ].name
+      );
+    }
+
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setSelectedIndex((prev) =>
+        prev > 0 ? prev - 1 : searchResults.length - 1
+      );
+      setSearchQuery(
+        searchResults[
+          selectedIndex > 0 ? selectedIndex - 1 : searchResults.length - 1
+        ].name
+      );
+    }
+
+    if (e.key === "Enter" && selectedIndex >= 0) {
+      const selectedItem = searchResults[selectedIndex];
+      setSearchQuery(selectedItem);
+      if (selectedItem) {
+        setShopBy(selectedItem._id);
+        router.push("/product");
+        clearSearch();
+      }
+    }
+  };
+
+  // Attach key listener
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  });
+  useEffect(() => {
+    if (token) {
+      const fetchUser = async () => {
+        const response = await getUserProfileData();
+        setUserDetails(response.data);
+      };
+      fetchUser();
+    }
+  }, []);
 
   return (
     <header
@@ -170,10 +243,10 @@ export default function Header() {
                           {/* User Info */}
                           <div className="px-5 py-4 border-b border-gray-100">
                             <p className="text-sm font-semibold text-gray-900">
-                              {user.name}
+                              {userDetails?.userName}
                             </p>
                             <p className="text-xs text-gray-500 mt-0.5">
-                              {user.email}
+                              {userDetails?.email}
                             </p>
                           </div>
 
@@ -182,10 +255,6 @@ export default function Header() {
                             <Link
                               href="/orders"
                               className="flex items-center gap-2 w-full px-5 py-2.5 text-sm cursor-pointer transition"
-                              onClick={() => {
-                                setOpen(false);
-                                setIsMenuOpen(false); // Close mobile menu
-                              }}
                             >
                               <LuShoppingBag className="text-base" />
                               <span>My Orders</span>
@@ -202,7 +271,7 @@ export default function Header() {
                   </button>
                 </li>
                 <li className="ps-4">
-                  <Link href="/your-cacrt">
+                  <Link href="/your-cart">
                     <RiShoppingBag4Line size={24} className="text-white " />
                   </Link>
                 </li>
@@ -225,13 +294,13 @@ export default function Header() {
                     <MdKeyboardArrowDown />
                   </button>
                   <div
-                    className={`absolute top-full left-0 w-44 bg-white border rounded shadow-md z-50 overflow-hidden transition-all duration-300 ease-in-out ${
+                    className={`absolute top-full left-0 w-44 bg-white rounded shadow-lg z-50 overflow-hidden transition-all duration-300 ease-in-out ${
                       openDropdown === index
                         ? "opacity-100 max-h-96"
                         : "opacity-0 max-h-0 pointer-events-none"
                     }`}
                   >
-                    {item.children.map((child, childIndex) => (
+                    {item?.children?.map((child, childIndex) => (
                       <Link
                         key={childIndex}
                         href={child.path}
@@ -289,10 +358,10 @@ export default function Header() {
                       <div className="bg-white rounded-xl">
                         <div className="px-5 py-4 border-b border-gray-100">
                           <p className="text-sm font-semibold text-gray-900">
-                            {user.name}
+                            {userDetails.userName}
                           </p>
                           <p className="text-xs text-gray-500 mt-0.5">
-                            {user.email}
+                            {userDetails.email}
                           </p>
                         </div>
 
@@ -302,8 +371,8 @@ export default function Header() {
                             href="/orders"
                             className="flex items-center gap-2 w-full px-5 py-2.5 text-sm cursor-pointer transition"
                             onClick={() => {
-                              setOpen(false); // Close the dropdown when navigating
-                              setIsMenuOpen(false); // Close mobile menu if applicable
+                              setOpen(false);
+                              setIsMenuOpen(false);
                             }}
                           >
                             <LuShoppingBag className="text-base" />
@@ -374,22 +443,44 @@ export default function Header() {
                     </button>
                   </div>
                   <div className="max-h-80 overflow-y-auto mt-4 bg-white rounded-md shadow-inner">
+                    {searchResults.map((result, index) => (
+                      <Link
+                        key={result?._id}
+                        href={`/product`}
+                        className={`block p-3 border-b border-gray-100 transition-colors 
+                        ${
+                          index === selectedIndex
+                            ? "bg-gray-100"
+                            : "hover:bg-gray-50"
+                        }`}
+                        onClick={() => {
+                          clearSearch();
+                          setShopBy(result._id);
+                        }}
+                      >
+                        <div className="font-medium text-gray-800 flex items-center">
+                          <div className="pe-2">
+                            <IoSearchOutline size={20} />
+                          </div>
+                          {result.name}
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                  {/* <div className="max-h-80 overflow-y-auto mt-4 bg-white rounded-md shadow-inner">
                     {searchResults.map((result) => (
                       <Link
-                        key={result.id}
-                        href={result.url}
+                        key={result?._id}
+                        href="/product"
                         className="block p-3 hover:bg-gray-50 border-b border-gray-100 transition-colors"
                         onClick={clearSearch}
                       >
                         <div className="font-medium text-gray-800">
                           {result.name}
                         </div>
-                        <div className="text-xs text-gray-500 mt-1">
-                          in {result.category}
-                        </div>
                       </Link>
                     ))}
-                  </div>
+                  </div> */}
                 </div>
               </div>
             )}

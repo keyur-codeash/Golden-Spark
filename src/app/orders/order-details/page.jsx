@@ -4,7 +4,7 @@ import CancelOrderModal from "../component/CancelOrderModal";
 import CancelOrder from "../cancel/page";
 import TrackingModalPage from "../component/TrackingModalPage";
 
-export default function OrderConfirmation() {
+ const OrderConfirmation = ()  =>{
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTrackingModalOpen, setIsTrakingModalOpen] = useState(false);
   const [orderCancelModalOpen, setOrderCancelModalOpen] = useState(false);
@@ -146,3 +146,6 @@ export default function OrderConfirmation() {
     </div>
   );
 }
+
+
+export default OrderConfirmation;

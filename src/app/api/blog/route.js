@@ -18,7 +18,8 @@ export const GET = asyncHandler(async () => {
     data: details,
     message: "Blogs fetched successfully!",
   });
-});
+}); 
+
 
 // Get blog
 // export const GET = asyncHandler(async () => {

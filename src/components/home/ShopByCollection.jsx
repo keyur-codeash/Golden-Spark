@@ -107,7 +107,7 @@ const ShopByCollection = () => {
           {/* </div> */}
 
           {shapbycallection?.length && (
-            <div className="slider-container">
+            <div className="slider-container" data-aos="fade-up">
               <Slider {...settings}>
                 {(() => {
                   const minItems = 8;

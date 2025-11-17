@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import axios from "axios";
 
 const axiosInstance = axios.create({
@@ -17,11 +17,13 @@ axiosInstance.interceptors.request.use((config) => {
     "/payment",
     "/order",
   ];
-
-  const token = JSON.parse(localStorage.getItem("token"));
+  let token = null;
+  if (typeof window !== "undefined" && window.localStorage) {
+    token = JSON.parse(localStorage.getItem("token"));
+  }
   console.log("axios token ==== ", token);
 
-  if (
+  if (  
     token &&
     protectedRoutes?.some((route) => config.url?.startsWith(route))
   ) {

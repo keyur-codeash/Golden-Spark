@@ -2,8 +2,7 @@
 import React, { useEffect, useState } from "react";
 import PaymentForm from "./component/PaymentForm";
 import HeroSectionCommon from "@/components/HeroSectionCommon";
-import AOS from "aos";
-import "aos/dist/aos.css";
+
 import ProductTotalCard from "@/app/check-out/component/ProductTotalCard";
 import { createOrder } from "@/forntend/services/orderServices";
 import { useRouter } from "next/navigation";
@@ -13,9 +12,6 @@ const Page = () => {
   const router = useRouter();
   const [orderErrors, setOrderErrors] = useState([]);
   const { removeAllAddToCartList } = useAddtocart();
-  useEffect(() => {
-    AOS.init({ duration: 800, once: true });
-  }, []);
 
   const handleOrder = async (data) => {
     try {

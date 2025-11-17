@@ -5,6 +5,7 @@ import "rc-slider/assets/index.css";
 import { fetchColor } from "@/forntend/services/colorServices";
 import { fetchsize } from "@/forntend/services/sizeServices";
 import { fetchBrand } from "@/forntend/services/brandServices";
+import { useShopByCallection } from "@/forntend/context/ShopBycallection";
 
 const FilterSidebar = ({
   minPrice,
@@ -24,7 +25,8 @@ const FilterSidebar = ({
     colors: true,
     price: true,
   });
-
+  console.log("selectedFilters====", selectedFilters);
+  const { shopBy, setShopBy } = useShopByCallection();
   const [checkedItems, setCheckedItems] = useState({
     collections: selectedFilters.collections || [],
     stock: selectedFilters.stock || false,
@@ -97,6 +99,23 @@ const FilterSidebar = ({
           };
         }
       } else {
+        if (value == shopBy) {
+          console.log(
+            "abcdgggegeg====ewgrhwh==eh=ewhew=",
+            "value====",
+            value,
+            "group=========",
+            group,
+            "shopBy==",
+            shopBy
+          );
+
+          setShopBy(null);
+          updated = prev[group].includes(value)
+            ? prev[group].filter((v) => v != value)
+            : [...prev[group], value];
+          updated = { ...prev, [group]: updated };
+        }
         updated = prev[group].includes(value)
           ? prev[group].filter((v) => v !== value)
           : [...prev[group], value];
@@ -130,6 +149,8 @@ const FilterSidebar = ({
     };
     fetchAllFilters();
   }, []);
+
+  console.log("brands====", brands, checkedItems);
 
   return (
     <div className="p-4 w-[300px] md:w-[250px] lg:w-[300px]" data-aos="fade-up">
@@ -195,9 +216,18 @@ const FilterSidebar = ({
       >
         {brands.map((brand) => (
           <label key={brand._id} className="flex items-center gap-2 text-sm">
+            {console.log(
+              "aaaa====",
+              "shopby-====",
+              shopBy,
+              checkedItems.brands
+            )}
+
             <input
               type="checkbox"
-              checked={checkedItems.brands.includes(brand._id)}
+              checked={
+                checkedItems.brands.includes(brand._id) || shopBy == brand._id
+              }
               onChange={() => handleCheckboxChange("brands", brand._id)}
               className="custom-checkbox"
             />

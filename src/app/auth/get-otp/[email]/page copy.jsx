@@ -1,7 +1,5 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
 import Button from "@/components/Button";
 import Heading from "@/components/Heading";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -18,12 +16,10 @@ const OtpInput = ({ onSubmit }) => {
   const [isLoading, setIsLoading] = useState(false);
   const inputs = useRef([]);
 
+  // Get email from query parameters
   useEffect(() => {
-    AOS.init({ duration: 800, once: true });
-    
-    // Get email from query parameters
     const emailParam = searchParams.get(email);
-    
+
     if (emailParam) {
       setEmail(emailParam);
     } else {
@@ -77,13 +73,13 @@ const OtpInput = ({ onSubmit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     if (otp.includes("") || otp.some((d) => d.length === 0)) {
       setError("Please enter the complete 4-digit code.");
       setIsLoading(false);
       return;
     }
-    
+
     if (!email) {
       setError("Email address is missing. Please try again.");
       setIsLoading(false);
@@ -92,15 +88,15 @@ const OtpInput = ({ onSubmit }) => {
 
     setError("");
     const code = otp.join("");
-    
+
     try {
-      // Verify token 
+      // Verify token
       const token = await verifyToken();
       if (!token) {
         throw new Error("Authentication failed");
       }
       const response = await veifyOtp({ email, otp: code });
-      
+
       if (response.success) {
         router.push("/auth/forgot-password");
       } else {
@@ -125,7 +121,8 @@ const OtpInput = ({ onSubmit }) => {
           data-aos="fade-in"
           data-aos-delay="200"
         >
-          Please enter the 4-digit code that was sent to {email || 'your email address'}.
+          Please enter the 4-digit code that was sent to{" "}
+          {email || "your email address"}.
         </p>
         <form
           onSubmit={handleSubmit}

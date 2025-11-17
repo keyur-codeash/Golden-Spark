@@ -3,9 +3,7 @@ import { fetchSingleBlog } from "@/forntend/services/blogServices";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import {
-  monthfirstformatedDate,
-} from "@/forntend/common/commonDateFormat";
+import { monthfirstformatedDate } from "@/forntend/common/commonDateFormat";
 
 const BlogDetails = () => {
   const [blogDetails, setBlogDetails] = useState({});
@@ -15,12 +13,11 @@ const BlogDetails = () => {
   useEffect(() => {
     const fetchBlogDetails = async () => {
       const response = await fetchSingleBlog(blogId);
-        setBlogDetails(response.data);
-        setLoading(false);
+      setBlogDetails(response.data);
+      setLoading(false);
     };
     fetchBlogDetails();
   }, []);
-
 
   if (loading) {
     return (
@@ -71,6 +68,6 @@ const BlogDetails = () => {
       </div>
     </div>
   );
-}
+};
 
 export default BlogDetails;

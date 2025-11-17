@@ -147,7 +147,7 @@ const ProductTotalCard = ({
   };
 
   // Check if any product has stock error
-  const hasAnyStockError = addtocartlist.some((product) =>
+  const hasAnyStockError = addtocartlist?.some((product) =>
     hasStockError(product)
   );
 
@@ -213,8 +213,8 @@ const ProductTotalCard = ({
 
       <div className={addtocartlist.length && `p-4 lg:pt-10`}>
         <div className="md:px-4 md:pb-4 2xl:px-6 2xl:pb-0">
-          {addtocartlist.length > 0 ? (
-            addtocartlist.map((product) => {
+          {addtocartlist?.length > 0 ? (
+            addtocartlist?.map((product) => {
               const availableSizes = getAvailableSizesForSelectedColor(product);
               const productError =
                 errorMap[product.selectedVariant?.id] ||

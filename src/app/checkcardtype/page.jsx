@@ -1,8 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import cardValidator from "card-validator";
-import AOS from "aos";
-import "aos/dist/aos.css";
 
 const PaymentForm = () => {
   const [cardNumber, setCardNumber] = useState("");
@@ -23,10 +21,6 @@ const PaymentForm = () => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
-  useEffect(() => {
-    AOS.init({ duration: 800, once: true });
-  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();

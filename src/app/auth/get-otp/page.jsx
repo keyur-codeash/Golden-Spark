@@ -1,7 +1,5 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
 import Button from "@/components/Button";
 import Heading from "@/components/Heading";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -15,10 +13,6 @@ const OtpInput = ({ onSubmit }) => {
   const [error, setError] = useState("");
   const inputs = useRef([]);
   const searchParams = useSearchParams();
-
-  useEffect(() => {
-    AOS.init({ duration: 800, once: true });
-  }, []);
 
   const handleChange = (e, index) => {
     const value = e.target.value.replace(/[^0-9]/g, "");

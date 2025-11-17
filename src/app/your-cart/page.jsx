@@ -198,8 +198,8 @@ const CartPage = () => {
               {/* Cart Items Section */}
               <div className="px-4 xl:px-0">
                 {addtocartlist?.length > 0 ? (
-                  addtocartlist.map((item) => {
-                    const hasError = stockErrors.some(
+                  addtocartlist?.map((item) => {
+                    const hasError = stockErrors?.some(
                       (error) =>
                         error.productVariantId === item.productVariantId
                     );

@@ -122,17 +122,17 @@ const AddCardModel = ({
 
   return (
     <div
-      className="fixed inset-0 z-30 flex items-center justify-center bg-black-200 bg-opacity-50 h-screen"
+      className="fixed inset-0 z-30 flex items-center justify-center  bg-black-200 bg-opacity-50 h-screen"
       onClick={() => setIsModalOpen(false)}
     >
       <div
-        className="bg-yellow-400 rounded-lg lg:w-1/2 xl:w-3xl max-h-[90vh] w-lg overflow-y-auto"
+        className="bg-yellow-400 rounded-lg  lg:w-1/2 xl:w-3xl max-h-[90vh] w- sm:w-lg overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative">
           <div>
             <div className="border-1 border-yellow-50 rounded-sm">
-              <div className="bg-black text-white px-5 py-4 rounded-t-lg ">
+              <div className="bg-black text-white px-5 py-4 rounded-t-lg">
                 <div className="md:flex justify-between items-center">
                   <p className="text-2xl">
                     {editingCard ? "Edit Card" : "Add New Card"}

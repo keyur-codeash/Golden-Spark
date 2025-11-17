@@ -126,7 +126,7 @@ const AddCardModel = ({
       onClick={() => setIsModalOpen(false)}
     >
       <div
-        className="bg-yellow-400 rounded-lg lg:w-1/2 xl:w-3xl max-h-[90vh] w-lg overflow-y-auto"
+        className="bg-yellow-400 rounded-lg lg:w-1/2 xl:w-3xl mx-5 max-h-[90vh] w-lg overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative">

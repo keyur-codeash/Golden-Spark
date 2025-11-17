@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
 import LatestArticle from "./component/LatestArticle";
 import MoreBlog from "./component/MoreBlog";
 import { fetchBlog } from "@/forntend/services/blogServices";
@@ -10,11 +8,6 @@ import { fetchBlog } from "@/forntend/services/blogServices";
 export default function BlogPage() {
   const [blogDetails, setBlogDetails] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    AOS.init({ duration: 800, once: true });
-  }, []);
-
   // Fetch blogs
   useEffect(() => {
     const fetchAllBlogs = async () => {

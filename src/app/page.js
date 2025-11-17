@@ -14,13 +14,13 @@ import OurJournals from "@/components/home/OurJournals";
 import Instagram from "@/components/home/Instagram";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import AOS from "aos";
-import "./globals.css";
 import "aos/dist/aos.css";
 import useToken from "@/forntend/hooks/useToken";
 
 export default function Home() {
   const [loadingImages, setLoadingImages] = useState(true);
   const { token } = useToken();
+  
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
   }, []);
@@ -29,7 +29,7 @@ export default function Home() {
     const images = Array.from(document.images);
     const total = images.length;
     let loaded = 0;
-    
+
     if (total === 0) {
       setLoadingImages(false);
       return;

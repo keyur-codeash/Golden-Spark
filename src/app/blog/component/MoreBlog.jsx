@@ -1,15 +1,15 @@
 import React from "react";
 import BlogCommonCard from "./BlogCommonCard";
 import Heading from "@/components/Heading";
-import BlogSkeleton from "@/forntend/skeleton/blog/blogSkeleon";
+import MoreBlogSkeleton from "@/forntend/skeleton/blog/MoreBlogSkeleton";
 
 const MoreBlog = ({ loading, blogDetails }) => {
   if (loading) {
-    return <BlogSkeleton />
+    return <MoreBlogSkeleton />;
   }
 
-  if(blogDetails.length < 4 ){
-    return false
+  if (blogDetails.length < 4) {
+    return false;
   }
 
   return (
@@ -22,6 +22,6 @@ const MoreBlog = ({ loading, blogDetails }) => {
       </div>
     </div>
   );
-}
+};
 
 export default MoreBlog;

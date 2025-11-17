@@ -26,7 +26,10 @@ const GoogleButton = () => {
 
         try {
           const response = await apiSocialLogin(body);
-          localStorage.setItem("token", JSON.stringify(response.token));
+          if (typeof window !== "undefined" && window.localStorage) {
+            localStorage.setItem("token", JSON.stringify(response.token));
+          }
+
           router.push("/");
         } catch (err) {
           Toast.error("Something went wrong during login");

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import InputField from "../Input";
 import Button from "../Button";
@@ -13,20 +13,6 @@ import { signInValidation } from "@/forntend/validation/validation";
 const SignInForm =() => {
   const router = useRouter();
   const { token, removeToken } = useToken();
-
-  // Check for saved credentials on component mount
-  React.useEffect(() => {
-    const rememberedEmail = Cookies.get("rememberedEmail");
-    const rememberedPassword = Cookies.get("rememberedPassword");
-
-    if (rememberedEmail && rememberedPassword) {
-      formik.setValues({
-        email: rememberedEmail,
-        password: rememberedPassword,
-      });
-      formik.setFieldValue("rememberMe", true);
-    }
-  }, [formik]);
 
   const formik = useFormik({
     initialValues: {
@@ -43,7 +29,10 @@ const SignInForm =() => {
         });
 
         if (response) {
+            if (typeof window !== "undefined" && window.localStorage) {
+
           localStorage.setItem("token", JSON.stringify(response.token));
+            }
           if (values.rememberMe) {
             Cookies.set("rememberedEmail", values.email);
             Cookies.set("rememberedPassword", values.password);
@@ -61,6 +50,19 @@ const SignInForm =() => {
       }
     },
   });
+
+    useEffect(() => {
+    const rememberedEmail = Cookies.get("rememberedEmail");
+    const rememberedPassword = Cookies.get("rememberedPassword");
+
+    if (rememberedEmail && rememberedPassword) {
+      formik.setValues({
+        email: rememberedEmail,
+        password: rememberedPassword,
+      });
+      formik.setFieldValue("rememberMe", true);
+    }
+  }, [formik]);
 
   return (
     <form className="space-y-5" onSubmit={formik.handleSubmit}>

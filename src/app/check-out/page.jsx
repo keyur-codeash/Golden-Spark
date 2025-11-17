@@ -2,8 +2,6 @@
 import React, { useEffect } from "react";
 import BillingDetailsForm from "./component/BillingDetailsForm";
 import ProductTotalCard from "./component/ProductTotalCard";
-import AOS from "aos";
-import "aos/dist/aos.css";
 import { createAddress } from "@/forntend/services/addressServices";
 import { useRouter } from "next/navigation";
 
@@ -17,11 +15,7 @@ function page() {
       router.push("/check-out/address");
     } 
   };
-
-  useEffect(() => {
-    AOS.init({ duration: 800, once: true });
-  }, []);
-
+  
   return (
     <div className="container mx-auto">
       <div className="pt-30">

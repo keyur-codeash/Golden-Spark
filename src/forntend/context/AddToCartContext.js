@@ -38,7 +38,6 @@ export const AddToCartProvider = ({ children }) => {
       }
 
       const productVariantId = generateProductVariantId(id, variantToUse);
-
       const findProduct = addtocartlist.find(
         (item) => item.productVariantId === productVariantId
       );

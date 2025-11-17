@@ -15,6 +15,5 @@ export const orderCancelValidation = Joi.object({
     "string.empty": "Cancel reason is required.",
   }),
 
-  cancelDescription: Joi.string().optional().allow("").trim().messages({
-  }),
+  cancelDescription: Joi.string().optional().allow("").trim().messages({}),
 });

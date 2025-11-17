@@ -9,15 +9,20 @@ const useToken = (key = 'token') => {
   });
 
   const setToken = (newToken) => {
+      if (typeof window !== "undefined" && window.localStorage) {
+
     localStorage.setItem(key, JSON.stringify(newToken));
     setTokenState(newToken);
+      }
   };
 
   const removeToken = () => {
     console.log(key);
-    
+      if (typeof window !== "undefined" && window.localStorage) {
+
     localStorage.removeItem(key);
     setTokenState(null);
+      }
   };
   
 

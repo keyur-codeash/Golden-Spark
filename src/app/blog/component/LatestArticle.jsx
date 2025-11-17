@@ -5,10 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect } from "react";
 import { monthfirstformatedDate } from "@/forntend/common/commonDateFormat";
+import BlogSkeleton from "@/forntend/skeleton/blog/blogSkeleon";
 
 const LatestArticle = ({ blogDetails = [], loading }) => {
-  if (loading == true) {
-    return <h2>hellow</h2>;
+  if (loading) {
+    return <BlogSkeleton />;
   }
   const [mainArticle, ...restArticles] = blogDetails;
 
@@ -21,7 +22,10 @@ const LatestArticle = ({ blogDetails = [], loading }) => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-5 mt-10">
           {/* Main Article */}
           <div>
-            <div className="h-[250px] md:h-[400px] w-full relative rounded-sm overflow-hidden" data-aos="fade-right">
+            <div
+              className="h-[250px] md:h-[400px] w-full relative rounded-sm overflow-hidden"
+              data-aos="fade-right"
+            >
               <Image
                 src={mainArticle?.image}
                 alt="main article"
@@ -46,7 +50,10 @@ const LatestArticle = ({ blogDetails = [], loading }) => {
           </div>
 
           {/* Side Articles */}
-          <div className="grid grid-cols-1 gap-5 md:gap-7 lg:gap-5" data-aos="fade-left">
+          <div
+            className="grid grid-cols-1 gap-5 md:gap-7 lg:gap-5"
+            data-aos="fade-left"
+          >
             {restArticles.slice(0, 3).map((item, index) => (
               <div
                 key={index}

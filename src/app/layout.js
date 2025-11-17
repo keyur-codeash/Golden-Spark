@@ -6,6 +6,7 @@ import { WishlistProvider } from "@/forntend/context/WishlistContext";
 import { AddToCartProvider } from "@/forntend/context/AddToCartContext";
 import "./globals.css";
 import { ShopByCallectionProvider } from "@/forntend/context/ShopBycallection";
+import AOSProvider from "@/forntend/common/AOSProvider";
 
 const frank = Frank_Ruhl_Libre({
   subsets: ["latin"],
@@ -31,18 +32,22 @@ export const metadata = {
   },
 };
 
+// AOS.init({ duration: 1000, once: true });
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <WishlistProvider>
         <AddToCartProvider>
           <ShopByCallectionProvider>
-            <body
-              className={`${geistSans.variable} ${geistMono.variable} ${frank.variable} antialiased`}
-            >
-              <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
-              <Toaster position="bottom-right" richColors />
-            </body>
+            <AOSProvider>
+              <body
+                className={`${geistSans.variable} ${geistMono.variable} ${frank.variable} antialiased`}
+              >
+                <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
+                <Toaster position="bottom-right" richColors />
+              </body>
+            </AOSProvider>
           </ShopByCallectionProvider>
         </AddToCartProvider>
       </WishlistProvider>

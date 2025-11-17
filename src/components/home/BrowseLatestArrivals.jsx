@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import Heading from "../Heading";
 import ShoppingCard from "../ShoppingCard";
 import { fetchNewArrivalProducts } from "@/forntend/services/productService";
-import AOS from "aos";
 import { useWishlist } from "@/forntend/context/WishlistContext";
 import { useRouter } from "next/navigation";
 import useToken from "@/forntend/hooks/useToken";
@@ -15,9 +14,6 @@ const BrowseLatestArrivals = () => {
 
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const { token } = useToken();
-  useEffect(() => {
-    AOS.init({ duration: 1000, once: true });
-  }, []);
 
   useEffect(() => {
     const getProducts = async () => {

@@ -22,7 +22,7 @@ const HeroSection = () => {
               <p className="text-gray-500 md:text-sm xl:text-md xl:text-lg  py-4 ">
                 Jewellery, the exquisite fusion of craftsmanship and creativity,
                 has been an integral part of human history and self-expression.
-              </p>
+              </p>  
               <Button
                 label="SHOP NOW"
                 color="blue"
@@ -36,7 +36,7 @@ const HeroSection = () => {
             </div>
           </div>
           <div className="order-1 md:order-2">
-            <div className="py-10 h-full pe-6 xl:px-0 flex items-center">
+            <div className="py-10 md:py-0 h-full pe-6 xl:px-0 flex items-center">
               <Image
                 src="/images/hero-bg.png"
                 alt="Hero background"

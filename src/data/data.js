@@ -29,9 +29,9 @@ export const menuItems = [
     name: "Page",
     path: "#",
     children: [
-      { name: "Privacy Policy", path: "/" },
-      { name: "Refund Policy", path: "/product" },
-      { name: "Terms of Service", path: "/about" },
+      { name: "Privacy Policy", path: "/privacy_policy" },
+      { name: "Refund Policy", path: "/refund_policy" },
+      { name: "Terms of Service", path: "/terms_condition" },
     ],
   },
   {
@@ -41,209 +41,46 @@ export const menuItems = [
   { name: "Blog", path: "/blog" },
 ];
 
-export const shortBy = [
-  {
-    image: "/images/shop_by_one.png",
-    text: "Necklacess",
-  },
-  {
-    image: "/images/shop_by_two.png",
-    text: "Ring",
-  },
-  {
-    image: "/images/shop_by_three.png",
-    text: "Bracelets",
-  },
-  {
-    image: "/images/shop_by_four.png",
-    text: "Earrings",
-  },
-  {
-    image: "/images/shop_by_five.png",
-    text: "Earrings",
-  },
-  {
-    image: "/images/shop_by_six.png",
-    text: "Gold Pendant",
-  },
-  {
-    image: "/images/shop_by_three.png",
-    text: "Bracelets",
-  },
-  {
-    image: "/images/shop_by_four.png",
-    text: "Earrings",
-  },
-  {
-    image: "/images/shop_by_five.png",
-    text: "Earrings",
-  },
-  {
-    image: "/images/shop_by_six.png",
-    text: "Gold Pendant",
-  },
-];
+// export const instagram = [
+//   {
+//     image: "/images/instagram_one.png",
+//   },
+//   {
+//     image: "/images/instagram_two.png",
+//   },
+//   {
+//     image: "/images/instagram_three.png",
+//   },
+//   {
+//     image: "/images/instagram_four.png",
+//   },
+//   {
+//     image: "/images/instagram_five.png",
+//   },
+// ];
 
-export const BrowseLatestArrivals = [
-  {
-    image: "/images/shop_by_one.png",
-    text: "Necklacess",
-    price: 578,
-  },
-  {
-    image: "/images/shop_by_two.png",
-    text: "Ring",
-    price: 578,
-  },
-  {
-    image: "/images/shop_by_three.png",
-    text: "Bracelets",
-    price: 578,
-  },
-  {
-    image: "/images/shop_by_four.png",
-    text: "Earrings",
-    price: 578,
-  },
-  {
-    image: "/images/shop_by_five.png",
-    text: "Earrings",
-    price: 578,
-  },
-  {
-    image: "/images/shop_by_six.png",
-    text: "Gold Pendant",
-    price: 578,
-  },
-  {
-    image: "/images/shop_by_three.png",
-    text: "Bracelets",
-    price: 578,
-  },
-  {
-    image: "/images/shop_by_four.png",
-    text: "Earrings",
-    price: 578,
-  },
-  {
-    image: "/images/shop_by_five.png",
-    text: "Earrings",
-    price: 578,
-  },
-  {
-    image: "/images/shop_by_six.png",
-    text: "Gold Pendant",
-    price: 578,
-  },
-];
-
-export const favoriteProducts = [
-  {
-    image: "/images/shop_by_one.png",
-    text: "Necklacess",
-    price: 578,
-  },
-  {
-    image: "/images/shop_by_two.png",
-    text: "Ring",
-    price: 578,
-  },
-  {
-    image: "/images/shop_by_three.png",
-    text: "Bracelets",
-    price: 578,
-  },
-  {
-    image: "/images/shop_by_four.png",
-    text: "Earrings",
-    price: 578,
-  },
-  {
-    image: "/images/shop_by_two.png",
-    text: "Ring",
-    price: 578,
-  },
-];
-
-export const journalData = [
-  {
-    image: "/images/journals_one.png",
-    date: "03|Nov|2025",
-    title: "Pearls For Your Thought...",
-    description: "Where can I get some? The new site provides a closer look",
-  },
-  {
-    image: "/images/journals_two.png",
-    date: "12|Dec|2025",
-    title: "Radiant Gold Designs",
-    description: "Explore the harmony of elegance and shine.",
-  },
-  {
-    image: "/images/journals_three.png",
-    date: "24|Jan|2026",
-    title: "Minimalism Meets Luxury",
-    description: "Sleek lines, timeless silhouettes—uncover the new era.",
-  },
-  {
-    image: "/images/journals_one.png",
-    date: "03|Nov|2025",
-    title: "Pearls For Your Thought...",
-    description: "Where can I get some? The new site provides a closer look",
-  },
-  {
-    image: "/images/journals_two.png",
-    date: "12|Dec|2025",
-    title: "Radiant Gold Designs",
-    description: "Explore the harmony of elegance and shine.",
-  },
-  {
-    image: "/images/journals_three.png",
-    date: "24|Jan|2026",
-    title: "Minimalism Meets Luxury",
-    description: "Sleek lines, timeless silhouettes—uncover the new era.",
-  },
-];
-
-export const instagram = [
-  {
-    image: "/images/instagram_one.png",
-  },
-  {
-    image: "/images/instagram_two.png",
-  },
-  {
-    image: "/images/instagram_three.png",
-  },
-  {
-    image: "/images/instagram_four.png",
-  },
-  {
-    image: "/images/instagram_five.png",
-  },
-];
-
-export const accordionData = [
-  {
-    title: "Responsibly Produced Jewelry",
-    content:
-      "The boat is advertised, the land is located, and the bed is laid. No amount of concern for life can calm the masses.",
-  },
-  {
-    title: "Uncommon Glamour Realm",
-    content:
-      "The boat is advertised, the land is located, and the bed is laid. No amount of concern for life can calm the masses.",
-  },
-  {
-    title: "Avoid Chemicals On Jewellery‘s",
-    content:
-      "The boat is advertised, the land is located, and the bed is laid. No amount of concern for life can calm the masses.",
-  },
-  {
-    title: "Emanation of Individuality",
-    content:
-      "The boat is advertised, the land is located, and the bed is laid. No amount of concern for life can calm the masses.",
-  },
-];
+// export const accordionData = [
+//   {
+//     title: "Responsibly Produced Jewelry",
+//     content:
+//       "The boat is advertised, the land is located, and the bed is laid. No amount of concern for life can calm the masses.",
+//   },
+//   {
+//     title: "Uncommon Glamour Realm",
+//     content:
+//       "The boat is advertised, the land is located, and the bed is laid. No amount of concern for life can calm the masses.",
+//   },
+//   {
+//     title: "Avoid Chemicals On Jewellery‘s",
+//     content:
+//       "The boat is advertised, the land is located, and the bed is laid. No amount of concern for life can calm the masses.",
+//   },
+//   {
+//     title: "Emanation of Individuality",
+//     content:
+//       "The boat is advertised, the land is located, and the bed is laid. No amount of concern for life can calm the masses.",
+//   },
+// ];
 
 export const productAccoudianData = [
   {
@@ -295,34 +132,6 @@ export const footerData = {
   copyrightText: "©Designthemes All Rights Reserved",
   backgroundImage: "/images/footer-bg.png",
 };
-
-export const productData = [
-  {
-    image: "/images/shop_by_one.png",
-    text: "Necklacess",
-    price: 578,
-  },
-  {
-    image: "/images/shop_by_two.png",
-    text: "Ring",
-    price: 578,
-  },
-  {
-    image: "/images/shop_by_three.png",
-    text: "Bracelets",
-    price: 578,
-  },
-  {
-    image: "/images/shop_by_four.png",
-    text: "Earrings",
-    price: 578,
-  },
-  {
-    image: "/images/shop_by_five.png",
-    text: "Earrings",
-    price: 578,
-  },
-];
 
 export const productDetails = [
   {

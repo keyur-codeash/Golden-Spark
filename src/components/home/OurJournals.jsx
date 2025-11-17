@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Heading from "../Heading";
 import ProductCommonCard from "../ProductCommonCard";
-import { journalData } from "@/data/data";
-import Slider from "react-slick/lib/slider";
 import { fetchBlog } from "@/forntend/services/blogServices";
 
 const OurJournals = () => {
