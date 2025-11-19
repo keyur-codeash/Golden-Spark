@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
     cb(null, uploadDir);
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + "_" + Math.round(Math.random() * 1e9);
+    const uniqueSuffix = Date.now() + "_" + Math.round(Math.random() * 1e9);  
     const ext = path.extname(file.originalname);
     cb(null, `image_${uniqueSuffix}${ext}`);
   },

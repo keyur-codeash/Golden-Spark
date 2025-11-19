@@ -12,14 +12,13 @@ import { userAuthentication } from "@/middlewares/auth";
 // Get products with filters and pagination
 export const GET = asyncHandler(async (request) => {
   let userId = 0;
-
   try {
     const authHeader = request.headers.get("Authorization");
-    
+
     if (authHeader) {
       const decodedUser = await userAuthentication(request);
       userId = decodedUser.id;
-    }    
+    }
 
     const url = new URL(request.url);
     const page = parseInt(url.searchParams.get("page") || "1", 10);
@@ -155,13 +154,13 @@ export const GET = asyncHandler(async (request) => {
     const minPrice = priceStats[0]?.minPrice ?? 0;
     const maxPrice = priceStats[0]?.maxPrice ?? 0;
 
-     const stock = await productVariantSchema.collection
+    const stock = await productVariantSchema.collection
       .aggregate([
         {
           $lookup: {
             from: "products",
             localField: "productId",
-            foreignField: "_id", 
+            foreignField: "_id",
             as: "product",
           },
         },
@@ -170,7 +169,7 @@ export const GET = asyncHandler(async (request) => {
         },
         {
           $match: {
-            "product.isDeleted": 0, 
+            "product.isDeleted": 0,
           },
         },
         {

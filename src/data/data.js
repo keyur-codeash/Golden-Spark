@@ -1,5 +1,7 @@
 //top bar
 
+import { HiOutlineMail } from "react-icons/hi";
+
 export const countries = [
   { label: "United States", value: "US", icon: "/icons/country_one.svg" },
   { label: "Canada", value: "CA", icon: "/icons/country_two.svg" },
@@ -102,30 +104,35 @@ export const footerData = {
   inputPlaceholder: "Enter your Email",
   sections: [
     {
+      title: "Useful Links",
+      links: [
+        { label: "Track your Order", href: "/orders" },
+        { label: "Privacy Policy", href: "/privacy_policy" },
+        { label: "Terms of Service", href: "/terms_condition" },
+        { label: "Returns", href: "/refund_policy" },
+      ],
+    },
+    {
       title: "Information",
       links: [
-        { label: "Help Center", href: "#" },
-        { label: "Privacy Policy", href: "#" },
-        { label: "Receivers & Amplifiers", href: "#" },
-        { label: "Address Store", href: "#" },
+        { label: "About Golden Spark", href: "/about" },
+        { label: "Blogs", href: "/blog" },
+        { label: "Contact Us", href: "/contact" },
       ],
     },
     {
-      title: "Shop",
+      title: "Contact Us",
       links: [
-        { label: "Men's Collection", href: "#" },
-        { label: "Women's Wear", href: "#" },
-        { label: "Kid's Fashion", href: "#" },
-        { label: "Accessories", href: "#" },
-      ],
-    },
-    {
-      title: "Categories",
-      links: [
-        { label: "Electronics", href: "#" },
-        { label: "Home Appliances", href: "#" },
-        { label: "Sports Equipment", href: "#" },
-        { label: "Groceries", href: "#" },
+        {
+          label: `Write to us`,
+          href: "mailto:abc@gmail.com",
+          icon: "/icons/footer_mail.svg",
+        },
+        {
+          label: "1234567890",
+          href: "tel:1234567890",
+          icon: "/icons/footer_call.svg",
+        },
       ],
     },
   ],

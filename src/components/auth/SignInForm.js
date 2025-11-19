@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 import useToken from "@/forntend/hooks/useToken";
 import { signInValidation } from "@/forntend/validation/validation";
 
-const SignInForm =() => {
+const SignInForm = () => {
   const router = useRouter();
   const { token, removeToken } = useToken();
 
@@ -21,7 +21,7 @@ const SignInForm =() => {
       rememberMe: false,
     },
     validationSchema: signInValidation,
-    onSubmit: async (values) => { 
+    onSubmit: async (values) => {
       try {
         const response = await signIn({
           email: values.email,
@@ -29,10 +29,9 @@ const SignInForm =() => {
         });
 
         if (response) {
-            if (typeof window !== "undefined" && window.localStorage) {
-
-          localStorage.setItem("token", JSON.stringify(response.token));
-            }
+          if (typeof window !== "undefined" && window.localStorage) {
+            localStorage.setItem("token", JSON.stringify(response.token));
+          }
           if (values.rememberMe) {
             Cookies.set("rememberedEmail", values.email);
             Cookies.set("rememberedPassword", values.password);
@@ -51,7 +50,7 @@ const SignInForm =() => {
     },
   });
 
-    useEffect(() => {
+  useEffect(() => {
     const rememberedEmail = Cookies.get("rememberedEmail");
     const rememberedPassword = Cookies.get("rememberedPassword");
 
@@ -124,6 +123,6 @@ const SignInForm =() => {
       />
     </form>
   );
-}
+};
 
 export default SignInForm;

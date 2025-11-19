@@ -288,7 +288,7 @@ const ResponsiveFilter = () => {
               totalPages={totalPages}
               onPageChange={(page) => {
                 setCurrentPage(page);
-                window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top on page change
+                window.scrollTo({ top: 0, behavior: "smooth" });
               }}
             />
           </div>

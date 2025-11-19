@@ -96,8 +96,15 @@ const Footer = ({
                       <li key={linkIndex}>
                         <a
                           href={link.href}
-                          className="hover:text-white transition-colors block text-lg"
+                          className="hover:text-white transition-colors flex items-center gap-2 text-lg"
                         >
+                          {link.icon && (
+                            <img
+                              src={link.icon}
+                              alt="icon"
+                              className="w-5 h-5 inline-block"
+                            />
+                          )}
                           {link.label}
                         </a>
                       </li>

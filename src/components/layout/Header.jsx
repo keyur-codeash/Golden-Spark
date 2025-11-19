@@ -167,7 +167,7 @@ export default function Header() {
     if (token) {
       const fetchUser = async () => {
         const response = await getUserProfileData();
-        setUserDetails(response.data);
+        setUserDetails(response?.data);
       };
       fetchUser();
     }
@@ -358,10 +358,10 @@ export default function Header() {
                       <div className="bg-white rounded-xl">
                         <div className="px-5 py-4 border-b border-gray-100">
                           <p className="text-sm font-semibold text-gray-900">
-                            {userDetails.userName}
+                            {userDetails?.userName}
                           </p>
                           <p className="text-xs text-gray-500 mt-0.5">
-                            {userDetails.email}
+                            {userDetails?.email}
                           </p>
                         </div>
 

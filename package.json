@@ -9,7 +9,7 @@
     "lint": "next lint",
     "postbuild": "next export"
   },
-  "dependencies": {
+  "dependencies": { 
     "aos": "^2.3.4",
     "axios": "^1.10.0",
     "bcrypt": "^6.0.0",

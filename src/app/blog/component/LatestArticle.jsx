@@ -13,6 +13,10 @@ const LatestArticle = ({ blogDetails = [], loading }) => {
   }
   const [mainArticle, ...restArticles] = blogDetails;
 
+  if (!mainArticle) {
+    return null;
+  }
+
   return (
     <div className="latestArticle pt-10 md:pt-20">
       <div className="container mx-auto px-4">
@@ -54,35 +58,36 @@ const LatestArticle = ({ blogDetails = [], loading }) => {
             className="grid grid-cols-1 gap-5 md:gap-7 lg:gap-5"
             data-aos="fade-left"
           >
-            {restArticles.slice(0, 3).map((item, index) => (
-              <div
-                key={index}
-                className="flex flex-col sm:flex-row gap-4 items-start"
-              >
-                <div className="relative w-full sm:w-3xs md:w-xs lg:w-[200px] h-[250px] lg:h-full md:h-[200px] sm:h-full rounded-sm overflow-hidden">
-                  <Image
-                    src={item?.image}
-                    alt={`article-${index}`}
-                    fill
-                    className="object-center w-full h-full"
-                  />
+            {restArticles &&
+              restArticles.slice(0, 3).map((item, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col sm:flex-row gap-4 items-start"
+                >
+                  <div className="relative w-full sm:w-3xs md:w-xs lg:w-[200px] h-[250px] lg:h-full md:h-[200px] sm:h-full rounded-sm overflow-hidden">
+                    <Image
+                      src={item?.image}
+                      alt={`article-${index}`}
+                      fill
+                      className="object-center w-full h-full"
+                    />
+                  </div>
+                  <div className="flex-1 xl:pe-20">
+                    <p className="text-gray-400 text-sm sm:text-md md:text-base mb-1">
+                      {monthfirstformatedDate(item?.createdAt)}
+                    </p>
+                    <h3 className="text-lg py-2 sm:text-xl font-semibold leading-snug">
+                      {item?.heading}
+                    </h3>
+                    <Link
+                      href={`/blog/${item?._id}`}
+                      className="text-gray-400 text-sm md:text-base sm:text-sm inline-block border-b border-gray-400 mt-2"
+                    >
+                      Read More
+                    </Link>
+                  </div>
                 </div>
-                <div className="flex-1 xl:pe-20">
-                  <p className="text-gray-400 text-sm sm:text-md md:text-base mb-1">
-                    {monthfirstformatedDate(item?.createdAt)}
-                  </p>
-                  <h3 className="text-lg py-2 sm:text-xl font-semibold leading-snug">
-                    {item?.heading}
-                  </h3>
-                  <Link
-                    href={`/blog/${item?._id}`}
-                    className="text-gray-400 text-sm md:text-base sm:text-sm inline-block border-b border-gray-400 mt-2"
-                  >
-                    Read More
-                  </Link>
-                </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       </div>

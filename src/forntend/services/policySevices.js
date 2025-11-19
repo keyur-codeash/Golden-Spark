@@ -18,7 +18,7 @@ export const AddorUpdatePrivacy = async (data = {}) => {
   }
 };
 
-// get Privacy
+// get Privacy    
 export const fetchPrivacy = async () => {
   try {
     const response = await axiosInstance.get("/privacy-policy");

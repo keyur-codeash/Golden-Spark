@@ -21,7 +21,6 @@ const GetInTouch = () => {
       const response = await createContact(values);
       if (response?.isSuccess) {
         console.log(response);
-
         Toast.success(response?.message);
       }
     },
