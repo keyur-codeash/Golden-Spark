@@ -53,9 +53,7 @@ export const fetchSingleProduct = async (id, token) => {
       Toast.error(response?.data?.message || "Failed to fetch product!");
       return null;
     }
-  } catch (error) {
-    console.log(error.response.data);
-    
+  } catch (error) {    
     Toast.error(error?.response?.data?.message || "Something went wrong!");
     return null;
   }

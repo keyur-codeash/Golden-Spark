@@ -16,7 +16,7 @@ export const POST = asyncHandler(async (request) => {
   const body = await request.json();
   body.user = userId;
 
-  // Validate with common function
+  // Validate with common f
   const { error } = validate(addCardValidation, body);
   if (error) {
     return NextResponse.json(

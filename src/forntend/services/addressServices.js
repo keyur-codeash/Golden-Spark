@@ -52,7 +52,6 @@ export const fetchSingleAddress = async () => {
 
 // Update Address
 export const updateAddress = async (updateData = {}) => {
-  console.log("updateData===", updateData);
 
   try {
     const response = await axiosInstance.put(`/address`, updateData);

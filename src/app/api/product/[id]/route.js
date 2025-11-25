@@ -57,8 +57,6 @@ export const GET = asyncHandler(async (request, { params }) => {
 
     let isWishlist = false;
 
-    console.log("userId", userId, product._id);
-
     if (userId && userId != 0) {
       isWishlist = await wishlistSchema.findOne({
         user: userId,
@@ -147,9 +145,6 @@ export const GET = asyncHandler(async (request, { params }) => {
           : null,
         allVariants: allVariants.length
           ? allVariants.map((items) => {
-              {
-                console.log(items);
-              }
               return {
                 id: items._id,
                 price: items.price,

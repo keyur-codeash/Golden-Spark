@@ -5,7 +5,6 @@ import { asyncHandler } from "@/utils/asyncHandler";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
-
 export const GET = asyncHandler(async (request, { params }) => {
   const decodedUser = await userAuthentication(request);
   const orderId = params.id;

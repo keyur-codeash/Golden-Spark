@@ -97,7 +97,7 @@ const OtpInput = ({ onSubmit }) => {
       }
       const response = await veifyOtp({ email, otp: code });
 
-      if (response.success) {
+      if (response.isSuccess) {
         router.push("/auth/forgot-password");
       } else {
         setError(response.message || "OTP verification failed");

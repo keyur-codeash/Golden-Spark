@@ -7,7 +7,6 @@ import "aos/dist/aos.css";
 
 export default function AOSProvider({ children }) {
   const pathname = usePathname();
- console.log("pathname===", pathname);
  
   useEffect(() => {
     AOS.init({

@@ -13,7 +13,6 @@ export const createOrder = async (orderData = {}) => {
       );
       return response.data;
     } else {
-      console.log("response", response.data);
       return response.data;
     }
   } catch (error) {

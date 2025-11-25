@@ -21,7 +21,6 @@ axiosInstance.interceptors.request.use((config) => {
   if (typeof window !== "undefined" && window.localStorage) {
     token = JSON.parse(localStorage.getItem("token"));
   }
-  console.log("axios token ==== ", token);
 
   if (token) {
     if (protectedRoutes?.some((route) => config.url?.startsWith(route))) {

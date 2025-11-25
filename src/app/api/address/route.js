@@ -56,7 +56,6 @@ export const GET = asyncHandler(async (request) => {
 // Put address
 export const PUT = asyncHandler(async (request) => {
   const body = await request.json();
-  console.log("body===", body);
 
   const decodedUser = await userAuthentication(request);
   const userId = decodedUser.id;
@@ -82,7 +81,6 @@ export const PUT = asyncHandler(async (request) => {
     },
     { new: true }
   );
-  console.log(result);
 
   if (result) {
     return NextResponse.json({

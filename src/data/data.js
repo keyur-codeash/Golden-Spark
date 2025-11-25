@@ -43,47 +43,6 @@ export const menuItems = [
   { name: "Blog", path: "/blog" },
 ];
 
-// export const instagram = [
-//   {
-//     image: "/images/instagram_one.png",
-//   },
-//   {
-//     image: "/images/instagram_two.png",
-//   },
-//   {
-//     image: "/images/instagram_three.png",
-//   },
-//   {
-//     image: "/images/instagram_four.png",
-//   },
-//   {
-//     image: "/images/instagram_five.png",
-//   },
-// ];
-
-// export const accordionData = [
-//   {
-//     title: "Responsibly Produced Jewelry",
-//     content:
-//       "The boat is advertised, the land is located, and the bed is laid. No amount of concern for life can calm the masses.",
-//   },
-//   {
-//     title: "Uncommon Glamour Realm",
-//     content:
-//       "The boat is advertised, the land is located, and the bed is laid. No amount of concern for life can calm the masses.",
-//   },
-//   {
-//     title: "Avoid Chemicals On Jewellery‘s",
-//     content:
-//       "The boat is advertised, the land is located, and the bed is laid. No amount of concern for life can calm the masses.",
-//   },
-//   {
-//     title: "Emanation of Individuality",
-//     content:
-//       "The boat is advertised, the land is located, and the bed is laid. No amount of concern for life can calm the masses.",
-//   },
-// ];
-
 export const productAccoudianData = [
   {
     question: "Description",

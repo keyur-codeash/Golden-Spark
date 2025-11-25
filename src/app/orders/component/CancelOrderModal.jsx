@@ -20,7 +20,6 @@ const CancelOrderModal = ({
 
   const handleOrderCancel = async () => {
     const response = await cancelOrder(cancelDetails);
-    console.log("response======", response);
     Toast.success("Order cancelled successfully");
     router.push("/orders");
     setCancelId(cancelDetails._id);

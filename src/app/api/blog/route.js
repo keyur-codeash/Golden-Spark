@@ -19,16 +19,3 @@ export const GET = asyncHandler(async () => {
     message: "Blogs fetched successfully!",
   });
 }); 
-
-
-// Get blog
-// export const GET = asyncHandler(async () => {
-//   const result = await blogSchema.find();
-//   if (result) {
-//     return NextResponse.json({
-//       isSuccess: true,
-//       data: result,
-//       message: "Blog get successfully!",
-//     });
-//   }
-// });

@@ -6,6 +6,7 @@ import User from "@/model/Userschema";
 import { signUpSchema } from "@/validation/authValidation";
 import { validate } from "@/lib/validateSchema";
 import { asyncHandler } from "@/utils/asyncHandler";
+import { generateToken } from "@/lib/auth";
 
 export const POST = asyncHandler(async (request) => {
   try {
@@ -36,10 +37,18 @@ export const POST = asyncHandler(async (request) => {
       password: hashedPassword,
     });
 
+    const token = generateToken({
+      userName: userName,
+      email,
+      _id: newUser?._id?.toString(),
+      role: newUser?.role,
+    });
+
     return NextResponse.json(
       {
         message: "Registration successful.",
         isSuccess: true,
+        token,
         user: {
           id: newUser._id,
           name: newUser.userName,

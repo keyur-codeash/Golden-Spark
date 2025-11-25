@@ -9,7 +9,6 @@ export const POST = asyncHandler(async (req) => {
   const { email } = body;
 
   const { error } = validate(sibscribeMailvalidation, { email });
-  console.log("erroror==", error);
 
   if (error) {
     return NextResponse.json(

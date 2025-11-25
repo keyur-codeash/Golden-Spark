@@ -8,7 +8,6 @@ import { orderCancelValidation } from "@/validation/orderCancelReasonValidation"
 //  Get All
 export const GET = asyncHandler(async (request) => {
   const decodedUser = await userAuthentication(request);
-  console.log(decodedUser);
 
   const result = await orderSchema.find({ user: decodedUser.id, cancel: 1 });
   return NextResponse.json(
@@ -57,10 +56,7 @@ export const PUT = asyncHandler(async (request) => {
         cancelDescription: body.cancelDescription,
       },
     }
-  );
-
-  console.log("result===", result);
-  
+  );  
 
   if (result) {
     return NextResponse.json({

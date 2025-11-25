@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 const SAVE_PRODUCT_PATH = "backend/product";
 
 // Get about
- const GET = asyncHandler(async () => {
+export const GET = asyncHandler(async () => {
   const result = await aboutSchema.find();
 
   const data = result.map((item) => ({
@@ -19,4 +19,3 @@ const SAVE_PRODUCT_PATH = "backend/product";
     message: "About fetched successfully!",
   });
 });
-

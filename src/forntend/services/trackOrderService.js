@@ -5,7 +5,6 @@ import Toast from "@/components/toastService";
 export const fetchTrackOrder = async (id) => {
   try {
     const response = await axiosInstance.get(`/order/track?orderId=${id}`);
-  console.log("responce=====", response);
   
     if (response?.data?.isSuccess) {
       return response.data;

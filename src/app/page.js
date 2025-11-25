@@ -59,6 +59,10 @@ export default function Home() {
     };
   }, []);
 
+  useEffect(() => {
+    const handleRouteChange = () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }; })
   return (
     <div className="overflow-x-hidden">
       {loadingImages && <LoadingSpinner />}

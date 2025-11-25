@@ -4,18 +4,15 @@ import Button from "./Button";
 import { useRouter } from "next/navigation";
 
 const ProductCommonCard = ({ item, key }) => {
-  console.log(item);
+  function formatDate(dateString) {
+    const date = new Date(dateString);
 
-    function formatDate(dateString) {
-  const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = date.toLocaleString("en-US", { month: "short" });
+    const year = date.getFullYear();
 
-  const day = String(date.getDate()).padStart(2, "0"); 
-  const month = date.toLocaleString("en-US", { month: "short" }); 
-  const year = date.getFullYear(); 
-
-  return `${day}|${month}|${year}`;
-}
-
+    return `${day}|${month}|${year}`;
+  }
 
   const router = useRouter();
   return (
@@ -28,8 +25,10 @@ const ProductCommonCard = ({ item, key }) => {
           className="object-cover rounded-xl"
         />
       </div>
-      <div className="ps-3">  
-        <p className="pt-6 text-gray-500 text-lg">{formatDate(item?.createdAt)} </p>
+      <div className="ps-3">
+        <p className="pt-6 text-gray-500 text-lg">
+          {formatDate(item?.createdAt)}{" "}
+        </p>
         <h2 className="text-2xl xl:text-3xl py-4">{item.heading}</h2>
         <div className="flex">
           <p className="text-lg text-gray-500 whitespace-pre-line w-5/6">

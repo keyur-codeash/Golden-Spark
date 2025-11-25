@@ -179,11 +179,9 @@ export const PUT = asyncHandler(async (request, { params }) => {
     let claimedExistingImages = [];
     const newImageFiles = [];
 
-    // Process all image entries from form data
     const imageEntries = formData.getAll("images");
     for (const entry of imageEntries) {
       if (entry instanceof File && entry.name && entry.size > 0) {
-        // This is a new image file
         newImageFiles.push(entry);
       } else if (typeof entry === "string") {
         try {
@@ -203,16 +201,13 @@ export const PUT = asyncHandler(async (request, { params }) => {
       }
     }
 
-    // Remove duplicates from claimed existing images
     claimedExistingImages = [...new Set(claimedExistingImages)];
 
-    // Get current product data
     const product = await productSchema.findById(productId);
     if (!product) {
       return NextResponse.json({ message: "Product not found" }, { status: 404 });
     }
 
-    // Normalize database images (handle stringified arrays)
     const normalizeDbImages = (images) => {
       if (!images) return [];
       return images.flatMap((img) => {

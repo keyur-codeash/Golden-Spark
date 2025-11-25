@@ -32,7 +32,6 @@ export const addWishlistData = async (body) => {
       return null;
     }
   } catch (error) {
-    console.log("error", error);
 
     if (
       error?.response?.data.isSuccess == false &&
@@ -51,7 +50,6 @@ export const deleteWishlistData = async (id) => {
     const response = await axiosInstance.delete(
       `/product/wishlist?productId=${id}`
     );
-    console.log(response);
 
     if (response.data.isSuccess) {
       Toast.success(

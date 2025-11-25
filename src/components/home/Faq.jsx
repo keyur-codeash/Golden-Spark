@@ -23,7 +23,7 @@ const Faq = () => {
         <div className="container mx-auto h-full">
           <div className="grid grid-cols-1 md:grid-cols-2 ">
             <div
-              className="flex items-start px-4 order-1 md:order-1 lg:pt-30 "
+              className="flex items-start px-4 order-1 md:order-1 lg:pt-48"
               data-aos="fade-right"
             >
               <div className="xl:pe-14">

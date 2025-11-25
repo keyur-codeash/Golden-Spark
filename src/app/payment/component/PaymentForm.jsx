@@ -83,13 +83,6 @@ function PaymentForm() {
         const formattedCardNumber = formatCardNumber(updatedCard.cardNumber);
         const cardType = detectCardType(formattedCardNumber);
 
-        console.log("cardscardscardscards===", cards, editingCard.id);
-        console.log(
-          "updatedCard.cardNumber=====",
-          updatedCard,
-          formattedCardNumber
-        );
-
         setCards(
           cards.map((card) =>
             card.id == editingCard.id

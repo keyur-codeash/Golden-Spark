@@ -17,7 +17,6 @@ const useToken = (key = 'token') => {
   };
 
   const removeToken = () => {
-    console.log(key);
       if (typeof window !== "undefined" && window.localStorage) {
 
     localStorage.removeItem(key);

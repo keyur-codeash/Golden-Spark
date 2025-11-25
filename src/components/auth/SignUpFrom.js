@@ -25,7 +25,10 @@ const SignUpForm = () => {
         });
 
         if (response) {
-          router.push("/auth/sign-in");
+          if (typeof window !== "undefined" && window.localStorage) {
+            localStorage.setItem("token", JSON.stringify(response.token));
+          }
+          router.push("/");
         }
       } catch (error) {
         console.error("Registration failed:", error);
@@ -68,19 +71,10 @@ const SignUpForm = () => {
         error={formik.touched.password && formik.errors.password}
       />
 
-      <div>
-        <div className="pb-3 md:text-end w-full">
-          <a href="/auth/send-otp" className="text-lg hover:underline">
-            Forgot password?
-          </a>
-        </div>
-        <div className="flex items-center">
-          <input
-            type="checkbox"
-            className="h-4 w-4 accent-blue-600 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-          />
-          <span className="ml-2 text-lg text-gray-600">Remember me</span>
-        </div>
+      <div className="md:text-end w-full">
+        <a href="/auth/send-otp" className="text-lg hover:underline">
+          Forgot password?
+        </a>
       </div>
 
       <Button

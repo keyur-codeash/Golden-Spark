@@ -35,13 +35,11 @@ export default function ClientMiddleware({ children }) {
     );
 
     if (isProtected && !isAuthenticated) {
-      console.log("Redirecting to login...");
       router.push("/auth/sign-in");
       return;
     }
 
     if (isOnboarding && isAuthenticated) {
-      console.log("Already logged in. Redirecting to dashboard...");
       router.push("/");
       return;
     }

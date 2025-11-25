@@ -21,7 +21,6 @@ const Page = () => {
   const handleOrder = async (data) => {
     try {
       const response = await createOrder(data);
-      console.log("Order Response ===", response);
 
       if (response.isSuccess) {
         setOrderErrors([]);

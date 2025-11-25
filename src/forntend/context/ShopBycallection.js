@@ -6,8 +6,6 @@ export const useShopByCallection = () => useContext(ShopByCallectionContext);
 
 export const ShopByCallectionProvider = ({ children }) => {
   const [shopBy, setShopBy] = useState(null);
-
-  console.log("context======", shopBy);
   
   return (
     <ShopByCallectionContext.Provider

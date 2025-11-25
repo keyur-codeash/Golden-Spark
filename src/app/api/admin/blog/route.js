@@ -69,7 +69,6 @@ export const PUT = asyncHandler(async (req) => {
         updateData.image = image;
       } else {
         const findBlog = await blogSchema.findOne({ _id: id });
-        console.log("findBlog==========", findBlog);
 
         if (findBlog) {
           await deleteFile(SAVE_PRODUCT_PATH, [findBlog.image]);

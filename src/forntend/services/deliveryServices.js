@@ -5,10 +5,8 @@ import Toast from "@/components/toastService";
 export const fetchDeliveryDetails = async (body) => {
   try {
     const response = await axiosInstance.get("/deliveryDetails", body);
-    console.log("response.data=======", response.data, response.data.isSuccess);
 
     if (response?.data?.isSuccess) {
-      console.log("response.data=======", response.data);
 
       return response.data;
     } else {

@@ -20,7 +20,6 @@ const WishlistPage = () => {
   const getWishList = async () => {
     try {
       const response = await getwishlistData(currentPage);
-      console.log(response);
       setTotalPages(response.totalPages || 1);
       setWishlist(response.data);
       setTotalItems(response.totalItems || 0);

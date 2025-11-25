@@ -9,9 +9,11 @@ const AboutDetails = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchAboutDetails = async () => { 
+    const fetchAboutDetails = async () => {
       const responce = await fetchAbout();
-      setAboutDetails(responce.data);
+      if (responce) {
+        setAboutDetails(responce?.data);
+      }
       setLoading(false);
     };
     fetchAboutDetails();

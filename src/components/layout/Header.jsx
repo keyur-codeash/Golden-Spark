@@ -6,7 +6,7 @@ import { LuUser, LuSearch, LuShoppingBag } from "react-icons/lu";
 import { RiShoppingBag4Line } from "react-icons/ri";
 import { FaRegHeart } from "react-icons/fa";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { accountOptions, countries, menuItems } from "@/data/data";
+import { menuItems } from "@/data/data";
 import { CgCloseR } from "react-icons/cg";
 import Button from "../Button";
 import { useRouter } from "next/navigation";
@@ -30,12 +30,9 @@ export default function Header() {
   const [brand, setBrand] = useState([]);
   const { token } = useToken();
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const { shopBy, setShopBy } = useShopByCallection();
+  const { setShopBy } = useShopByCallection();
   const [userDetails, setUserDetails] = useState();
   const { productList } = useAddtocart();
-  // const [, set] = useState(second)
-
-  // onst {AddToCart}
 
   useEffect(() => {
     const handleScroll = () => {
@@ -52,18 +49,6 @@ export default function Header() {
       document.body.style.overflow = "";
     };
   }, [isMenuOpen]);
-
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     if (searchRef.current && !searchRef.current.contains(event.target)) {
-  //       setIsSearchOpen(false);
-  //     }
-  //   };
-  //   document.addEventListener("mousedown", handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, []);
 
   const isActive = (itemPath) => {
     return itemPath === "/" ? pathname === "/" : pathname.startsWith(itemPath);
@@ -155,13 +140,11 @@ export default function Header() {
       if (selectedIndex >= 0) {
         s;
         const selectedItem = searchResults[selectedIndex];
-        console.log("selectedItem=====", selectedItem);
         setSearchQuery(selectedItem.name);
         setShopBy(selectedItem._id);
         router.push("/product");
         clearSearch();
       } else if (searchResults.length > 0) {
-        console.log("Direct search with query:", searchQuery);
         setShopBy(searchResults[0]._id);
         router.push("/product");
         clearSearch();
@@ -173,53 +156,6 @@ export default function Header() {
     }
   };
 
-  // const handleKeyDown = (e) => {
-  //   if (e.key === "ArrowDown") {
-  //     e.preventDefault();
-  //     setSelectedIndex((prev) =>
-  //       prev < searchResults.length - 1 ? prev + 1 : 0
-  //     );
-  //     setSearchQuery(
-  //       searchResults[
-  //         selectedIndex < searchResults.length - 1 ? selectedIndex + 1 : 0
-  //       ].name
-  //     );
-  //   }
-  //   if (e.key === "ArrowUp") {
-  //     e.preventDefault();
-  //     setSelectedIndex((prev) =>
-  //       prev > 0 ? prev - 1 : searchResults.length - 1
-  //     );
-  //     setSearchQuery(
-  //       searchResults[
-  //         selectedIndex > 0 ? selectedIndex - 1 : searchResults.length - 1
-  //       ].name
-  //     );
-  //   }
-  //   if (e.key === "Enter" && selectedIndex >= 0) {
-  //     const selectedItem = searchResults[selectedIndex];
-  //     console.log("selectedItem=====", selectedItem);
-
-  //     setSearchQuery(selectedItem);
-  //     if (selectedItem) {
-  //       setShopBy(selectedItem._id);
-  //       router.push("/product");
-  //       clearSearch();
-  //     }
-  //   }
-
-  //   console.log("selectedInde=========", selectedIndex);
-
-  //   if (selectedIndex === -1) {
-  //     if (e.key === "Enter") {
-  //       router.push("/product");
-  //       setShopBy("abcd");
-  //       clearSearch();
-  //     }
-  //   }
-  // };
-
-  // Attach key listener
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
@@ -577,20 +513,6 @@ export default function Header() {
                         </Link>
                       ))}
                     </div>
-                    {/* <div className="max-h-80 overflow-y-auto mt-4 bg-white rounded-md shadow-inner">
-                    {searchResults.map((result) => (
-                      <Link
-                        key={result?._id}
-                        href="/product"
-                        className="block p-3 hover:bg-gray-50 border-b border-gray-100 transition-colors"
-                        onClick={clearSearch}
-                      >
-                        <div className="font-medium text-gray-800">
-                          {result.name}
-                        </div>
-                      </Link>
-                    ))}
-                  </div> */}
                   </div>
                 </div>
               )}
@@ -675,43 +597,7 @@ export default function Header() {
               />
               <div className="border-b border-gray-300 mt-10"></div>
               <div className="flex items-center gap-4 ">
-                {/* <div>
-                <Dropdown
-                  options={countries}
-                  selectedOption={selectedCountry}
-                  onSelect={setSelectedCountry}
-                  renderSelected={(option) => (
-                    <div className="flex items-center gap-2 text-nowrap">
-                      <img
-                        src={option.icon}
-                        alt="img"
-                        className="w-[1.5rem] h-[1.5rem] rounded-full"
-                      />
-                      {option.label}(CAD$)
-                    </div>
-                  )}
-                  renderOption={(option) => (
-                    <div className="flex items-center gap-2 text-nowrap pe-5">
-                      <img
-                        src={option.icon}
-                        alt="img"
-                        className="w-[1.5rem] h-[1.5rem] rounded-full"
-                      />{" "}
-                      {option.label}(CAD$)
-                    </div>
-                  )}
-                  className="w-50"
-                  dropdownClassName="w-48 !bg-transparent !shadow-xl"
-                />
-              </div> */}
 
-                {/* <Dropdown
-                options={accountOptions}
-                selectedOption={selectedAccount}
-                onSelect={setSelectedAccount}
-                className="w-30"
-                dropdownClassName="w-48 !bg-transparent !shadow-xl"
-              /> */}
               </div>
             </div>
           </div>

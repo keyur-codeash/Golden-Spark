@@ -6,7 +6,6 @@ import { asyncHandler } from "@/utils/asyncHandler";
 import { addSOrderValidation } from "@/validation/orderValidation";
 import { NextResponse } from "next/server";
 import variantSchema from "../../../model/product_variants";
-// import productSchema from "@/model/productSchema";
 import mongoose from "mongoose";
 import genratePublicUrl from "@/utils/genratePublicUrl";
 import addressSchema from "@/model/addressSchema";
@@ -37,7 +36,6 @@ export const trackOrder = (createdOrder) => {
     "Dec",
   ];
 
-  console.log("createdOrder====", createdOrder, createdOrder.orderId);
 
   const createdAt = new Date(createdOrder.createdAt);
   const shippedDate = new Date(createdAt);
@@ -171,8 +169,6 @@ export const POST = asyncHandler(async (request) => {
         },
       ]);
 
-      console.log("productDetails====", productDetails);
-
       if (variant.stock < singleOrder.quantity) {
         failedOrders.push({
           variantId: variant._id,
@@ -193,8 +189,6 @@ export const POST = asyncHandler(async (request) => {
       singleOrder.state = addressDetails.state;
       singleOrder.country = addressDetails.country;
       singleOrder.zipCode = addressDetails.zipCode;
-
-      console.log("addressDetails=============13========", singleOrder);
 
       // Calculate totals
       const subtotal = singleOrder.price * singleOrder.quantity;
@@ -219,7 +213,6 @@ export const POST = asyncHandler(async (request) => {
       await trackOrderSchema.create(trackingData);
       createdOrders.push(createdOrder);
     } catch (error) {
-      console.log("error=========", error);
 
       failedOrders.push({
         message: error.message || "Something went wrong",
@@ -341,7 +334,6 @@ export const PUT = asyncHandler(async (request) => {
 
       updatedOrders.push(updatedOrder);
     } catch (error) {
-      console.log("Update error ====", error);
       failedOrders.push({
         orderId: orderData._id,
         message: error.message || "Something went wrong during update",
@@ -377,13 +369,10 @@ export const GET = asyncHandler(async (request) => {
   // Get search params from the request URL
   const { searchParams } = new URL(request.url);
   const status = searchParams.get("status") || "Pending";
-  console.log("status=========", status);
   const matchStage =
     status === "Cancelled"
       ? { user: new mongoose.Types.ObjectId(userId), cancel: 1 }
       : { user: new mongoose.Types.ObjectId(userId), status, cancel: 0 };
-
-  console.log(matchStage);
 
   const resultData = await orderSchema.aggregate([
     {

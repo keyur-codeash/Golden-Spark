@@ -119,7 +119,6 @@ export default function AddressManagement() {
 
   const checkSelectedAddress = () => {
     const findSelected = addresses.find((item) => item.isDefault == true);
-    console.log("findSelected===", findSelected);
 
     if (findSelected) {
       return findSelected._id;
@@ -127,8 +126,6 @@ export default function AddressManagement() {
       return false;
     }
   };
-
-  // console.log("addresses=24125==", checkSelectedAddress());
 
   if (loading) {
     return (
@@ -273,7 +270,8 @@ export default function AddressManagement() {
             <ProductTotalCard
               loading={loading}
               addresses={checkSelectedAddress()}
-              handleProductOrder={false}
+              handleProductOrder={true}
+              btntext="PAYMENT NOW"
               navigate={`/payment/${checkSelectedAddress()}`}
             />
           </div>

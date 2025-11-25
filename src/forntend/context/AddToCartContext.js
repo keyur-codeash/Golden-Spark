@@ -29,8 +29,6 @@ export const AddToCartProvider = ({ children }) => {
     singleProduct?.length ? singleProduct : productList
   );
 
-  console.log("==========productList==============", addtocartlist);
-
   const [error, setError] = useState(null);
   const MAX_QUANTITY = process.env.NEXT_PUBLIC_MAX_QUANTITY || 4;
   const { token } = useToken();
@@ -42,7 +40,6 @@ export const AddToCartProvider = ({ children }) => {
   };
 
   const addtocart = async (id, selectedVariant = null, isSingle) => {
-    console.log(isSingle);
 
     if (!localStorage.getItem("token")) {
       router.push("/auth/sign-in");

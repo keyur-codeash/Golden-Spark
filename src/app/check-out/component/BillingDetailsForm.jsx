@@ -71,15 +71,11 @@ const BillingDetailsForm = ({
       const selectedCountry = countriesData.find(
         (c) => c.name === initialValues.country
       );
-      console.log("selectedCountry===", selectedCountry);
-
       if (selectedCountry) {
         setStates(selectedCountry.states || []);
       }
     }
   }, [initialValues]);
-
-  console.log("states===============13414", initialFormValues);
 
   if (isLoading) {
     return <div className="text-center py-8">Loading countries...</div>;

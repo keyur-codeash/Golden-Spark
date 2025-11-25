@@ -77,8 +77,6 @@ export const PUT = asyncHandler(async (request) => {
     const _id = formData.get("_id");
     const image = formData.get("image");
 
-    console.log("Received fields:", { heading, sub_heading, content, _id });
-
     // Create formEntries object
     const formEntries = {
       heading,
@@ -89,7 +87,6 @@ export const PUT = asyncHandler(async (request) => {
 
     // If new image provided, upload and replace
     if (image && typeof image !== "string" && image.name) {
-      console.log("Processing image upload...");
       const fileName = await saveFile(SAVE_PRODUCT_PATH, image, "product");
       formEntries.image = fileName;
     }

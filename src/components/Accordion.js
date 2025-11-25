@@ -5,7 +5,7 @@ import { FiPlus, FiMinus } from "react-icons/fi";
 
 export default function Accordion({ accordionData }) {
   const [activeIndex, setActiveIndex] = useState(0);
-  
+
   const toggleAccordion = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
@@ -23,9 +23,9 @@ export default function Accordion({ accordionData }) {
             <span className="text-xl text-black">
               {activeIndex === index ? <FiMinus /> : <FiPlus />}
             </span>
-          </button>
+          </button> 
 
-          {/* Content with transition */} 
+          {/* Content with transition */}
           <div
             className={`overflow-hidden transition-all duration-300 px-4 text-md lg:text-lg text-gray-400  border-b-1 border-gray-200  ${
               activeIndex === index ? "max-h-40 pb-2" : "max-h-0 py-0"

@@ -118,8 +118,6 @@ const AddCardModel = ({
 
   if (!isModalOpen) return null;
 
-  console.log("editingCard======", editingCard);
-
   return (
     <div
       className="fixed inset-0 z-30 flex items-center justify-center bg-black-200 bg-opacity-50 h-screen"

@@ -5,7 +5,7 @@ export const GET = asyncHandler(async (_, { params }) => {
   try {
     const brand = await Brand.findById(params.id);
     if (!brand) throw new Error("Brand not found");
-    return Response.json({ success: true, data: brand });
+    return Response.json({ isSuccess: true, data: brand });
   } catch (error) {
     return Response.json(
       { isSuccess: false, message: error.message },

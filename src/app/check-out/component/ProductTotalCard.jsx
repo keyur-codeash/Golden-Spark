@@ -7,6 +7,7 @@ import { useRouter, useParams } from "next/navigation";
 import { HiOutlineArrowLeft } from "react-icons/hi";
 import { fetchDeliveryDetails } from "@/forntend/services/deliveryServices";
 import { useAddtocart } from "@/forntend/context/AddToCartContext";
+import { usePathname } from "next/navigation";
 
 const ProductTotalCard = ({
   loading,
@@ -15,13 +16,11 @@ const ProductTotalCard = ({
   onclick,
   isPaymnetUI = false,
   btntext = "PLACE ORDER",
+  handleProductOrder,
   orderErrors = [],
 }) => {
   const {
-    singleProduct,
-    setSingleProduct,
     addtocartlist,
-    productList,
     updateCartItemQuantity,
     removeFromaddtocart,
     updateCartItemVariant,
@@ -31,25 +30,20 @@ const ProductTotalCard = ({
   const [delivery, setDelivery] = useState(null);
   const [localError, setLocalError] = useState("");
   const router = useRouter();
+  const pathname = usePathname();
+  console.log("path name=====", pathname);
 
   const deliveryFee = delivery?.delivery || 0;
   const taxRate = delivery?.tax || 0;
   let subtotal = [];
   // Totals
 
-  console.log("productList==================", productList);
+  console.log("addresses===", addresses);
 
-  // if (singleProduct.length > 0) {
-  //   subtotal = singleProduct.reduce(
-  //     (sum, item) => sum + (item.price || 0) * (item.quantity || 1),
-  //     0
-  //   );
-  // } else {
   subtotal = addtocartlist.reduce(
     (sum, item) => sum + (item.price || 0) * (item.quantity || 1),
     0
   );
-  // }
 
   const taxAmount = (subtotal * taxRate) / 100;
   const total = subtotal + deliveryFee + taxAmount;
@@ -165,7 +159,7 @@ const ProductTotalCard = ({
     hasStockError(product)
   );
 
-  console.log(localError);
+  console.log("window.location.href", window.location.href);
 
   if (loading) {
     return (
@@ -418,7 +412,6 @@ const ProductTotalCard = ({
                     </div>
                   </div>
                   <div>
-                    {console.log(localError, "abc", productError)}
                     {(localError || productError) && !isStockError && (
                       <p className="text-red-600 text-sm mt-2 bg-red-50 p-2 rounded border border-red-200">
                         {localError || productError.message}
@@ -474,32 +467,44 @@ const ProductTotalCard = ({
                   ${total.toFixed(2)}
                 </span>
               </div>
-              {console.log(
-                "localError.length",
-                hasAnyStockError.length > 0,
-                hasAnyStockError
-              )}
               <div>
-                <Button
-                  label={
-                    hasAnyStockError
-                      ? "FIX STOCK ISSUES TO PLACE ORDER"
-                      : btntext
-                  }
-                  size="md"
-                  variant="solid"
-                  className={`w-full !rounded-0 py:3 sm:py-3.5 mt-3 flex items-center gap-[10px] ${
-                    hasAnyStockError
-                      ? "!bg-red-500 hover:!bg-red-600 cursor-not-allowed"
-                      : "!bg-yellow-800 hover:!bg-yellow-900"
-                  }`}
-                  onClick={handlePlaceOrder}
-                  disabled={hasAnyStockError.length > 0 || hasAnyStockError}
-                />
                 {hasAnyStockError && (
-                  <p className="text-red-600 text-sm mt-2 text-center">
+                  <p className="text-red-600 text-sm mt-2 text-center p">
                     Please resolve all stock issues before placing your order
                   </p>
+                )}
+                {!addresses && pathname == "/check-out/address" && (
+                  <p className="text-red-600 text-sm mt-2 text-center">
+                    No address selected. Choose an address to proceed with your
+                    order.
+                  </p>
+                )}
+
+                {pathname != "/check-out" && (
+                  <Button
+                    label={
+                      hasAnyStockError
+                        ? "FIX STOCK ISSUES TO PLACE ORDER"
+                        : btntext
+                    }
+                    size="md"
+                    variant="solid"
+                    className={`w-full !rounded-0 py:3 sm:py-3.5 mt-3 flex items-center gap-[10px] ${
+                      (!addresses && pathname == "/check-out/address") ||
+                      hasAnyStockError.length > 0 ||
+                      hasAnyStockError ||
+                      pathname == "/check-out"
+                        ? "!bg-gray-300 "
+                        : "!bg-yellow-800 "
+                    }`}
+                    onClick={handlePlaceOrder}
+                    disabled={
+                      (!addresses && pathname == "/check-out/address") ||
+                      hasAnyStockError.length > 0 ||
+                      hasAnyStockError ||
+                      pathname == "/check-out"
+                    }
+                  />
                 )}
               </div>
             </div>

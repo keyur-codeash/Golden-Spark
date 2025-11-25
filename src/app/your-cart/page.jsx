@@ -149,7 +149,6 @@ const CartPage = () => {
     const errors = await checkStockAvailability();
     if (!errors.length || error == null) {
       const responce = await fetchAddress();
-      console.log(responce);
       if (responce.data.length) {
         router.push("/check-out/address");
       } else {

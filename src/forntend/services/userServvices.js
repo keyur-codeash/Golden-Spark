@@ -4,7 +4,6 @@ import Toast from "@/components/toastService";
 export const getUserProfileData = async () => {
   try {
     const response = await axiosInstance.get("/user/profile");
-    console.log("response==================", response);
     
     if (response.data.isSuccess) {
       return response.data;
