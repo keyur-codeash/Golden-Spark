@@ -11,7 +11,7 @@ import {
 } from "@/forntend/services/policySevices";
 import HeroSectionCommon from "@/components/HeroSectionCommon";
 
-const policy = () => {
+const TermsAndConditions = () => {
   const [policy, setPolicy] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -63,4 +63,4 @@ const policy = () => {
   );
 };
 
-export default policy;
+export default TermsAndConditions;

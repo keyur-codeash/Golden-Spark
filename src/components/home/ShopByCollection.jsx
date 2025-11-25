@@ -79,7 +79,7 @@ const ShopByCollection = () => {
 
   return (
     <div data-aos="fade-up">
-      <div>
+      <div className="md:hidden lg:block">
         <div className="md:absolute -top-30 xl:bottom-25  pt-5 w-[80px] md:w-[103px] h-[113px]">
           <Image
             src="/images/side-icon-down.png"

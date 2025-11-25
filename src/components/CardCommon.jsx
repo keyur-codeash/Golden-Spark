@@ -5,7 +5,7 @@ const CardCommon = ({ item }) => {
   const { shopBy, setShopBy } = useShopByCallection();
   const router = useRouter();
 
-  const handleCallection = (id) => {``
+  const handleCallection = (id) => {
     setShopBy(id);
     router.push("/product");
   };

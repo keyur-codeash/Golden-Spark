@@ -4,7 +4,7 @@ import React from "react";
 function AboutSkeleton() {
   return (
     <div className="pt-10 lg:pt-28">
-      <div className="container">
+      <div className="container mx-auto">
         {[1, 2, 3].map((_, index) => {
           const isEven = index % 2 === 0;
           return (

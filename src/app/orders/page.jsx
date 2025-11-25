@@ -24,10 +24,10 @@ const Page = () => {
   const [cancelDetails, setCancelDetails] = useState({});
   const [cancelId, setCancelId] = useState(null);
   const [orderTrakingDetails, setOrderTrakingDetails] = useState({});
-  const [isClient, setIsClient] = useState(false); 
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(true); 
+    setIsClient(true);
   }, []);
 
   useEffect(() => {
@@ -114,13 +114,15 @@ const Page = () => {
 
   return (
     <div>
-      <CancelOrderModal
-        orderDetails={cancelOrrderDetails}
-        setIsModalOpen={setOrderCancelModalOpen}
-        isModalOpen={orderCancelModalOpen}
-        cancelDetails={cancelDetails}
-        setCancelId={setCancelId}
-      />
+      {orderCancelModalOpen && (
+        <CancelOrderModal
+          orderDetails={cancelOrrderDetails}
+          setIsModalOpen={setOrderCancelModalOpen}
+          isModalOpen={orderCancelModalOpen}
+          cancelDetails={cancelDetails}
+          setCancelId={setCancelId}
+        />
+      )}
       <TrackingModalPage
         isModalOpen={isTrackingModalOpen}
         setIsModalOpen={setIsTrackingModalOpen}
@@ -179,7 +181,7 @@ const Page = () => {
         {/* Orders List */}
         <div className="grid grid-cols-1 gap-5 md:gap-7 lg:gap-5 pt-5">
           {groupedOrders.length === 0 ? (
-            <div className=" pt-5 text-gray-500 px-4">
+            <div className="pt-5 text-gray-500 px-4 sm:px-0">
               No {selectedFilter} orders found.
             </div>
           ) : (

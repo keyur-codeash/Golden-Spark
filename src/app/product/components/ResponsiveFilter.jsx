@@ -25,6 +25,8 @@ const ResponsiveFilter = () => {
   const [stock, setStock] = useState({ inStock: 0, outStock: 0 });
   const { shopBy, setShopBy } = useShopByCallection();
 
+  console.log("shopBy", shopBy);
+
   const [filters, setFilters] = useState({
     collections: [],
     stock: false,
@@ -151,7 +153,7 @@ const ResponsiveFilter = () => {
     const timer = setTimeout(() => {
       fetchData();
       window.scrollTo({ top: 0, behavior: "smooth" });
-    }, 1000);
+    }, 50);
 
     return () => clearTimeout(timer);
   }, [currentPage, filters]);
@@ -189,6 +191,10 @@ const ResponsiveFilter = () => {
       brands: [shopBy],
     }));
   }, [shopBy]);
+
+  // useEffect(() => {
+  //   shop
+  // }, [filters.brands]);
 
   return (
     <>
@@ -229,7 +235,7 @@ const ResponsiveFilter = () => {
               </div>
             </p>
           ) : (
-            <div className="grid grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-y-10">
+            <div className="grid grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-y-8 sm:gap-y-10">
               {loading ? (
                 <SkeletonShoppingCard items={8} />
               ) : (

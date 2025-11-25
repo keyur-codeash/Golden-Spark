@@ -11,7 +11,12 @@ import { useAddtocart } from "@/forntend/context/AddToCartContext";
 const Page = () => {
   const router = useRouter();
   const [orderErrors, setOrderErrors] = useState([]);
-  const { removeAllAddToCartList } = useAddtocart();
+  const {
+    removeAllAddToCartList,
+    clearSingleProduct,
+    removeAllproductList,
+    singleProduct,
+  } = useAddtocart();
 
   const handleOrder = async (data) => {
     try {
@@ -21,6 +26,11 @@ const Page = () => {
       if (response.isSuccess) {
         setOrderErrors([]);
         router.push(`/orders/confirmed/${response.orderId}`);
+        if (singleProduct?.length > 0) {
+          clearSingleProduct();
+        } else {
+          removeAllproductList();
+        }
         removeAllAddToCartList();
       } else {
         setOrderErrors(response.failedOrders || []);
@@ -38,9 +48,8 @@ const Page = () => {
 
   return (
     <div>
-        <HeroSectionCommon heading="Payment" />
-      <div data-aos="fade-up">
-      </div>
+      <HeroSectionCommon heading="Payment" />
+      <div data-aos="fade-up"></div>
       <div className="container mx-auto">
         <div className="pt-10 lg:pt-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 px-4 xl:px-0 gap-10">
@@ -61,6 +70,6 @@ const Page = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Page;

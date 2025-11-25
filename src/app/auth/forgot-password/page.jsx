@@ -14,10 +14,6 @@ import { forgotPasswordSchema } from "@/forntend/validation/validation";
 const Page = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  useEffect(() => {
-    AOS.init({ duration: 800, once: true });
-  }, []);
-
 
   const formik = useFormik({
     initialValues: {
@@ -62,7 +58,7 @@ const Page = () => {
                 name="password"
                 label="New Password"
                 type="password"
-                placeholder="Enter your password..."
+                placeholder="Password"
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -80,7 +76,7 @@ const Page = () => {
                 name="confirmPassword"
                 label="Confirm Password"
                 type="password"
-                placeholder="Confirm your password..."
+                placeholder="Confirm password"
                 value={formik.values.confirmPassword}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}

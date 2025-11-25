@@ -1,7 +1,7 @@
 "use client";
 
 import Button from "@/components/Button";
-import Modal from "@/components/Model";
+import CommonModel from "@/components/Model";
 import { formatDate } from "@/forntend/common/commonDateFormat";
 import { orderCancellationReasons } from "@/forntend/services/orderServices";
 import Image from "next/image";
@@ -20,7 +20,6 @@ const CancelOrder = ({
   const [error, setError] = useState("");
   const [cancellationReasons, setCancellationReasons] = useState([]);
 
-  // State to check if we are on the client-side (after mount)
   const [isClient, setIsClient] = useState(false);
 
   const order = {
@@ -74,7 +73,7 @@ const CancelOrder = ({
   };
 
   return (
-    <Modal
+    <CommonModel
       isOpen={isModalOpen}
       onClose={() => setIsModalOpen(false)}
       maxWidth="mx-1/2"
@@ -173,7 +172,7 @@ const CancelOrder = ({
           </div>
         </form>
       </div>
-    </Modal>
+    </CommonModel>
   );
 };
 

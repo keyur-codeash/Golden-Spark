@@ -23,15 +23,16 @@ axiosInstance.interceptors.request.use((config) => {
   }
   console.log("axios token ==== ", token);
 
-  if (      
-    token &&
-    protectedRoutes?.some((route) => config.url?.startsWith(route))
+  if (token) {
+    if (protectedRoutes?.some((route) => config.url?.startsWith(route))) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+  } else if (
+    protectedRoutes?.some((route) => config.url?.startsWith(route)) &&
+    !token
   ) {
-    config.headers.Authorization = `Bearer ${token}`;
+    window.location.href = "/auth/sign-in";
   }
-  // else {
-  //   window.location.href = "/auth/sign-in"
-  // }
   return config;
 });
 

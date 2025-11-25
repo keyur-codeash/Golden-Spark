@@ -12,7 +12,10 @@ export const POST = asyncHandler(async (request) => {
     const body = await request.json();
     const { value, error } = validate(signUpSchema, body, { abortEarly: true });
     if (error) {
-      return NextResponse.json({message: error, isSuccess: false }, { status: 400 });
+      return NextResponse.json(
+        { message: error, isSuccess: false },
+        { status: 400 }
+      );
     }
 
     const { userName, email, password } = value;
@@ -35,7 +38,7 @@ export const POST = asyncHandler(async (request) => {
 
     return NextResponse.json(
       {
-        message: "User created successfully",
+        message: "Registration successful.",
         isSuccess: true,
         user: {
           id: newUser._id,

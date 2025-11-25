@@ -13,9 +13,13 @@ function page() {
     const response = await createAddress(values);
     if (response.isSuccess) {
       router.push("/check-out/address");
-    } 
+    }
   };
-  
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="container mx-auto">
       <div className="pt-30">

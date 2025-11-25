@@ -14,7 +14,7 @@ const page = () => {
         </h2>
 
         <p className="text-center py-6 text-cursom-gray-700">
-          You have successfully confirm your nwe password. please, use your new{" "}
+          You have successfully confirm your new password. please, use your new{" "}
           <br />
           password when login.
         </p>

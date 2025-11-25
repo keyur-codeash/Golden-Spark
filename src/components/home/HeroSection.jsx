@@ -7,22 +7,22 @@ const HeroSection = () => {
   const router = useRouter();
 
   return (
-    <div className="min-h-[600px] md:min-h-[450px]  lg:min-h-[670px] md:h-[calc(100vh-8rem)] ">
+    <div className="min-h-[600px]  lg:min-h-[670px] lg:h-[calc(100vh-8rem)] ">
       <div data-aos="fade-up"></div>
       <div className="container mx-auto h-full ">
-        <div className="grid grid-cols-1 md:grid-cols-2 h-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 h-full">
           <div
-            className="flex items-center px-4 order-2 md:order-1 "
+            className="flex items-center px-4 order-2 lg:order-1 "
             data-aos="fade-right"
           >
-            <div className="xl:pe-14">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl text-brown-900 xl:leading-16 font-medium">
+            <div className="xl:pe-14 !xs:pb-20 lg:pb-0">
+              <h2 className="text-3xl lg:text-5xl 2xl:text-6xl text-brown-900 xl:leading-16 font-medium">
                 Your Enchanting Jewellery Emporium.
               </h2>
-              <p className="text-gray-500 md:text-sm xl:text-md xl:text-lg  py-4 ">
+              <p className="text-gray-500 lg:text-sm xl:text-md xl:text-lg  py-4 ">
                 Jewellery, the exquisite fusion of craftsmanship and creativity,
                 has been an integral part of human history and self-expression.
-              </p>  
+              </p>
               <Button
                 label="SHOP NOW"
                 color="blue"
@@ -35,7 +35,7 @@ const HeroSection = () => {
               />
             </div>
           </div>
-          <div className="order-1 md:order-2">
+          <div className="order-1 lg:order-2">
             <div className="py-10 md:py-0 h-full pe-6 xl:px-0 flex items-center">
               <Image
                 src="/images/hero-bg.png"

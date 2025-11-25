@@ -4,15 +4,14 @@ import React, { useEffect } from "react";
 import ResponsiveFilter from "./components/ResponsiveFilter";
 
 const page = () => {
-
   return (
     <>
-       <HeroSectionCommon heading="Product" />
+      <HeroSectionCommon heading="Product" />
       <div className="container mx-auto">
         <ResponsiveFilter />
       </div>
     </>
   );
-}
+};
 
 export default page;

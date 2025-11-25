@@ -27,10 +27,10 @@ const BillingDetailsForm = ({
   const [states, setStates] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Load countries once on mount
   useEffect(() => {
-    // Load countries
     try {
-      setCountries(countriesData);
+      setCountries(countriesData); // Assuming countriesData is an array of countries
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching countries:", error);
@@ -38,10 +38,15 @@ const BillingDetailsForm = ({
     }
   }, []);
 
-  const handleCountryChange = (country, setFieldValue) => {
-    const selectedCountry = countries.find((c) => c.name === country);
-    setStates(selectedCountry?.states || []);
-    setFieldValue("state", "");
+  // Handle country change to update states
+  const handleCountryChange = (countryName, setFieldValue) => {
+    const selectedCountry = countries.find((c) => c.name === countryName);
+    if (selectedCountry) {
+      setStates(selectedCountry.states || []);
+    } else {
+      setStates([]); // Reset states if no country found
+    }
+    setFieldValue("state", ""); // Reset state when country changes
   };
 
   const initialFormValues = {
@@ -61,6 +66,21 @@ const BillingDetailsForm = ({
     ...initialValues,
   };
 
+  useEffect(() => {
+    if (initialValues?.country) {
+      const selectedCountry = countriesData.find(
+        (c) => c.name === initialValues.country
+      );
+      console.log("selectedCountry===", selectedCountry);
+
+      if (selectedCountry) {
+        setStates(selectedCountry.states || []);
+      }
+    }
+  }, [initialValues]);
+
+  console.log("states===============13414", initialFormValues);
+
   if (isLoading) {
     return <div className="text-center py-8">Loading countries...</div>;
   }
@@ -70,7 +90,6 @@ const BillingDetailsForm = ({
       <div className="container mx-auto">
         <div className="">
           <h1 className="text-2xl font-bold mb-4 cursor-pointer">{title}</h1>
-
           <div className={overflow && "overflow-auto h-[70vh]"}>
             <Formik
               initialValues={initialFormValues}
@@ -171,8 +190,9 @@ const BillingDetailsForm = ({
                         as="select"
                         name="country"
                         onChange={(e) => {
-                          setFieldValue("country", e.target.value);
-                          handleCountryChange(e.target.value, setFieldValue);
+                          const country = e.target.value;
+                          setFieldValue("country", country);
+                          handleCountryChange(country, setFieldValue);
                         }}
                         className="block w-full pt-5 pb-1 ps-2 border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-0 peer bg-transparent"
                       >
@@ -265,10 +285,11 @@ const BillingDetailsForm = ({
                         <Field
                           as="select"
                           name="state"
-                          disabled={!values.country}
+                          // disabled={!values.country}
                           className="w-full px-4 py-3.5 border border-gray-300 rounded-md focus:outline-none focus:ring-1"
                         >
-                          <option value="">State</option>
+                          <option value="gujrat">State</option>
+
                           {states.map((state) => (
                             <option key={state.id} value={state.name}>
                               {state.name}

@@ -1,5 +1,5 @@
 "use client";
-import Modal from "@/components/Model";
+import CommonModel from "@/components/Model";
 import { FaCheck } from "react-icons/fa6";
 
 const TrackingModalPage = ({
@@ -16,7 +16,7 @@ const TrackingModalPage = ({
   return (
     <div className="flex items-center justify-center p-4">
 
-<Modal isOpen={isModalOpen} onClose={closeModal} maxWidth="max-w-lg">
+<CommonModel isOpen={isModalOpen} onClose={closeModal} maxWidth="max-w-lg">
   <div className="px-10 py-6 text-lg">
     <h2 className="text-2xl font-semibold mb-4">Track Item</h2>
     <div className="space-y-4">
@@ -95,7 +95,7 @@ const TrackingModalPage = ({
       })}
     </div>
   </div>
-</Modal>
+</CommonModel>
     </div>
   );
 };

@@ -19,6 +19,7 @@ export const POST = asyncHandler(async (req, { params }) => {
     const body = await req.json();
     const updatedBrand = await categorySchema.findByIdAndUpdate(
       params.id,
+      params.id,
       body,
       {
         new: true,
@@ -50,3 +51,5 @@ export const DELETE = asyncHandler(async (_, { params }) => {
     );
   }
 });
+
+export const dynamic = "force-static";

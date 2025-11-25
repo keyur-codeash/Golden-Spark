@@ -9,13 +9,13 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { accountOptions, countries, menuItems } from "@/data/data";
 import { CgCloseR } from "react-icons/cg";
 import Button from "../Button";
-import Dropdown from "../Dropdown";
 import { useRouter } from "next/navigation";
 import useToken from "@/forntend/hooks/useToken";
 import { fetchBrand } from "@/forntend/services/brandServices";
 import { useShopByCallection } from "@/forntend/context/ShopBycallection";
 import { IoSearchOutline } from "react-icons/io5";
 import { getUserProfileData } from "@/forntend/services/userServvices";
+import { useAddtocart } from "@/forntend/context/AddToCartContext";
 
 export default function Header() {
   const pathname = usePathname();
@@ -32,6 +32,10 @@ export default function Header() {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const { shopBy, setShopBy } = useShopByCallection();
   const [userDetails, setUserDetails] = useState();
+  const { productList } = useAddtocart();
+  // const [, set] = useState(second)
+
+  // onst {AddToCart}
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,6 +48,7 @@ export default function Header() {
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "";
     return () => {
+      document.body.style.overflow = "";
       document.body.style.overflow = "";
     };
   }, [isMenuOpen]);
@@ -92,11 +97,6 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const modalRef = useRef(null);
 
-  const user = {
-    name: "Keyur Patel",
-    email: "keyur@example.com",
-  };
-
   useEffect(() => {
     // if (window.innerWidth >= 768) {
     function handleClickOutside(event) {
@@ -123,6 +123,7 @@ export default function Header() {
 
   // Handle keyboard navigation
   const handleKeyDown = (e) => {
+    // Handle ArrowDown key press
     if (e.key === "ArrowDown") {
       e.preventDefault();
       setSelectedIndex((prev) =>
@@ -135,6 +136,7 @@ export default function Header() {
       );
     }
 
+    // Handle ArrowUp key press
     if (e.key === "ArrowUp") {
       e.preventDefault();
       setSelectedIndex((prev) =>
@@ -147,16 +149,75 @@ export default function Header() {
       );
     }
 
-    if (e.key === "Enter" && selectedIndex >= 0) {
-      const selectedItem = searchResults[selectedIndex];
-      setSearchQuery(selectedItem);
-      if (selectedItem) {
+    // Handle Enter key press (direct search behavior)
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (selectedIndex >= 0) {
+        s;
+        const selectedItem = searchResults[selectedIndex];
+        console.log("selectedItem=====", selectedItem);
+        setSearchQuery(selectedItem.name);
         setShopBy(selectedItem._id);
+        router.push("/product");
+        clearSearch();
+      } else if (searchResults.length > 0) {
+        console.log("Direct search with query:", searchQuery);
+        setShopBy(searchResults[0]._id);
+        router.push("/product");
+        clearSearch();
+      } else {
+        setShopBy("abcdddd");
         router.push("/product");
         clearSearch();
       }
     }
   };
+
+  // const handleKeyDown = (e) => {
+  //   if (e.key === "ArrowDown") {
+  //     e.preventDefault();
+  //     setSelectedIndex((prev) =>
+  //       prev < searchResults.length - 1 ? prev + 1 : 0
+  //     );
+  //     setSearchQuery(
+  //       searchResults[
+  //         selectedIndex < searchResults.length - 1 ? selectedIndex + 1 : 0
+  //       ].name
+  //     );
+  //   }
+  //   if (e.key === "ArrowUp") {
+  //     e.preventDefault();
+  //     setSelectedIndex((prev) =>
+  //       prev > 0 ? prev - 1 : searchResults.length - 1
+  //     );
+  //     setSearchQuery(
+  //       searchResults[
+  //         selectedIndex > 0 ? selectedIndex - 1 : searchResults.length - 1
+  //       ].name
+  //     );
+  //   }
+  //   if (e.key === "Enter" && selectedIndex >= 0) {
+  //     const selectedItem = searchResults[selectedIndex];
+  //     console.log("selectedItem=====", selectedItem);
+
+  //     setSearchQuery(selectedItem);
+  //     if (selectedItem) {
+  //       setShopBy(selectedItem._id);
+  //       router.push("/product");
+  //       clearSearch();
+  //     }
+  //   }
+
+  //   console.log("selectedInde=========", selectedIndex);
+
+  //   if (selectedIndex === -1) {
+  //     if (e.key === "Enter") {
+  //       router.push("/product");
+  //       setShopBy("abcd");
+  //       clearSearch();
+  //     }
+  //   }
+  // };
 
   // Attach key listener
   useEffect(() => {
@@ -179,68 +240,224 @@ export default function Header() {
         isScrolled ? "shadow-sm md:py-2" : "bg-transparent md:py-2"
       }`}
     >
-      <div className="container mx-auto">
-        <div className="flex justify-between items-center bg-brown-800 md:bg-transparent px-4 xl:px-0 py-3">
-          <div className="flex justify-between items-center w-full md:w-auto">
-            <Link href="/" className="order-2">
-              <img
-                src="/images/logo.svg"
-                alt="Logo"
-                className="h-10 lg:h-14 hidden md:block w-auto"
-              />
-              <img
-                src="/images/mobile.logo.svg"
-                alt="Logo"
-                className="md:hidden w-auto"
-              />
-            </Link>
-            <button
-              className="md:hidden focus:outline-none order-1 text-white"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Toggle menu"
-            >
-              <div className="w-6 flex flex-col space-y-1">
-                <span
-                  className={`h-0.5 w-full bg-white transition-all ${
-                    isMenuOpen ? "rotate-45 translate-y-1.5" : ""
-                  }`}
-                />
-                <span
-                  className={`h-0.5 w-full bg-white transition-all ${
-                    isMenuOpen ? "opacity-0" : "opacity-100"
-                  }`}
-                />
-                <span
-                  className={`h-0.5 w-full bg-white transition-all ${
-                    isMenuOpen ? "-rotate-45 -translate-y-1.5" : ""
-                  }`}
-                />
+      <div className="bg-brown-800 md:bg-transparent">
+        <div className="container mx-auto">
+          <div className="flex justify-between items-center  px-4 xl:px-0 py-3">
+            <div className="flex justify-between items-center w-full md:w-auto">
+              <div className="flex gap-5 items-center">
+                <Link href="/" className="order-2">
+                  <img
+                    src="/images/logo.svg"
+                    alt="Logo"
+                    className="h-10 lg:h-14 hidden md:block w-auto"
+                  />
+                  <img
+                    src="/images/mobile.logo.svg"
+                    alt="Logo"
+                    className="md:hidden w-auto"
+                  />
+                </Link>
+                <button
+                  className="md:hidden focus:outline-none order-1 text-white"
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  aria-label="Toggle menu"
+                >
+                  <div className="w-6 flex flex-col space-y-1">
+                    <span
+                      className={`h-0.5 w-full bg-white transition-all ${
+                        isMenuOpen ? "rotate-45 translate-y-1.5" : ""
+                      }`}
+                    />
+                    <span
+                      className={`h-0.5 w-full bg-white transition-all ${
+                        isMenuOpen ? "opacity-0" : "opacity-100"
+                      }`}
+                    />
+                    <span
+                      className={`h-0.5 w-full bg-white transition-all ${
+                        isMenuOpen ? "-rotate-45 -translate-y-1.5" : ""
+                      }`}
+                    />
+                  </div>
+                </button>
               </div>
-            </button>
+              <div className="md:hidden order-3">
+                <ul className="flex items-center">
+                  {!token ? (
+                    <Link href="/auth/sign-in">
+                      <LuUser className="lg:text-2xl cursor-pointer text-2xl text-white" />
+                    </Link>
+                  ) : (
+                    <li className="relative ps-4">
+                      <button
+                        onClick={() => setOpen(true)}
+                        className="py-2 rounded-full transition"
+                      >
+                        <LuUser className="lg:text-2xl cursor-pointer  text-white text-2xl" />
+                      </button>
 
-            <div className="md:hidden order-3">
-              <ul className="flex items-center">
+                      {/* Dropdown Modal */}
+                      {open && (
+                        <div
+                          ref={modalRef}
+                          className="absolute left-1/2 -translate-x-1/2  w-40 bg-brown-400  backdrop-blur-xl rounded-lg shadow-lg bg-yellow-400 z-50 animate-fadeIn "
+                        >
+                          <div className="bg-white rounded-xl">
+                            {/* User Info */}
+                            <div className="px-5 py-4 border-b border-gray-100">
+                              <p className="text-sm font-semibold text-gray-900">
+                                {userDetails?.userName}
+                              </p>
+                              <p className="text-xs text-gray-500 mt-0.5">
+                                {userDetails?.email}
+                              </p>
+                            </div>
+
+                            {/* Menu Items */}
+                            <div className="py-2">
+                              <Link
+                                href="/orders"
+                                className="flex items-center gap-2 w-full px-5 py-2.5 text-sm cursor-pointer transition"
+                              >
+                                <LuShoppingBag className="text-base" />
+
+                                {/* <button
+                                type="button"
+                                class="relative text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm p-3 focus:outline-none"
+                              >
+                                <svg
+                                  class="w-5 h-5"
+                                  aria-hidden="true"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="24"
+                                  height="24"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    stroke="currentColor"
+                                    stroke-linecap="round"
+                                    stroke-width="2"
+                                    d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"
+                                  />
+                                </svg>
+                                <span class="sr-only">Notifications</span>
+                                <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-danger border-2 border-buffer rounded-full -top-2 -end-2">
+                                  20
+                                </div>
+                              </button> */}
+
+                                <span>My Orders</span>
+                              </Link>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </li>
+                  )}
+                  <li className="ps-4 pt-2">
+                    <button onClick={() => setIsSearchOpen(true)}>
+                      <LuSearch size={22} className="text-white" />
+                    </button>
+                  </li>
+                  <li className="ps-4">
+                    <Link href="/your-cart">
+                      <div className="relative">
+                        <RiShoppingBag4Line size={22} className="text-white" />
+                        {productList.length > 0 && (
+                          <div className="absolute top-0 right-0 inline-flex items-center justify-center  min-w-5 min-h-5  w-auto text-xs font-bold bg-brown-1000 text-white bg-danger border-2 border-b rounded-full -mt-1.5 -mr-1.5">
+                            {productList?.length}
+                          </div>
+                        )}
+                      </div>
+                    </Link>
+                  </li>
+                  <li className="text-white ps-4">
+                    <Link href="/wishlist">
+                      <FaRegHeart size={22} />
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Desktop Nav */}
+            <nav className="hidden md:flex space-x-8">
+              {menuItems.map((item, index) =>
+                item.children ? (
+                  <div
+                    key={index}
+                    className="relative"
+                    onMouseEnter={() => setOpenDropdown(index)}
+                    onMouseLeave={() => setOpenDropdown(null)}
+                  >
+                    <button className="flex items-center gap-1 text-sm lg:text-lg xl:text-xl lg:px-2  xl:px-6 font-medium text-gray-700 hover:text-gray-900">
+                      {item.name}
+                      <MdKeyboardArrowDown />
+                    </button>
+                    <div
+                      className={`absolute top-full left-0 w-44 bg-white rounded shadow-lg z-50 overflow-hidden transition-all duration-300 ease-in-out ${
+                        openDropdown === index
+                          ? "opacity-100 max-h-96"
+                          : "opacity-0 max-h-0 pointer-events-none"
+                      }`}
+                    >
+                      {item?.children?.map((child, childIndex) => (
+                        <Link
+                          key={childIndex}
+                          href={child.path}
+                          className={`block px-4 py-2 text-sm lg:text-lg whitespace-nowrap ${
+                            pathname === child.path
+                              ? "text-brown-800 bg-gray-100"
+                              : "text-gray-700 hover:bg-gray-100"
+                          }`}
+                        >
+                          {child.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <Link
+                    key={index}
+                    href={item.path}
+                    className={`relative text-sm lg:text-lg xl:text-xl font-medium lg:px-2 xl:px-6 ${
+                      isActive(item.path)
+                        ? "after:content-[''] after:absolute after:left-1/2 after:translate-x-[-50%] after:bottom-0 after:w-[35px] after:h-[1px] after:bg-brown-800 text-brown-800"
+                        : "text-gray-700 hover:text-gray-900"
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                )
+              )}
+            </nav>
+
+            {/* Icons + Search */}
+            <div className="block" ref={searchRef}>
+              <ul className="md:flex items-center hidden ">
                 {!token ? (
                   <Link href="/auth/sign-in">
-                    <LuUser className="lg:text-xl cursor-pointer text-2xl text-white" />
+                    <LuUser className="lg:text-2xl cursor-pointer" />
                   </Link>
                 ) : (
-                  <li className="relative ps-4">
+                  <li
+                    className="relative ps-4 hidden md:block"
+                    onMouseLeave={() => setOpen(false)}
+                  >
                     <button
-                      onClick={() => setOpen(true)}
+                      onMouseEnter={() => setOpen(true)}
                       className="py-2 rounded-full transition"
                     >
-                      <LuUser className="lg:text-xl cursor-pointer  text-white text-2xl" />
+                      <LuUser className="lg:text-2xl cursor-pointer" />
                     </button>
 
-                    {/* Dropdown Modal */}
                     {open && (
                       <div
                         ref={modalRef}
-                        className="absolute left-1/2 -translate-x-1/2  w-40 bg-brown-400  backdrop-blur-xl rounded-lg shadow-lg bg-yellow-400 z-50 animate-fadeIn "
+                        className="absolute left-1/2 -translate-x-1/2 pt-3 w-64 bg-brown-400  backdrop-blur-xl rounded-lg shadow-lg bg-yellow-400 z-50 animate-fadeIn"
                       >
                         <div className="bg-white rounded-xl">
-                          {/* User Info */}
                           <div className="px-5 py-4 border-b border-gray-100">
                             <p className="text-sm font-semibold text-gray-900">
                               {userDetails?.userName}
@@ -255,131 +472,16 @@ export default function Header() {
                             <Link
                               href="/orders"
                               className="flex items-center gap-2 w-full px-5 py-2.5 text-sm cursor-pointer transition"
+                              onClick={() => {
+                                setOpen(false);
+                                setIsMenuOpen(false);
+                              }}
                             >
                               <LuShoppingBag className="text-base" />
                               <span>My Orders</span>
                             </Link>
                           </div>
-                        </div>
-                      </div>
-                    )}
-                  </li>
-                )}
-                <li className="ps-4 pt-2">
-                  <button onClick={() => setIsSearchOpen(true)}>
-                    <LuSearch size={24} className="text-white" />
-                  </button>
-                </li>
-                <li className="ps-4">
-                  <Link href="/your-cart">
-                    <RiShoppingBag4Line size={24} className="text-white " />
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex space-x-8">
-            {menuItems.map((item, index) =>
-              item.children ? (
-                <div
-                  key={index}
-                  className="relative"
-                  onMouseEnter={() => setOpenDropdown(index)}
-                  onMouseLeave={() => setOpenDropdown(null)}
-                >
-                  <button className="flex items-center gap-1 text-sm lg:text-lg lg:px-2 xl:px-6 font-medium text-gray-700 hover:text-gray-900">
-                    {item.name}
-                    <MdKeyboardArrowDown />
-                  </button>
-                  <div
-                    className={`absolute top-full left-0 w-44 bg-white rounded shadow-lg z-50 overflow-hidden transition-all duration-300 ease-in-out ${
-                      openDropdown === index
-                        ? "opacity-100 max-h-96"
-                        : "opacity-0 max-h-0 pointer-events-none"
-                    }`}
-                  >
-                    {item?.children?.map((child, childIndex) => (
-                      <Link
-                        key={childIndex}
-                        href={child.path}
-                        className={`block px-4 py-2 text-sm lg:text-lg whitespace-nowrap ${
-                          pathname === child.path
-                            ? "text-brown-800 bg-gray-100"
-                            : "text-gray-700 hover:bg-gray-100"
-                        }`}
-                      >
-                        {child.name}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                <Link
-                  key={index}
-                  href={item.path}
-                  className={`relative text-sm lg:text-lg font-medium lg:px-2 xl:px-6 ${
-                    isActive(item.path)
-                      ? "after:content-[''] after:absolute after:left-1/2 after:translate-x-[-50%] after:bottom-0 after:w-[35px] after:h-[1px] after:bg-brown-800 text-brown-800"
-                      : "text-gray-700 hover:text-gray-900"
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              )
-            )}
-          </nav>
-
-          {/* Icons + Search */}
-          <div className="block" ref={searchRef}>
-            <ul className="md:flex items-center hidden ">
-              {!token ? (
-                <Link href="/auth/sign-in">
-                  <LuUser className="lg:text-xl cursor-pointer" />
-                </Link>
-              ) : (
-                <li
-                  className="relative ps-4 hidden md:block"
-                  onMouseLeave={() => setOpen(false)}
-                >
-                  <button
-                    onMouseEnter={() => setOpen(true)}
-                    className="py-2 rounded-full transition"
-                  >
-                    <LuUser className="lg:text-xl cursor-pointer" />
-                  </button>
-
-                  {open && (
-                    <div
-                      ref={modalRef}
-                      className="absolute left-1/2 -translate-x-1/2 pt-3 w-64 bg-brown-400  backdrop-blur-xl rounded-lg shadow-lg bg-yellow-400 z-50 animate-fadeIn"
-                    >
-                      <div className="bg-white rounded-xl">
-                        <div className="px-5 py-4 border-b border-gray-100">
-                          <p className="text-sm font-semibold text-gray-900">
-                            {userDetails?.userName}
-                          </p>
-                          <p className="text-xs text-gray-500 mt-0.5">
-                            {userDetails?.email}
-                          </p>
-                        </div>
-
-                        {/* Menu Items */}
-                        <div className="py-2">
-                          <Link
-                            href="/orders"
-                            className="flex items-center gap-2 w-full px-5 py-2.5 text-sm cursor-pointer transition"
-                            onClick={() => {
-                              setOpen(false);
-                              setIsMenuOpen(false);
-                            }}
-                          >
-                            <LuShoppingBag className="text-base" />
-                            <span>My Orders</span>
-                          </Link>
-                        </div>
-                        {/* <div className="py-2">
+                          {/* <div className="py-2">
                           <button
                             onClick={() => {
                               router.push("/orders");
@@ -391,83 +493,91 @@ export default function Header() {
                             <span>My Orders</span>
                           </button>
                         </div> */}
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </li>
+                )}
+
+                <li className="ps-4 pt-1.5 hidden md:block">
+                  <button
+                    onClick={() => setIsSearchOpen(!isSearchOpen)}
+                    className="relative"
+                  >
+                    <LuSearch className="lg:text-2xl cursor-pointer" />
+                  </button>
                 </li>
-              )}
+                <li className="ps-4 hidden md:block">
+                  <Link href="/your-cart">
+                    <div className="relative">
+                      <RiShoppingBag4Line className="lg:text-2xl text-black" />
+                      {productList.length > 0 && (
+                        <div className="absolute top-0 right-0 inline-flex items-center justify-center  min-w-5.5  w-auto h-5.5 text-xs font-bold bg-brown-1000 text-white bg-danger border-2 border-b rounded-full -mt-2 -mr-2">
+                          {productList?.length}
+                        </div>
+                      )}
+                    </div>
+                  </Link>
+                </li>
 
-              <li className="ps-4 pt-1.5 hidden md:block">
-                <button
-                  onClick={() => setIsSearchOpen(!isSearchOpen)}
-                  className="relative"
-                >
-                  <LuSearch className="lg:text-xl cursor-pointer" />
-                </button>
-              </li>
-              <li className="ps-4 hidden md:block">
-                <Link href="/your-cart">
-                  <RiShoppingBag4Line className="lg:text-xl" />
-                </Link>
-              </li>
-              <li className="ps-4 hidden md:block">
-                <Link href="/wishlist">
-                  <FaRegHeart className="text-md lg:text-xl" />
-                </Link>
-              </li>
-            </ul>
+                <li className="ps-4 hidden md:block">
+                  <Link href="/wishlist">
+                    <FaRegHeart className="text-md lg:text-2xl" />
+                  </Link>
+                </li>
+              </ul>
 
-            {isSearchOpen && (
-              <div className="absolute top-0 left-0 right-0 w-full pb-35 pt-5 bg-yellow-400 rounded-lg shadow-sm border border-gray-200 z-50 overflow-hidden px-4 md:px-0">
-                <div className="container mx-auto pt-4">
-                  <div className="flex justify-end">
-                    <button
-                      className="ml-2 cursor-pointer hover:text-gray-700"
-                      onClick={clearSearch}
-                    >
-                      <CgCloseR className="text-2xl text-black" />
-                    </button>
-                  </div>
-                  <p className="py-4 text-xl">What are you looking for?</p>
-                  <div className="py-3 border-b border-black flex items-center pb-5">
-                    <input
-                      type="text"
-                      value={searchQuery}
-                      onChange={handleSearch}
-                      placeholder="Search...."
-                      className="w-full focus:outline-none bg-transparent placeholder:text-black placeholder:font-bold placeholder:text-xl text-lg"
-                      autoFocus
-                    />
-                    <button className="ml-2 text-gray-500 hover:text-gray-700">
-                      <LuSearch className=" text-2xl text-black" />
-                    </button>
-                  </div>
-                  <div className="max-h-80 overflow-y-auto mt-4 bg-white rounded-md shadow-inner">
-                    {searchResults.map((result, index) => (
-                      <Link
-                        key={result?._id}
-                        href={`/product`}
-                        className={`block p-3 border-b border-gray-100 transition-colors 
+              {isSearchOpen && (
+                <div className="absolute top-0 left-0 right-0 w-full pb-35 pt-5 bg-yellow-400 rounded-lg shadow-sm border border-gray-200 z-50 overflow-hidden px-4 md:px-0">
+                  <div className="container mx-auto pt-4">
+                    <div className="flex justify-end">
+                      <button
+                        className="ml-2 cursor-pointer hover:text-gray-700"
+                        onClick={clearSearch}
+                      >
+                        <CgCloseR className="text-2xl text-black" />
+                      </button>
+                    </div>
+                    <p className="py-4 text-xl">What are you looking for?</p>
+                    <div className="py-3 border-b border-black flex items-center pb-5">
+                      <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={handleSearch}
+                        placeholder="Search...."
+                        className="w-full focus:outline-none bg-transparent placeholder:text-black placeholder:font-bold placeholder:text-xl text-lg"
+                        autoFocus
+                      />
+                      <button className="ml-2 text-gray-500 hover:text-gray-700">
+                        <LuSearch className=" text-2xl text-black" />
+                      </button>
+                    </div>
+                    <div className="max-h-80 overflow-y-auto mt-4 bg-white rounded-md shadow-inner">
+                      {searchResults.map((result, index) => (
+                        <Link
+                          key={result?._id}
+                          href={`/product`}
+                          className={`block p-3 border-b border-gray-100 transition-colors 
                         ${
                           index === selectedIndex
                             ? "bg-gray-100"
                             : "hover:bg-gray-50"
                         }`}
-                        onClick={() => {
-                          clearSearch();
-                          setShopBy(result._id);
-                        }}
-                      >
-                        <div className="font-medium text-gray-800 flex items-center">
-                          <div className="pe-2">
-                            <IoSearchOutline size={20} />
+                          onClick={() => {
+                            clearSearch();
+                            setShopBy(result._id);
+                          }}
+                        >
+                          <div className="font-medium text-gray-800 flex items-center">
+                            <div className="pe-2">
+                              <IoSearchOutline size={20} />
+                            </div>
+                            {result.name}
                           </div>
-                          {result.name}
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                  {/* <div className="max-h-80 overflow-y-auto mt-4 bg-white rounded-md shadow-inner">
+                        </Link>
+                      ))}
+                    </div>
+                    {/* <div className="max-h-80 overflow-y-auto mt-4 bg-white rounded-md shadow-inner">
                     {searchResults.map((result) => (
                       <Link
                         key={result?._id}
@@ -481,91 +591,91 @@ export default function Header() {
                       </Link>
                     ))}
                   </div> */}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
-        </div>
 
-        <div
-          className={`md:hidden transition-all duration-300 bg-yellow-400 fixed top-[60px] left-0 w-full h-[calc(100vh-60px)] overflow-y-auto z-40 ${
-            isMenuOpen ? "block" : "hidden"
-          }`}
-        >
-          <nav className="flex flex-col space-y-3 pb-20 py-4">
-            {menuItems.map((item, index) =>
-              item.children ? (
-                <div key={index}>
-                  <div
-                    className="flex justify-between items-center border-b border-gray-300 mx-4 cursor-pointer text-gray-800 font-medium py-2"
-                    onClick={() =>
-                      openDropdown === index
-                        ? setOpenDropdown(null)
-                        : setOpenDropdown(index)
-                    }
-                  >
-                    <span className="text-lg">{item.name}</span>
-                    <MdKeyboardArrowDown
-                      className={`transition-transform duration-300 ${
-                        openDropdown === index ? "rotate-180" : ""
-                      }`}
-                    />
-                  </div>
-                  <div
-                    className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                      openDropdown === index
-                        ? "max-h-96 opacity-100"
-                        : "max-h-0 opacity-0"
-                    }`}
-                  >
-                    {item.children.map((child, childIndex) => (
-                      <Link
-                        key={childIndex}
-                        href={child.path}
-                        className={`block ml-7 py-3 font-medium text-md border-b border-gray-300 mx-4 ${
-                          pathname === child.path
-                            ? "text-brown-800"
-                            : "text-gray-700 hover:text-gray-800"
+          <div
+            className={`md:hidden transition-all duration-300 bg-yellow-400 fixed top-[60px] left-0 w-full h-[calc(100vh-60px)] overflow-y-auto z-40 ${
+              isMenuOpen ? "block" : "hidden"
+            }`}
+          >
+            <nav className="flex flex-col space-y-3 pb-20 py-4">
+              {menuItems.map((item, index) =>
+                item.children ? (
+                  <div key={index}>
+                    <div
+                      className="flex justify-between items-center border-b border-gray-300 mx-4 cursor-pointer text-gray-800 font-medium py-2"
+                      onClick={() =>
+                        openDropdown === index
+                          ? setOpenDropdown(null)
+                          : setOpenDropdown(index)
+                      }
+                    >
+                      <span className="text-lg">{item.name}</span>
+                      <MdKeyboardArrowDown
+                        className={`transition-transform duration-300 ${
+                          openDropdown === index ? "rotate-180" : ""
                         }`}
-                        onClick={() => {
-                          setIsMenuOpen(false);
-                          setOpenDropdown(null);
-                        }}
-                      >
-                        {child.name}
-                      </Link>
-                    ))}
+                      />
+                    </div>
+                    <div
+                      className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                        openDropdown === index
+                          ? "max-h-96 opacity-100"
+                          : "max-h-0 opacity-0"
+                      }`}
+                    >
+                      {item.children.map((child, childIndex) => (
+                        <Link
+                          key={childIndex}
+                          href={child.path}
+                          className={`block ml-7 py-3 font-medium text-md border-b border-gray-300 mx-4 ${
+                            pathname === child.path
+                              ? "text-brown-800"
+                              : "text-gray-700 hover:text-gray-800"
+                          }`}
+                          onClick={() => {
+                            setIsMenuOpen(false);
+                            setOpenDropdown(null);
+                          }}
+                        >
+                          {child.name}
+                        </Link>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <Link
-                  key={index}
-                  href={item.path}
-                  className={`border-b border-gray-300 mx-4 font-medium py-2 text-lg ${
-                    isActive(item.path)
-                      ? "text-brown-800"
-                      : "text-gray-700 hover:text-gray-900"
-                  }`}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              )
-            )}
-          </nav>
-          <div className="px-4">
-            <Button
-              label="LOG IN"
-              icon={<LuUser size={22} />}
-              color="blue"
-              size="md"
-              variant="solid"
-              className="!bg-yellow-800 !rounded-0 py-2.5 mt-5 flex items-center gap-1 !text-xl"
-              onClick={() => router.push("auth/sign-in")}
-            />
-            <div className="border-b border-gray-300 mt-10"></div>
-            <div className="flex items-center gap-4 ">
-              {/* <div>
+                ) : (
+                  <Link
+                    key={index}
+                    href={item.path}
+                    className={`border-b border-gray-300 mx-4 font-medium py-2 text-lg ${
+                      isActive(item.path)
+                        ? "text-brown-800"
+                        : "text-gray-700 hover:text-gray-900"
+                    }`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                )
+              )}
+            </nav>
+            <div className="px-4">
+              <Button
+                label="LOG IN"
+                icon={<LuUser size={22} />}
+                color="blue"
+                size="md"
+                variant="solid"
+                className="!bg-yellow-800 !rounded-0 py-2.5 mt-5 flex items-center gap-1 !text-xl"
+                onClick={() => router.push("auth/sign-in")}
+              />
+              <div className="border-b border-gray-300 mt-10"></div>
+              <div className="flex items-center gap-4 ">
+                {/* <div>
                 <Dropdown
                   options={countries}
                   selectedOption={selectedCountry}
@@ -595,13 +705,14 @@ export default function Header() {
                 />
               </div> */}
 
-              {/* <Dropdown
+                {/* <Dropdown
                 options={accountOptions}
                 selectedOption={selectedAccount}
                 onSelect={setSelectedAccount}
                 className="w-30"
                 dropdownClassName="w-48 !bg-transparent !shadow-xl"
               /> */}
+              </div>
             </div>
           </div>
         </div>

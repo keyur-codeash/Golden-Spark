@@ -1,7 +1,7 @@
 "use client";
 import Button from "@/components/Button";
 import Heading from "@/components/Heading";
-import Modal from "@/components/Model";
+import CommonModel from "@/components/Model";
 import Toast from "@/components/toastService";
 import { cancelOrder } from "@/forntend/services/orderServices";
 import Image from "next/image";
@@ -21,20 +21,17 @@ const CancelOrderModal = ({
   const handleOrderCancel = async () => {
     const response = await cancelOrder(cancelDetails);
     console.log("response======", response);
-
-    if (response?.isSuccess) {
-      Toast.success("Order cancelled successfully");
-      setCancelId(cancelDetails._id);
-      router.push("/orders");
-      setIsModalOpen(false);
-    }
+    Toast.success("Order cancelled successfully");
+    router.push("/orders");
+    setCancelId(cancelDetails._id);
+    setIsModalOpen(false);
   };
 
   return (
     <div className="flex items-center justify-center p-4">
       {/* Modal */}
       {isModalOpen && (
-        <Modal
+        <CommonModel
           isOpen={isModalOpen}
           onClose={closeModal}
           orderDetails={orderDetails}
@@ -100,7 +97,7 @@ const CancelOrderModal = ({
               </div>
             </div>
           </div>
-        </Modal>
+        </CommonModel>
       )}
     </div>
   );

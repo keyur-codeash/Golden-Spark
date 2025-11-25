@@ -23,7 +23,6 @@ export const POST = asyncHandler(async (req) => {
     const body = { image, heading, content };
 
     const fileName = await saveFile(SAVE_PRODUCT_PATH, image, "contact");
-    console.log("fileName=======", fileName);
     body.image = fileName;
 
     const { error } = validate(addBlogValidation, body);

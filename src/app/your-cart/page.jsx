@@ -8,7 +8,7 @@ import { BiEditAlt } from "react-icons/bi";
 import Button from "@/components/Button";
 import EditCartItemModal from "./component/EditCartItemModal";
 import { useRouter } from "next/navigation";
-import Modal from "@/components/Model";
+import CommonModel from "@/components/Model";
 import { useAddtocart } from "@/forntend/context/AddToCartContext";
 import { fetchProductVariant } from "@/forntend/services/productService";
 import useToken from "@/forntend/hooks/useToken";
@@ -23,10 +23,12 @@ const CartPage = () => {
     addtocart,
     error,
     setAddtocartlist,
+    clearSingleProduct,
     updateCartItemQuantity,
     removeFromaddtocart,
     updateCartItemColor,
     updateCartItem,
+    setSingleProduct,
   } = useAddtocart();
 
   const { token } = useToken();
@@ -43,7 +45,7 @@ const CartPage = () => {
           errors.push({
             productVariantId: item.productVariantId,
             productName: item.title,
-            message: "Please select a color for this product",
+            message: "  ",
           });
           continue;
         }
@@ -166,6 +168,13 @@ const CartPage = () => {
     }
   }, [addtocartlist]);
 
+  useEffect(() => {
+    localStorage.removeItem("singlecart");
+    setSingleProduct([]);
+    window.scrollTo(0, 0);
+    // clearSingleProduct();
+  }, []);
+
   return (
     <div className="your-cart">
       <div>
@@ -263,7 +272,7 @@ const CartPage = () => {
                               <h3 className="text-lg font-medium mb-1.5 text-gray-800">
                                 Colours:
                               </h3>
-                              <div className="flex gap-3 flex-wrap">
+                              <div className="flex gap-3 flex-wrap pe-5">
                                 {item.availableColors?.map((color) => {
                                   const isSelected =
                                     item.selectedVariant?.color === color.id;
@@ -456,7 +465,7 @@ const CartPage = () => {
 
       {/* Fullscreen Modal */}
       {editingItem && (
-        <Modal isOpen={true} maxWidth="max-w-lg">
+        <CommonModel isOpen={true} maxWidth="max-w-lg">
           <div className="fixed inset-0 z-50 h-screen w-screen overflow-hidden ">
             <div className="relative z-10 flex items-center justify-center h-full w-full">
               <EditCartItemModal
@@ -468,7 +477,7 @@ const CartPage = () => {
               />
             </div>
           </div>
-        </Modal>
+        </CommonModel>
       )}
     </div>
   );

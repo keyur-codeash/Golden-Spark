@@ -23,6 +23,10 @@
   --color-custom-blue-600: #0865ff;
 }
 
+/* *{
+  border: 1px solid red;
+} */
+
 :root {
   --color-background: #f9f4ee;
   --color-foreground: #111111;

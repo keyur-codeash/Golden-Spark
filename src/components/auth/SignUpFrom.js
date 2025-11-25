@@ -61,7 +61,7 @@ const SignUpForm = () => {
         id="password"
         label="Password"
         type="password"
-        placeholder="Enter your password..."
+        placeholder="Enter your password"
         value={formik.values.password}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}

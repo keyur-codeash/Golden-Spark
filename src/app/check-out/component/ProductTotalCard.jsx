@@ -18,7 +18,10 @@ const ProductTotalCard = ({
   orderErrors = [],
 }) => {
   const {
+    singleProduct,
+    setSingleProduct,
     addtocartlist,
+    productList,
     updateCartItemQuantity,
     removeFromaddtocart,
     updateCartItemVariant,
@@ -31,12 +34,23 @@ const ProductTotalCard = ({
 
   const deliveryFee = delivery?.delivery || 0;
   const taxRate = delivery?.tax || 0;
-
+  let subtotal = [];
   // Totals
-  const subtotal = addtocartlist.reduce(
+
+  console.log("productList==================", productList);
+
+  // if (singleProduct.length > 0) {
+  //   subtotal = singleProduct.reduce(
+  //     (sum, item) => sum + (item.price || 0) * (item.quantity || 1),
+  //     0
+  //   );
+  // } else {
+  subtotal = addtocartlist.reduce(
     (sum, item) => sum + (item.price || 0) * (item.quantity || 1),
     0
   );
+  // }
+
   const taxAmount = (subtotal * taxRate) / 100;
   const total = subtotal + deliveryFee + taxAmount;
 

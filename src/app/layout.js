@@ -7,6 +7,7 @@ import { AddToCartProvider } from "@/forntend/context/AddToCartContext";
 import "./globals.css";
 import { ShopByCallectionProvider } from "@/forntend/context/ShopBycallection";
 import AOSProvider from "@/forntend/common/AOSProvider";
+import ClientMiddleware from "@/components/ProtectedRoute";
 
 const frank = Frank_Ruhl_Libre({
   subsets: ["latin"],
@@ -44,8 +45,10 @@ export default function RootLayout({ children }) {
               <body
                 className={`${geistSans.variable} ${geistMono.variable} ${frank.variable} antialiased`}
               >
-                <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
-                <Toaster position="bottom-right" richColors />
+                <ClientMiddleware>
+                  <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
+                  <Toaster position="bottom-right" richColors />
+                </ClientMiddleware>
               </body>
             </AOSProvider>
           </ShopByCallectionProvider>

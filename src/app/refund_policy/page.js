@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { fetchRefundPolicy } from "@/forntend/services/policySevices";
 import HeroSectionCommon from "@/components/HeroSectionCommon";
 
-const policy = () => {
+const RefundPolicy = () => {
   const [policy, setPolicy] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -54,4 +54,4 @@ const policy = () => {
   );
 };
 
-export default policy;
+export default RefundPolicy;

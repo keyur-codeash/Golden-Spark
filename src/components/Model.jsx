@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 
-const Modal = ({
+const CommonModel = ({
   isOpen,
   onClose,
   children,
@@ -51,4 +51,4 @@ const Modal = ({
   );
 };
 
-export default Modal;
+export default CommonModel;

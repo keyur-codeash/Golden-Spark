@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
 import BillingDetailsForm from "../../component/BillingDetailsForm";
-import Modal from "@/components/Model";
 import Button from "@/components/Button";
 import ProductTotalCard from "../../component/ProductTotalCard";
+import CommonModel from "@/components/Model";
 
 export default AddressManagement = () => {
   const [addresses, setAddresses] = useState([]);
@@ -55,7 +55,7 @@ export default AddressManagement = () => {
   };
 
   return (
-    <div className="container mx-auto ">
+    <div className="container mx-auto">
       <div className=" lg:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-1">
           <div className="p-4">
@@ -107,7 +107,7 @@ export default AddressManagement = () => {
                     size="md"
                     variant="solid"
                     className="!bg-yellow-800"
-                    onClick={() => handleUpdateAddress(address)}
+                    onClick={() => handleAddOrUpdateAddress(address)}
                   />
                 </div>
               </div>
@@ -122,7 +122,7 @@ export default AddressManagement = () => {
 
             {isModalOpen && (
               <div className="container mx-auto">
-                <Modal
+                <CommonModel
                   isOpen={isModalOpen}
                   onClose={closeModal}
                   maxWidth="max-w-2xl"
@@ -142,7 +142,7 @@ export default AddressManagement = () => {
                       />
                     </div>
                   </div>
-                </Modal>
+                </CommonModel>
               </div>
             )}
           </div>
@@ -153,4 +153,4 @@ export default AddressManagement = () => {
       </div>
     </div>
   );
-}
+};

@@ -61,7 +61,7 @@ const AddCardModel = ({
         useShippingAddress: false,
       });
 
-      // Detect card type from editing card
+      // Detect card type
       const cardInfo = creditCardType(
         editingCard.cardNumber.replace(/\s+/g, "")
       );
@@ -122,7 +122,7 @@ const AddCardModel = ({
 
   return (
     <div
-      className="fixed inset-0 z-30 flex items-center justify-center  bg-black-200 bg-opacity-50 h-screen"
+      className="fixed inset-0  flex items-center justify-center  bg-black-200 bg-opacity-50 h-screen z-100"
       onClick={() => setIsModalOpen(false)}
     >
       <div

@@ -10,7 +10,6 @@ import {
 } from "@/validation/aboutvalidation";
 import { NextResponse } from "next/server";
 const SAVE_PRODUCT_PATH = "backend/product";
-export const runtime = "nodejs";
 
 // Add about
 export const POST = asyncHandler(async (request) => {
@@ -163,4 +162,4 @@ export const DELETE = asyncHandler(async (request) => {
       message: "About Deleted successfully!",
     });
   }
-});
+})

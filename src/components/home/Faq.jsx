@@ -19,10 +19,13 @@ const Faq = () => {
 
   return (
     <div className="faq">
-      <div className="min-h-auto pt-14 sm:pt-20 relative ">
+      <div className="min-h-auto pt-14 sm:pt-20 lg:pt-0 relative ">
         <div className="container mx-auto h-full">
           <div className="grid grid-cols-1 md:grid-cols-2 ">
-            <div className="flex items-start px-4 order-1 md:order-1 pt-30 " data-aos="fade-right">
+            <div
+              className="flex items-start px-4 order-1 md:order-1 lg:pt-30 "
+              data-aos="fade-right"
+            >
               <div className="xl:pe-14">
                 <h2 className="text-3xl md:text-4xl text-center lg:text-5xl 2xl:text-5xl pb-5  text-brown-900 xl:leading-16 font-medium">
                   FAQ
@@ -65,6 +68,6 @@ const Faq = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Faq;

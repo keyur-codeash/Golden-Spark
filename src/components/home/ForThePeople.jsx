@@ -74,7 +74,7 @@ const ForThePeople = () => {
   // };
 
   return (
-    <div className="forThePeople bg-brown-500 mx-2 sm:mx-0 py-10 sm:py-20 mb-10 mt-20">
+    <div className="forThePeople bg-brown-500 mx-2 sm:mx-0 py-10 sm:py-20 mb-10">
       <div className="container mx-auto">
         <div data-aos="fade-down">
           <p className="text-center pb-4">Testimonial</p>

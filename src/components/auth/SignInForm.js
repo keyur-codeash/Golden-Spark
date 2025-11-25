@@ -84,7 +84,7 @@ const SignInForm = () => {
         id="password"
         label="Password"
         type="password"
-        placeholder="Enter your password..."
+        placeholder="Enter your password"
         value={formik.values.password}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
@@ -104,7 +104,7 @@ const SignInForm = () => {
             type="checkbox"
             checked={formik.values.rememberMe}
             onChange={formik.handleChange}
-            className="h-4 w-4 accent-blue-600 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            className="h-4 w-4 border-gray-300 rounded"
           />
           <label htmlFor="rememberMe" className="ml-2 text-lg text-gray-600">
             Remember me

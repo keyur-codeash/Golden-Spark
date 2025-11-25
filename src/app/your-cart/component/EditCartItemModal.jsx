@@ -31,7 +31,7 @@ const EditCartItemModal = ({ item, isOpen, onClose, onUpdate, onRemove }) => {
     }
   }, [item]);
 
-  // Update available sizes when color 
+  // Update available sizes when color
   useEffect(() => {
     if (selectedColor && item.allVariants) {
       const sizesForColor = [];
@@ -152,7 +152,7 @@ const EditCartItemModal = ({ item, isOpen, onClose, onUpdate, onRemove }) => {
   return (
     <div className="mt-40">
       <div className=" absolute inset-0 flex items-center justify-center overflow-y-auto bg-white sm:fixed sm:h-screen sm:p-4 sm:bg-transparent">
-        <div className="relative w-full max-w-xl sm:h-auto h-full rounded-sm border bg-white p-6 sm:p-8 shadow-xl">
+        <div className="relative w-full max-w-xl sm:h-auto h-full rounded-sm md:border bg-white p-6 sm:p-8 md:shadow-xl">
           <button
             onClick={onClose}
             className="absolute right-6 top-6 sm:right-10 sm:top-10 cursor-pointer text-gray-500 transition-colors hover:text-gray-700"

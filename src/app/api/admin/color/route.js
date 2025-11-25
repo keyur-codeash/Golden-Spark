@@ -7,11 +7,9 @@ import {
 import { NextResponse } from "next/server";
 
 export const GET = asyncHandler(async(req) => {
-
   const color = await colorSchema.find().sort({ createdAt: -1 });
   return NextResponse.json({ isSuccess: true, data: color });
 })
-
 
 export const POST = asyncHandler(async (req) => {
   const body = await req.json();
@@ -34,7 +32,6 @@ export const POST = asyncHandler(async (req) => {
     );
   }
 
-  
   const result = await colorSchema.create(body);
   return NextResponse.json({
     isSuccess: true,

@@ -41,11 +41,11 @@ const FeaturesSection = () => {
     <section className="pb-5 pt-10 sm:py-18 px-4 sm:px-6 lg:px-8" >
       <div className="container mx-auto">
         <div className="w-full">
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4" >
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-7 sm:gap-0" >
             {features.map((feature) => (
               <div
                 key={feature.id}
-                className=" p-4 rounded-lg transition-shadow duration-300"
+                className="sm:p-4 rounded-lg transition-shadow duration-300"
               >
                 <div className="flex items-start justify-start">
                   <div className="flex items-center mb-4">

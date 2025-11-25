@@ -5,8 +5,8 @@ import axiosInstance from "../lib/axiosClient";
 export const fetchAbout = async () => {
   try {
     const response = await axiosInstance.get("/about");
-    if (response.data.isSuccess) {
-      return response.data;
+    if (response?.data?.isSuccess) {
+      return response?.data;
     } else {
       Toast.error(response?.message || "Failed to fetch about.");
       return null;

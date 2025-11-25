@@ -8,6 +8,7 @@ import Button from "./Button";
 import ProductDetails from "@/app/product/components/ProductDetails";
 import { useAddtocart } from "@/forntend/context/AddToCartContext";
 import { fetchSingleProduct } from "@/forntend/services/productService";
+import Toast from "./toastService";
 
 const ShoppingCard = ({
   image,
@@ -20,7 +21,7 @@ const ShoppingCard = ({
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const { addtocart } = useAddtocart();
-  const [productId, setProductId] = useState(null)
+  const [productId, setProductId] = useState(null);
 
   const handleNavigate = () => {
     router.push(`/product/${id}`);
@@ -29,25 +30,26 @@ const ShoppingCard = ({
   const handleAddToCart = async () => {
     try {
       const response = await addtocart(id);
-      if (response) {
-        router.push("/your-cart");
-      }
+
+      Toast.success("Product added to cart!");
+      // if (response) {
+      //   router.push("/your-cart");
+      // }
     } catch (error) {
       console.error("Error adding to cart:", error);
     }
   };
 
   const handleProductDetails = () => {
-    setProductId(id)
+    setProductId(id);
     setTimeout(() => {
-    setIsOpen(true);  
+      setIsOpen(true);
     }, 100);
   };
 
   useEffect(() => {
-    console.log("hellow")
-  },[productId , isOpen])
-  
+    console.log("hellow");
+  }, [productId, isOpen]);
 
   return (
     <div {...(!isOpen && { "data-aos": "fade-up" })}>
@@ -57,18 +59,20 @@ const ShoppingCard = ({
           setIsOpen={setIsOpen}
           productId={productId} // Directly pass the id
         />
-        
+
         <div onClick={handleNavigate} className="cursor-pointer">
-          <div className="h-[200px] sm:h-[400px] xl:h-[340px] px-3 sm:px-5 pt-5">
+          <div className="h-[200px] sm:h-[400px] xl:h-[340px] px-3 sm:px-5 pt-3 sm:pt-5">
             <img
               src={image}
               alt={text}
               className="object-cover w-full h-full rounded-full border-6 border-brown-900"
             />
           </div>
-          <p className="text-center text-lg pt-5 pb-1 sm:text-2xl">{text}</p>
+          <p className="text-center text-lg pt-5 pb-1 sm:text-xl">{text}</p>
           {price && (
-            <div className="text-center text-md">${price?.toFixed(2)}</div>
+            <div className="text-center text-md sm:text-xl py-1">
+              ${price?.toFixed(2)}
+            </div>
           )}
         </div>
 
@@ -109,7 +113,6 @@ const ShoppingCard = ({
 };
 
 export default ShoppingCard;
-
 
 // "use client";
 

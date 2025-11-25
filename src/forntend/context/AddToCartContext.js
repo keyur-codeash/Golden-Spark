@@ -1,5 +1,11 @@
 "use client";
-import React, { createContext, useState, useContext, useEffect } from "react";
+import React, {
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+  use,
+} from "react";
 import useToken from "../hooks/useToken";
 import { fetchSingleProduct } from "../services/productService";
 import Toast from "@/components/toastService";
@@ -9,9 +15,22 @@ const { useRouter } = require("next/navigation");
 export const useAddtocart = () => useContext(AddToCartContext);
 
 export const AddToCartProvider = ({ children }) => {
-  const [addtocartlist, setAddtocartlist] = useState(
-    JSON?.parse(localStorage.getItem("addTocart")) || []
+  const [singleProduct, setSingleProduct] = useState(
+    (typeof window !== "undefined" &&
+      JSON?.parse(localStorage.getItem("singlecart"))) ||
+      []
   );
+  const [productList, setProductList] = useState(
+    (typeof window !== "undefined" &&
+      JSON?.parse(localStorage.getItem("addTocart"))) ||
+      []
+  );
+  const [addtocartlist, setAddtocartlist] = useState(
+    singleProduct?.length ? singleProduct : productList
+  );
+
+  console.log("==========productList==============", addtocartlist);
+
   const [error, setError] = useState(null);
   const MAX_QUANTITY = process.env.NEXT_PUBLIC_MAX_QUANTITY || 4;
   const { token } = useToken();
@@ -22,7 +41,9 @@ export const AddToCartProvider = ({ children }) => {
     return `${productId}_${variant.color}_${variant.size || "no_size"}`;
   };
 
-  const addtocart = async (id, selectedVariant = null) => {
+  const addtocart = async (id, selectedVariant = null, isSingle) => {
+    console.log(isSingle);
+
     if (!localStorage.getItem("token")) {
       router.push("/auth/sign-in");
       return false;
@@ -38,7 +59,7 @@ export const AddToCartProvider = ({ children }) => {
       }
 
       const productVariantId = generateProductVariantId(id, variantToUse);
-      const findProduct = addtocartlist.find(
+      const findProduct = productList.find(
         (item) => item.productVariantId === productVariantId
       );
 
@@ -50,33 +71,55 @@ export const AddToCartProvider = ({ children }) => {
           setError("Maximum quantity reached");
           return false;
         }
-
-        setAddtocartlist((prev) =>
-          prev.map((item) => {
-            if (item.productVariantId === productVariantId) {
-              return { ...item, quantity: item.quantity + 1 };
-            }
-            return item;
-          })
-        );
+        if (singleProduct?.length) {
+          setSingleProduct((prev) =>
+            prev.map((item) => {
+              if (item.productVariantId === productVariantId) {
+                return { ...item, quantity: item.quantity + 1 };
+              }
+              return item;
+            })
+          );
+        } else {
+          setProductList((prev) =>
+            prev.map((item) => {
+              if (item.productVariantId === productVariantId) {
+                return { ...item, quantity: item.quantity + 1 };
+              }
+              return item;
+            })
+          );
+        }
         setError(null);
         return true;
       } else {
         const response = await fetchSingleProduct(id, token);
         if (response?.isSuccess && response.data) {
           const productData = response.data;
-
-          setAddtocartlist((prev) => [
-            ...prev,
-            {
-              ...productData,
-              quantity: 1,
-              productVariantId: productVariantId,
-              selectedVariant: variantToUse,
-              price: variantToUse?.price || productData.price,
-              stock: variantToUse?.stock || productData.stock,
-            },
-          ]);
+          if (singleProduct?.length) {
+            setSingleProduct((prev) => [
+              {
+                ...productData,
+                quantity: 1,
+                productVariantId: productVariantId,
+                selectedVariant: variantToUse,
+                price: variantToUse?.price || productData.price,
+                stock: variantToUse?.stock || productData.stock,
+              },
+            ]);
+          } else {
+            setProductList((prev) => [
+              ...prev,
+              {
+                ...productData,
+                quantity: 1,
+                productVariantId: productVariantId,
+                selectedVariant: variantToUse,
+                price: variantToUse?.price || productData.price,
+                stock: variantToUse?.stock || productData.stock,
+              },
+            ]);
+          }
           return true;
         } else {
           console.error(
@@ -92,102 +135,206 @@ export const AddToCartProvider = ({ children }) => {
   };
 
   const updateCartItem = (oldProductVariantId, updatedItem) => {
-    setAddtocartlist((prev) => {
-      const duplicateIndex = prev.findIndex(
-        (item) =>
-          item.productVariantId === updatedItem.productVariantId &&
-          item.productVariantId !== oldProductVariantId
-      );
-
-      if (duplicateIndex !== -1) {
-        return prev
-          .map((item, index) =>
-            index === duplicateIndex
-              ? { ...item, quantity: item.quantity + updatedItem.quantity }
-              : item
-          )
-          .filter((item) => item.productVariantId !== oldProductVariantId);
-      } else {
-        return prev.map((item) =>
-          item.productVariantId === oldProductVariantId ? updatedItem : item
+    if (singleProduct?.length) {
+      setSingleProduct((prev) => {
+        const duplicateIndex = prev.findIndex(
+          (item) =>
+            item.productVariantId === updatedItem.productVariantId &&
+            item.productVariantId !== oldProductVariantId
         );
-      }
-    });
+
+        if (duplicateIndex !== -1) {
+          return prev
+            .map((item, index) =>
+              index === duplicateIndex
+                ? { ...item, quantity: item.quantity + updatedItem.quantity }
+                : item
+            )
+            .filter((item) => item.productVariantId !== oldProductVariantId);
+        } else {
+          return prev.map((item) =>
+            item.productVariantId === oldProductVariantId ? updatedItem : item
+          );
+        }
+      });
+    } else {
+      setProductList((prev) => {
+        const duplicateIndex = prev.findIndex(
+          (item) =>
+            item.productVariantId === updatedItem.productVariantId &&
+            item.productVariantId !== oldProductVariantId
+        );
+
+        if (duplicateIndex !== -1) {
+          return prev
+            .map((item, index) =>
+              index === duplicateIndex
+                ? { ...item, quantity: item.quantity + updatedItem.quantity }
+                : item
+            )
+            .filter((item) => item.productVariantId !== oldProductVariantId);
+        } else {
+          return prev.map((item) =>
+            item.productVariantId === oldProductVariantId ? updatedItem : item
+          );
+        }
+      });
+    }
   };
 
   const updateCartItemVariant = (productVariantId, colorId, sizeId) => {
-    setAddtocartlist((prevItems) => {
-      const itemIndex = prevItems.findIndex(
-        (item) => item.productVariantId === productVariantId
-      );
-      if (itemIndex === -1) return prevItems;
+    if (singleProduct?.length) {
+      setSingleProduct((prevItems) => {
+        const itemIndex = prevItems.findIndex(
+          (item) => item.productVariantId === productVariantId
+        );
+        if (itemIndex === -1) return prevItems;
 
-      const item = prevItems[itemIndex];
-
-      const newVariant = item.allVariants.find(
-        (variant) => variant.color === colorId && variant.size === sizeId
-      );
-
-      if (!newVariant) return prevItems;
-
-      const newProductVariantId = generateProductVariantId(item.id, newVariant);
-
-      const duplicateIndex = prevItems.findIndex(
-        (p, idx) =>
-          p.productVariantId === newProductVariantId && idx !== itemIndex
-      );
-
-      if (duplicateIndex !== -1) {
-        return prevItems
-          .map((p, idx) =>
-            idx === duplicateIndex
-              ? { ...p, quantity: p.quantity + item.quantity }
-              : p
-          )
-          .filter((p, idx) => idx !== itemIndex);
-      }
-
-      // Otherwise just update this item
-      return prevItems.map((p, idx) =>
-        idx === itemIndex
-          ? {
-              ...p,
-              selectedVariant: newVariant,
-              productVariantId: newProductVariantId,
-              price: newVariant.price,
-              stock: newVariant.stock,
-            }
-          : p
-      );
-    });
-  };
-
-  // Update cart item color only
-  const updateCartItemColor = (productVariantId, colorId) => {
-    setAddtocartlist((prevItems) =>
-      prevItems.map((item) => {
-        if (item.productVariantId !== productVariantId) return item;
+        const item = prevItems[itemIndex];
 
         const newVariant = item.allVariants.find(
-          (variant) => variant.color === colorId
+          (variant) => variant.color === colorId && variant.size === sizeId
         );
 
-        if (!newVariant) return item;
+        if (!newVariant) return prevItems;
 
         const newProductVariantId = generateProductVariantId(
           item.id,
           newVariant
         );
 
-        return {
-          ...item,
-          selectedVariant: newVariant,
-          productVariantId: newProductVariantId,
-          price: newVariant.price,
-          stock: newVariant.stock,
-        };
-      })
-    );
+        const duplicateIndex = prevItems.findIndex(
+          (p, idx) =>
+            p.productVariantId === newProductVariantId && idx !== itemIndex
+        );
+
+        if (duplicateIndex !== -1) {
+          return prevItems
+            .map((p, idx) =>
+              idx === duplicateIndex
+                ? { ...p, quantity: p.quantity + item.quantity }
+                : p
+            )
+            .filter((p, idx) => idx !== itemIndex);
+        }
+
+        // Otherwise just update this item
+        return prevItems.map((p, idx) =>
+          idx === itemIndex
+            ? {
+                ...p,
+                selectedVariant: newVariant,
+                productVariantId: newProductVariantId,
+                price: newVariant.price,
+                stock: newVariant.stock,
+              }
+            : p
+        );
+      });
+    } else {
+      setProductList((prevItems) => {
+        const itemIndex = prevItems.findIndex(
+          (item) => item.productVariantId === productVariantId
+        );
+        if (itemIndex === -1) return prevItems;
+
+        const item = prevItems[itemIndex];
+
+        const newVariant = item.allVariants.find(
+          (variant) => variant.color === colorId && variant.size === sizeId
+        );
+
+        if (!newVariant) return prevItems;
+
+        const newProductVariantId = generateProductVariantId(
+          item.id,
+          newVariant
+        );
+
+        const duplicateIndex = prevItems.findIndex(
+          (p, idx) =>
+            p.productVariantId === newProductVariantId && idx !== itemIndex
+        );
+
+        if (duplicateIndex !== -1) {
+          return prevItems
+            .map((p, idx) =>
+              idx === duplicateIndex
+                ? { ...p, quantity: p.quantity + item.quantity }
+                : p
+            )
+            .filter((p, idx) => idx !== itemIndex);
+        }
+
+        // Otherwise just update this item
+        return prevItems.map((p, idx) =>
+          idx === itemIndex
+            ? {
+                ...p,
+                selectedVariant: newVariant,
+                productVariantId: newProductVariantId,
+                price: newVariant.price,
+                stock: newVariant.stock,
+              }
+            : p
+        );
+      });
+    }
+  };
+
+  // Update cart item color only
+  const updateCartItemColor = (productVariantId, colorId) => {
+    if (singleProduct?.length) {
+      setSingleProduct((prevItems) =>
+        prevItems.map((item) => {
+          if (item.productVariantId !== productVariantId) return item;
+
+          const newVariant = item.allVariants.find(
+            (variant) => variant.color === colorId
+          );
+
+          if (!newVariant) return item;
+
+          const newProductVariantId = generateProductVariantId(
+            item.id,
+            newVariant
+          );
+
+          return {
+            ...item,
+            selectedVariant: newVariant,
+            productVariantId: newProductVariantId,
+            price: newVariant.price,
+            stock: newVariant.stock,
+          };
+        })
+      );
+    } else {
+      setProductList((prevItems) =>
+        prevItems.map((item) => {
+          if (item.productVariantId !== productVariantId) return item;
+
+          const newVariant = item.allVariants.find(
+            (variant) => variant.color === colorId
+          );
+
+          if (!newVariant) return item;
+
+          const newProductVariantId = generateProductVariantId(
+            item.id,
+            newVariant
+          );
+
+          return {
+            ...item,
+            selectedVariant: newVariant,
+            productVariantId: newProductVariantId,
+            price: newVariant.price,
+            stock: newVariant.stock,
+          };
+        })
+      );
+    }
   };
 
   // Update cart item quantity
@@ -198,46 +345,119 @@ export const AddToCartProvider = ({ children }) => {
       );
       return;
     }
-
-    setAddtocartlist((prevItems) =>
-      prevItems.map((item) =>
-        item.productVariantId === productVariantId
-          ? { ...item, quantity: newQuantity }
-          : item
-      )
-    );
+    if (singleProduct?.length) {
+      setSingleProduct((prevItems) =>
+        prevItems.map((item) =>
+          item.productVariantId === productVariantId
+            ? { ...item, quantity: newQuantity }
+            : item
+        )
+      );
+    } else {
+      setProductList((prevItems) =>
+        prevItems.map((item) =>
+          item.productVariantId === productVariantId
+            ? { ...item, quantity: newQuantity }
+            : item
+        )
+      );
+    }
   };
 
   const removeFromaddtocart = (productVariantId) => {
-    setAddtocartlist((prevItems) =>
+    setProductList((prevItems) =>
       prevItems.filter((item) => item.productVariantId !== productVariantId)
     );
   };
 
-  const removeAllAddToCartList = () => {
+  const removeAllproductList = () => {
     localStorage.removeItem("addTocart");
-    setAddtocartlist([]);
+    setProductList([]);
   };
 
   useEffect(() => {
-    localStorage.setItem("addTocart", JSON.stringify(addtocartlist));
-  }, [addtocartlist]);
+    if (typeof window !== "undefined" && window.localStorage) {
+      localStorage.setItem("addTocart", JSON.stringify(productList));
+      localStorage.setItem("singlecart", JSON.stringify(singleProduct));
+    }
+    setAddtocartlist(singleProduct?.length ? singleProduct : productList);
+  }, [productList, singleProduct]);
+
+  const addSingleProductToCart = async (id) => {
+    try {
+      if (response) {
+        Toast.success("Added to cart successfully!");
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    }
+  };
+
+  const clearSingleProduct = () => {
+    localStorage.removeItem("singlecart");
+    setSingleProduct([]);
+  };
+
+  // --------------------------------------------------
+  const buyNow = async (id, selectedVariant = null) => {
+    if (!localStorage.getItem("token")) {
+      router.push("/auth/sign-in");
+      return false;
+    }
+
+    try {
+      const response = await fetchSingleProduct(id, token);
+      if (!response?.isSuccess) return false;
+
+      const product = response.data;
+      let variantToUse = selectedVariant || product.allVariants?.[0] || null;
+
+      const productVariantId = generateProductVariantId(id, variantToUse);
+
+      // Create single product list
+      const single = [
+        {
+          ...product,
+          quantity: 1,
+          selectedVariant: variantToUse,
+          productVariantId,
+          price: variantToUse?.price || product.price,
+          stock: variantToUse?.stock || product.stock,
+        },
+      ];
+
+      setSingleProduct(single);
+      localStorage.setItem("singlecart", JSON.stringify(single));
+
+      router.push("/checkout");
+      return true;
+    } catch (err) {
+      console.error("Buy Now Error:", err);
+      return false;
+    }
+  };
 
   return (
     <AddToCartContext.Provider
       value={{
         error,
         setError,
+        productList,
+        setProductList,
+        singleProduct,
+        productList,
         addtocartlist,
-        setAddtocartlist,
+        buyNow,
+        setSingleProduct,
         addtocart,
         removeFromaddtocart,
         updateCartItemColor,
         updateCartItemVariant,
         updateCartItemQuantity,
         updateCartItem,
+        clearSingleProduct,
         generateProductVariantId,
-        removeAllAddToCartList,
+        removeAllproductList,
       }}
     >
       {children}

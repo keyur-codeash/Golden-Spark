@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Modal from "@/components/Model";
+import CommonModel from "@/components/Model";
 import Button from "@/components/Button";
 import {
   createAddress,
@@ -128,7 +128,7 @@ export default function AddressManagement() {
     }
   };
 
-  console.log("addresses=24125==", checkSelectedAddress());
+  // console.log("addresses=24125==", checkSelectedAddress());
 
   if (loading) {
     return (
@@ -246,7 +246,7 @@ export default function AddressManagement() {
 
             {isModalOpen && (
               <div className="container mx-auto">
-                <Modal
+                <CommonModel
                   isOpen={isModalOpen}
                   onClose={closeModal}
                   maxWidth="max-w-2xl"
@@ -264,7 +264,7 @@ export default function AddressManagement() {
                       onSubmit={handleAddOrUpdateAddress}
                     />
                   </div>
-                </Modal>
+                </CommonModel>
               </div>
             )}
           </div>

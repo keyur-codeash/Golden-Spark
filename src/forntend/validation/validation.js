@@ -1,43 +1,54 @@
 import * as Yup from "yup";
+import domains from "disposable-email-domains";
 
 export const signInValidation = Yup.object({
-      email: Yup.string()
-        .email("Invalid email address")
-        .required("Email is required"),
-      password: Yup.string()
-        .required("Password is required")
-        .test(
-          "password-strength",
-          "Password must be at least 8 characters and include uppercase, lowercase, number, and special character",
-          (value) =>
-            !!value &&
-            value.length >= 8 &&
-            /[a-z]/.test(value) &&
-            /[A-Z]/.test(value) &&
-            /[0-9]/.test(value) &&
-            /[!@#$%^&*(),.?":{}|<>]/.test(value)
-        ),
-    })
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  password: Yup.string()
+    .required("Password is required")
+    .test(
+      "password-strength",
+      "Password must be at least 8 characters and include uppercase, lowercase, number, and special character",
+      (value) =>
+        !!value &&
+        value.length >= 8 &&
+        /[a-z]/.test(value) &&
+        /[A-Z]/.test(value) &&
+        /[0-9]/.test(value) &&
+        /[!@#$%^&*(),.?":{}|<>]/.test(value)
+    ),
+});
 
-    export const signUpValidation = Yup.object({
-          name: Yup.string().required("Name is required"),
-          email: Yup.string()
-            .email("Invalid email address")
-            .required("Email is required"),
-          password: Yup.string()
-            .required("Password is required")
-            .test(
-              "password-strength",
-              "Password must be at least 8 characters and include uppercase, lowercase, number, and special character",
-              (value) =>
-                !!value &&
-                value.length >= 8 &&
-                /[a-z]/.test(value) && 
-                /[A-Z]/.test(value) && 
-                /[0-9]/.test(value) && 
-                /[!@#$%^&*(),.?":{}|<>]/.test(value) 
-            ),
-        })
+export const signUpValidation = Yup.object({
+  name: Yup.string().required("Name is required"),
+
+  email: Yup.string()
+    .email("Invalid email format")
+    .required("Email is required")
+    .test(
+      "not-disposable",
+      "Disposable email addresses are not allowed",
+      function (value) {
+        if (!value) return false;
+        const domain = value.split("@")[1].toLowerCase();
+        return !domains.includes(domain);
+      }
+    ),
+  password: Yup.string()
+    .required("Password is required")
+    .test(
+      "password-strength",
+      "Password must be at least 8 characters and include uppercase, lowercase, number, and special character",
+      (value) =>
+        !!value &&
+        value.length >= 8 &&
+        /[a-z]/.test(value) &&
+        /[A-Z]/.test(value) &&
+        /[0-9]/.test(value) &&
+        /[!@#$%^&*(),.?":{}|<>]/.test(value)
+    ),
+});
 
 // forggot password valdiation
 export const forgotPasswordSchema = Yup.object({
@@ -59,7 +70,7 @@ export const forgotPasswordSchema = Yup.object({
       [Yup.ref("password")],
       "Your password and confirmation password do not match."
     )
-    .required("Please confirm your password"),
+    .required("Confirm password is required"),
 });
 
 //contact validation

@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import BillingDetailsForm from "../../../component/BillingDetailsForm";
-import Modal from "@/components/Model";
+import CommonModel from "@/components/Model";
 import Button from "@/components/Button";
 import ProductTotalCard from "../../../component/ProductTotalCard";
 
@@ -139,7 +139,7 @@ export default AddressManagement = () => {
 
             {isModalOpen && (
               <div className="container mx-auto">
-                <Modal
+                <CommonModel
                   isOpen={isModalOpen}
                   onClose={closeModal}
                   maxWidth="max-w-2xl"
@@ -159,7 +159,7 @@ export default AddressManagement = () => {
                       />
                     </div>
                   </div>
-                </Modal>
+                </CommonModel>
               </div>
             )}
           </div>

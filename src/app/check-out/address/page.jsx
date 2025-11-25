@@ -5,7 +5,7 @@ import AddressManagement from "./component/addresses";
 const AddressSelection = () => {
   return (
     <div className="">
-      <div data-aos="fade-up">
+      <div>
         <AddressManagement />
       </div>
     </div>
