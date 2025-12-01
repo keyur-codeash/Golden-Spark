@@ -417,18 +417,6 @@ export default function Header() {
                               <span>My Orders</span>
                             </Link>
                           </div>
-                          {/* <div className="py-2">
-                          <button
-                            onClick={() => {
-                              router.push("/orders");
-                              // setOpen();
-                            }}
-                            className="flex items-center gap-2 w-full px-5 py-2.5 text-sm cursor-pointer transition"
-                          >
-                            <LuShoppingBag className="text-base" />
-                            <span>My Orders</span>
-                          </button>
-                        </div> */}
                         </div>
                       </div>
                     )}

@@ -78,6 +78,10 @@ const OurJournals = () => {
     return false;
   }
 
+
+  console.log("blogDetails====", blogDetails);
+  
+
   return (
     <div className="shopByCollection relative py-10 lg:py-20 xl:pt-30">
       <div className="container mx-auto">

@@ -19,7 +19,7 @@ const ProductCommonCard = ({ item, key }) => {
     <div className="xl:w-full px-4" data-aos="zoom-out">
       <div className="relative w-full h-[290px]">
         <Image
-          src={item.image}
+          src={item.image || ""}
           alt={item.title}
           fill
           className="object-cover rounded-xl"

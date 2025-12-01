@@ -15,11 +15,11 @@ const CardCommon = ({ item }) => {
   }, []);
 
   return (
-    <div
-      className={`px-3 xl:px-7 `}
-      onClick={() => handleCallection(item.brand_id)}
-    >
-      <div className="h-[246px]">
+    <div className={`px-3 xl:px-7 `}>
+      <div
+        className="h-[246px] cursor-pointer"
+        onClick={() => handleCallection(item.brand_id)}
+      >
         <img
           src={item?.image}
           alt={item?.name}

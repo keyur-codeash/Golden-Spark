@@ -15,10 +15,16 @@ export default function ClientLayoutWrapper({ children }) {
 
   return (
     <>
-      <TopBar />
-      <Header />
-      {children}
-      <Footer />
+      {!pathname.startsWith("/admin") ? (
+        <>
+          <TopBar />
+          <Header />
+          {children}
+          <Footer />
+        </>
+      ) : (
+        children 
+      )}
     </>
   );
 }

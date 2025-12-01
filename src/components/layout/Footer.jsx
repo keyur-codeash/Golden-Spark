@@ -17,14 +17,13 @@ const Footer = ({
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await subscribeEmail();
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    const response = await subscribeEmail();
+    if (response) window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const subscribeEmail = async () => {
     try {
       const response = await subcribMail({ email });
-
       setMessage(response?.message || "Subscribed successfully!");
       setEmail("");
     } catch (error) {

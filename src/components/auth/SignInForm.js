@@ -7,13 +7,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signIn } from "@/forntend/services/authServices";
 import Cookies from "js-cookie";
-import useToken from "@/forntend/hooks/useToken";
 import { signInValidation } from "@/forntend/validation/validation";
 
 const SignInForm = () => {
   const router = useRouter();
-  const { token, removeToken } = useToken();
 
+  // Formik initialization
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -29,9 +28,12 @@ const SignInForm = () => {
         });
 
         if (response) {
+          // Store the token in localStorage
           if (typeof window !== "undefined" && window.localStorage) {
             localStorage.setItem("token", JSON.stringify(response.token));
           }
+
+          // Handle "Remember Me" functionality
           if (values.rememberMe) {
             Cookies.set("rememberedEmail", values.email);
             Cookies.set("rememberedPassword", values.password);
@@ -40,7 +42,7 @@ const SignInForm = () => {
             Cookies.remove("rememberedPassword");
           }
 
-          // Redirect to home page
+          // Redirect to home page after successful login
           router.push("/");
         }
       } catch (error) {
@@ -50,6 +52,7 @@ const SignInForm = () => {
     },
   });
 
+  // Handle the "Remember Me" checkbox state on page load
   useEffect(() => {
     const rememberedEmail = Cookies.get("rememberedEmail");
     const rememberedPassword = Cookies.get("rememberedPassword");
@@ -58,17 +61,19 @@ const SignInForm = () => {
       formik.setValues({
         email: rememberedEmail,
         password: rememberedPassword,
+        rememberMe: true,
       });
-      formik.setFieldValue("rememberMe", true);
     }
-  }, [formik]);
+  }, []);
 
   return (
     <form className="space-y-5" onSubmit={formik.handleSubmit}>
+      {/* Display error message if login fails */}
       {formik.status && (
         <div className="text-red-500 text-sm">{formik.status}</div>
       )}
 
+      {/* Email Input */}
       <InputField
         id="email"
         label="Your Email"
@@ -80,6 +85,7 @@ const SignInForm = () => {
         error={formik.touched.email && formik.errors.email}
       />
 
+      {/* Password Input */}
       <InputField
         id="password"
         label="Password"
@@ -91,27 +97,29 @@ const SignInForm = () => {
         error={formik.touched.password && formik.errors.password}
       />
 
-      <div>
-        <div className="pb-3 md:text-end w-full">
-          <Link href="/auth/send-otp" className="text-lg hover:underline">
-            Forgot password?
-          </Link>
-        </div>
-        <div className="flex items-center">
-          <input
-            id="rememberMe"
-            name="rememberMe"
-            type="checkbox"
-            checked={formik.values.rememberMe}
-            onChange={formik.handleChange}
-            className="h-4 w-4 border-gray-300 rounded"
-          />
-          <label htmlFor="rememberMe" className="ml-2 text-lg text-gray-600">
-            Remember me
-          </label>
-        </div>
+      {/* Forgot Password Link */}
+      <div className="pb-3 md:text-end w-full">
+        <Link href="/auth/send-otp" className="text-lg hover:underline">
+          Forgot password?
+        </Link>
       </div>
 
+      {/* Remember Me Checkbox */}
+      <div className="flex items-center">
+        <input
+          id="rememberMe"
+          name="rememberMe"
+          type="checkbox"
+          checked={formik.values.rememberMe}
+          onChange={(e) => formik.setFieldValue("rememberMe", e.target.checked)} // Handle change
+          className="h-4 w-4 border-gray-300 rounded"
+        />
+        <label htmlFor="rememberMe" className="ml-2 text-lg text-gray-600">
+          Remember me
+        </label>
+      </div>
+
+      {/* Submit Button */}
       <Button
         type="submit"
         label="LOG IN"

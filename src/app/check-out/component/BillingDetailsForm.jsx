@@ -150,30 +150,42 @@ const BillingDetailsForm = ({
                     <h2 className="text-2xl font-semibold mb-4">
                       Delivery Information
                     </h2>
-
                     <div className="relative mb-6">
                       <Field
                         as="select"
                         name="type"
-                        className="block w-full pt-5 pb-1 ps-2 border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-0 peer bg-transparent"
+                        id="type"
+                        className={`peer block w-full pt-5 pb-1 ps-2 border 
+      ${errors.type && touched.type ? "border-red-500" : "border-gray-300"} 
+      rounded-md appearance-none focus:outline-none focus:ring-0 bg-transparent`}
                       >
-                        <option value="Select type"></option>
+                        <option value="" disabled hidden>
+                          Select Type
+                        </option>
+
                         {ADDRESS_TYPES.map((type) => (
                           <option key={type.value} value={type.value}>
                             {type.label}
                           </option>
                         ))}
                       </Field>
+
+                      {/* Floating Label */}
                       <label
                         htmlFor="type"
-                        className={`absolute left-2 top-1/2 text-md -translate-y-1/2 text-gray-500 transform transition-all duration-200 pointer-events-none ${
-                          values.type
-                            ? "-translate-y-6 text-xs"
-                            : "peer-focus:-translate-y-6 peer-focus:text-xs"
-                        }`}
+                        className="
+                            absolute left-2 top-1/2 text-md text-gray-500 
+                            transform transition-all duration-200 pointer-events-none
+                            peer-focus:-translate-y-6 peer-focus:text-xs
+                            peer-[&[value='']]:top-1/2
+                            peer-[&[value='']]:text-md
+                            peer-[&:not([value=''])]:-translate-y-6
+                            peer-[&:not([value=''])]:text-xs
+    "
                       >
                         Address Type
                       </label>
+
                       <ErrorMessage
                         name="type"
                         component="div"
@@ -185,30 +197,46 @@ const BillingDetailsForm = ({
                       <Field
                         as="select"
                         name="country"
+                        id="country"
                         onChange={(e) => {
                           const country = e.target.value;
                           setFieldValue("country", country);
                           handleCountryChange(country, setFieldValue);
                         }}
-                        className="block w-full pt-5 pb-1 ps-2 border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-0 peer bg-transparent"
+                        className={`peer block w-full pt-5 pb-1 ps-2 border 
+      ${
+        errors.country && touched.country ? "border-red-500" : "border-gray-300"
+      } 
+      rounded-md appearance-none focus:outline-none focus:ring-0 bg-transparent`}
                       >
-                        <option value=""></option>
+                        {/* Disabled hidden placeholder */}
+                        <option value="" disabled hidden>
+                          Select Country
+                        </option>
+
                         {countries.map((country) => (
                           <option key={country.id} value={country.name}>
                             {country.name}
                           </option>
                         ))}
                       </Field>
+
+                      {/* Floating Label */}
                       <label
                         htmlFor="country"
-                        className={`absolute left-2 top-1/2 text-md -translate-y-1/2 text-gray-500 transform transition-all duration-200 pointer-events-none ${
-                          values.country
-                            ? "-translate-y-6 text-xs"
-                            : "peer-focus:-translate-y-6 peer-focus:text-xs"
-                        }`}
+                        className="
+                          absolute left-2 top-1/2 text-md text-gray-500 
+                          transform transition-all duration-200 pointer-events-none
+                          peer-focus:-translate-y-6 peer-focus:text-xs
+                          peer-[&[value='']]:top-1/2
+                          peer-[&[value='']]:text-md
+                          peer-[&:not([value=''])]:-translate-y-6
+                          peer-[&:not([value=''])]:text-xs
+    "
                       >
                         Country/Region
                       </label>
+
                       <ErrorMessage
                         name="country"
                         component="div"

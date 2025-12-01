@@ -108,15 +108,18 @@ export const creaditCardValidation = Yup.object({
 
 // Billing address validation
 export const addressSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Invalid email address")
-    .required("Email is required"),
-  type: Yup.string().required("Address type is required"),
-  country: Yup.string().required("Country is required"),
-  firstName: Yup.string().required("First name is required"),
-  lastName: Yup.string().required("Last name is required"),
-  address: Yup.string().required("Address is required"),
-  city: Yup.string().required("City is required"),
-  state: Yup.string().required("State is required"),
-  zipCode: Yup.string().required("ZIP code is required"),
+  title: Yup.string()
+    .trim()
+    .min(3, "Title must be at least 3 characters long.")
+    .required("Title is required."),
+
+  brand: Yup.string()
+    .required("Please select a brand."),
+
+  category: Yup.string()
+    .required("Please select a category."),
+
+  description: Yup.string()
+    .min(5, "Description must be at least 5 characters long.")
+    .required("Description is required."),
 });

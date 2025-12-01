@@ -28,15 +28,6 @@ export const menuItems = [
   { name: "Product", path: "/product" },
   { name: "About", path: "/about" },
   {
-    name: "Page",
-    path: "#",
-    children: [
-      { name: "Privacy Policy", path: "/privacy_policy" },
-      { name: "Refund Policy", path: "/refund_policy" },
-      { name: "Terms of Service", path: "/terms_condition" },
-    ],
-  },
-  {
     name: "Contact",
     path: "/contact",
   },

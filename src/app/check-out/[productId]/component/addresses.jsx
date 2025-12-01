@@ -21,8 +21,8 @@ export default AddressManagement = () => {
       state: "New York",
       zipCode: "10012",
       saveAddress: true,
-      isDefault: true
-    }
+      isDefault: true,
+    },
   ]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -51,7 +51,7 @@ export default AddressManagement = () => {
       const newAddress = {
         id: Math.max(...addresses.map((a) => a.id), 0) + 1,
         ...values,
-        isDefault: false
+        isDefault: false,
       };
       setAddresses((prev) => [...prev, newAddress]);
     }
@@ -170,4 +170,4 @@ export default AddressManagement = () => {
       </div>
     </div>
   );
-}
+};

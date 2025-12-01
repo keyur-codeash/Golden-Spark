@@ -55,7 +55,7 @@ export const POST = asyncHandler(async (request) => {
 
   return NextResponse.json({
     isSuccess: true,
-    message: "Product added to wishlist successfully!",
+    message: "Product added to your wishlist.",
     data: result,
   });
 });

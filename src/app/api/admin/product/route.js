@@ -49,12 +49,10 @@ export const GET = asyncHandler(async (request) => {
   try {
     let userId = null;
 
-    // Try to authenticate user, but don't fail if no token is provided
     try {
       const decodedUser = await userAuthentication(request);
       userId = decodedUser?.id || null;
     } catch (authError) {
-      // Only log if it's not a missing/invalid token error
       if (!authError.message.includes("token")) {
         console.error("Authentication error (non-critical):", authError);
       }
@@ -77,7 +75,7 @@ export const GET = asyncHandler(async (request) => {
       maxPrice: url.searchParams.get("maxPrice"),
     };
 
-    const filter = { isDeleted: 0 };
+    const filter = {};
     const variantFilter = {};
 
     // Base product filters
@@ -103,7 +101,7 @@ export const GET = asyncHandler(async (request) => {
     if (query.inStock) variantFilter.stock = { $gt: 0 };
     if (query.outStock) variantFilter.stock = { $lt: 1 };
 
-    // Get filtered product IDs based on variants (if needed)
+    // Get filtered product IDs based on variants
     if (Object.keys(variantFilter).length) {
       const variantProductIds = await productVariantSchema
         .find(variantFilter)
@@ -133,7 +131,7 @@ export const GET = asyncHandler(async (request) => {
           .findOne({ productId: product._id })
           .sort({ price: 1 });
 
-        // Only check wishlist if user is authenticated
+        // Only check wishlist if user
         let isWishlist = false;
         if (userId) {
           const wishlistItem = await wishlistSchema.findOne({
@@ -158,6 +156,7 @@ export const GET = asyncHandler(async (request) => {
           stock: product.stock,
           order: product.order,
           isFeatured: product.isFeatured,
+          isDeleted: product.isDeleted,
           createdAt: product.createdAt,
         };
       })

@@ -8,6 +8,7 @@ import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import { SignJWT } from "jose";
 import { sendOtp } from "@/forntend/services/authServices";
+import Link from "next/link";
 
 const createToken = async (payload) => {
   const secret = new TextEncoder().encode("Codeash@123");
@@ -67,13 +68,20 @@ function ForgotPasswordPage() {
           error={formik.touched.email && formik.errors.email}
         />
 
+        <div className="md:text-end w-full text-lg ">
+          Back to{" "}
+          <Link href="/auth/sign-in" className="hover:underline">
+            Sign In
+          </Link>
+        </div>
+
         <Button
           type="submit"
           label="CONTINUE"
           color="blue"
           size="md"
           variant="solid"
-          className="!bg-yellow-800 w-full !rounded-0 py-3.5 flex items-center gap-[10px] mt-5"
+          className="!bg-yellow-800 w-full !rounded-0 py-3.5 flex items-center gap-[10px] mt-4"
           data-aos="fade-up"
           data-aos-delay="400"
         />
