@@ -63,7 +63,7 @@ export const forgotPasswordSchema = Yup.object({
         /[a-z]/.test(value) &&
         /[A-Z]/.test(value) &&
         /[0-9]/.test(value) &&
-        /[!@#$%^&*(),.?":{}|<>]/.test(value)
+        /[!@#$%^&*(),.?":{}|<>]/.test(value)  
     ),
   confirmPassword: Yup.string()
     .oneOf(
@@ -113,12 +113,19 @@ export const addressSchema = Yup.object().shape({
     .min(3, "Title must be at least 3 characters long.")
     .required("Title is required."),
 
-  brand: Yup.string()
-    .required("Please select a brand."),
+  brand: Yup.string().required("Please select a brand."),
 
-  category: Yup.string()
-    .required("Please select a category."),
+  category: Yup.string().required("Please select a category."),
 
+  images: Yup.array()
+    .required("Images are required.")
+    .min(1, "Images are required.")
+    .max(
+      process.env.NEXT_PUBLIC_DESC_IMAGE_FILES || 5,
+      `You can add maximum ${
+        process.env.NEXT_PUBLIC_DESC_IMAGE_FILES || 5
+      } image.`
+    ),
   description: Yup.string()
     .min(5, "Description must be at least 5 characters long.")
     .required("Description is required."),

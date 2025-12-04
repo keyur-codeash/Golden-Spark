@@ -35,10 +35,9 @@ function Pagination({ pagination }) {
   }
 
   return (
-    <div className="flex items-center justify-between px-4 pb-3 sm:px-6 pt-2">
-      <div className="ms-auto sm:flex sm:flex-1 sm:items-center sm:justify-between">
-        {/* Showing results count */}
-        <div>
+    <div className="flex items-center justify-between px-4 pb-3  sm:px-6 pt-2">
+      <div className="ms-auto sm:flex flex-wrap sm:items-center gap-5 sm:justify-between">
+        <div className="w-auto">
           <p className="text-sm text-gray-600">
             Showing{" "}
             <span className="font-medium">

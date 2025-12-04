@@ -36,7 +36,7 @@ const page = () => {
           <div className="pb-2 font-bold text-gray-500 w-full text-2xl">
             Users
           </div>
-          <div className="flex items-center border border-gray-300 rounded-lg w-full  lg:w-1/2 px-3 h-10 ">
+          <div className="flex items-center border border-gray-300 rounded-lg w-full lg:w-1/2 px-3 h-10 ">
             <div className="pe-1">
               <RiSearchLine className="text-gray-400" />
             </div>

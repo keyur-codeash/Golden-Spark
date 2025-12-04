@@ -13,6 +13,8 @@ import { asyncHandler } from "@/utils/asyncHandler";
 import productVariantSchema from "@/model/product_variants";
 import wishlistSchema from "@/model/wishlistSchema";
 import { userAuthentication } from "@/middlewares/auth";
+import { generateCryptoSKU } from "@/utils/generateCryptoSKU";
+import categorySchema from "@/model/categorySchema";
 
 // Add product
 export const POST = asyncHandler(async (request) => {
@@ -36,10 +38,12 @@ export const POST = asyncHandler(async (request) => {
   }
 
   value.images = dbFileArray;
+  value.sku = generateCryptoSKU();
+
   const product = await productSchema.create(value);
 
   return NextResponse.json({
-    message: "Product created successfully",
+    message: "Product added successfully",
     data: { ...product.toObject(), images: savedFiles },
   });
 });
@@ -90,8 +94,8 @@ export const GET = asyncHandler(async (request) => {
     if (query.brand) filter.brand = query.brand;
 
     // Variant-based filters
-    if (query.color) variantFilter.color = { $in: query.color.split(",") };
-    if (query.size) variantFilter.size = { $in: query.size.split(",") };
+    if (query.color) variantFilter.color = { $in: query.color?.split(",") };
+    if (query.size) variantFilter.size = { $in: query.size?.split(",") };
     if (query.minPrice || query.maxPrice) {
       variantFilter.price = {
         ...(query.minPrice && { $gte: Number(query.minPrice) }),
@@ -141,12 +145,17 @@ export const GET = asyncHandler(async (request) => {
           isWishlist = wishlistItem ? true : false;
         }
 
+        const category = await categorySchema.findOne({
+          _id: product.category,
+        });
+
         return {
           id: product._id,
           title: product.title,
           basePrice: product.price,
           price: firstVariant?.price ?? null,
           brand: brandData?.name ?? "Unknown",
+          category: category?.name ?? "Unknown",
           images: product.images.map((img) =>
             genratePublicUrl(SAVE_PRODUCT_PATH, img)
           ),

@@ -5,7 +5,7 @@ import { CiImageOn } from "react-icons/ci";
 const Dropzone = ({
   onDrop,
   maxFiles = 5,
-  maxSize = 2,
+  maxSize = 30,
   multiple = true,
   label = "Click or drag image here",
   className = "",

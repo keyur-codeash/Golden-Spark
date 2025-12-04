@@ -165,6 +165,7 @@ export const GET = asyncHandler(async (request, { params }) => {
 
 export const PUT = asyncHandler(async (request, { params }) => {
   const productId = params.id;
+
   if (!productId) {
     return NextResponse.json(
       { message: "Product ID is required" },
@@ -174,127 +175,119 @@ export const PUT = asyncHandler(async (request, { params }) => {
 
   const formData = await request.formData();
 
+  // Helper: always extract only filename
+  const extractFileName = (value) => {
+    if (!value) return "";
+    return value.toString().split("/").pop();
+  };
+
   try {
-    // Parse existing images from form data
+    // -------------------------------
+    // 1. Parse images from formData
+    // -------------------------------
     let claimedExistingImages = [];
     const newImageFiles = [];
-
     const imageEntries = formData.getAll("images");
+
     for (const entry of imageEntries) {
       if (entry instanceof File && entry.name && entry.size > 0) {
+        // NEW IMAGE FILE
         newImageFiles.push(entry);
       } else if (typeof entry === "string") {
+        // EXISTING IMAGE FROM FRONTEND (URL or filename)
         try {
           const parsed = JSON.parse(entry);
           if (Array.isArray(parsed)) {
             claimedExistingImages.push(
-              ...parsed.filter((img) => typeof img === "string")
+              ...parsed.map((img) => extractFileName(img))
             );
-          } else if (typeof parsed === "string") {
-            claimedExistingImages.push(parsed);
+          } else {
+            claimedExistingImages.push(extractFileName(parsed));
           }
         } catch {
-          if (typeof entry === "string") {
-            claimedExistingImages.push(entry);
-          }
+          claimedExistingImages.push(extractFileName(entry));
         }
       }
     }
 
     claimedExistingImages = [...new Set(claimedExistingImages)];
 
+    //  Find product in DB
     const product = await productSchema.findById(productId);
     if (!product) {
-      return NextResponse.json({ message: "Product not found" }, { status: 404 });
+      return NextResponse.json(
+        { message: "Product not found" },
+        { status: 404 }
+      );
     }
 
-    const normalizeDbImages = (images) => {
-      if (!images) return [];
-      return images.flatMap((img) => {
-        if (typeof img !== "string") return [];
-        try {
-          const parsed = JSON.parse(img);
-          return Array.isArray(parsed) ? parsed : [parsed];
-        } catch {
-          return [img];
-        }
-      });
-    };
+    // DB stores only filenames
+    const dbImageNames = product.images.map((img) => extractFileName(img));
 
-    const normalizedDbImages = normalizeDbImages(product.images);
-
-    const verifiedExistingImages = claimedExistingImages.filter((img) =>
-      normalizedDbImages.includes(img)
+    //  Match existing images    
+    const verifiedExistingImages = claimedExistingImages.filter((name) =>
+      dbImageNames.includes(name)
     );
 
-    const imagesToDelete = normalizedDbImages.filter(
-      (dbImage) => !verifiedExistingImages.includes(dbImage)
+    // Images to delete
+    const imagesToDelete = dbImageNames.filter(
+      (name) => !verifiedExistingImages.includes(name)
     );
-    if (imagesToDelete.length > 0) {
+
+    if (imagesToDelete.length) {
       try {
         await deleteFile(SAVE_PRODUCT_PATH, imagesToDelete);
-      } catch (deleteError) {
-        console.error("Failed to delete old images:", deleteError);
+      } catch (err) {
+        console.error("Failed to delete images:", err);
       }
     }
 
+    // Save new image files
     const newImageFileNames = [];
     const newImagePublicUrls = [];
+
     for (const file of newImageFiles) {
-      try {
-        const fileName = await saveFile(SAVE_PRODUCT_PATH, file, "product");
-        newImageFileNames.push(fileName);
-        newImagePublicUrls.push(genratePublicUrl(SAVE_PRODUCT_PATH, fileName));
-      } catch (saveError) {
-        console.error("Failed to save new image:", saveError);
-        // Clean up any that were saved
-        if (newImageFileNames.length > 0) {
-          await deleteFile(SAVE_PRODUCT_PATH, newImageFileNames);
-        }
-        return NextResponse.json(
-          { message: "Failed to save product images" },
-          { status: 500 }
-        );
-      }
+      const fileName = await saveFile(SAVE_PRODUCT_PATH, file, "product");
+      newImageFileNames.push(fileName);
+      newImagePublicUrls.push(genratePublicUrl(SAVE_PRODUCT_PATH, fileName));
     }
 
-    const updatedImages = [...verifiedExistingImages, ...newImageFileNames];
-    const updatedImageUrls = [
-      ...verifiedExistingImages.map((img) =>
-        genratePublicUrl(SAVE_PRODUCT_PATH, img)
-      ),
-      ...newImagePublicUrls,
+    // -------------------------------
+    // 5. Final images for DB (filenames only)
+    // -------------------------------
+    const updatedImageNames = [
+      ...verifiedExistingImages, // filenames
+      ...newImageFileNames,      // filenames
     ];
 
+    // -------------------------------
+    // 6. Final response images (URLs)
+    // -------------------------------
+    const updatedImageUrls = updatedImageNames.map((name) =>
+      genratePublicUrl(SAVE_PRODUCT_PATH, name)
+    );
+
+    // -------------------------------
+    // 7. Validate data before saving
+    // -------------------------------
     const updateData = {
       ...Object.fromEntries(formData.entries()),
-      images: updatedImages,
+      images: updatedImageNames, // only filenames stored
     };
-
-    formData.delete("images");
 
     const { value, message: validationError } = validate(
       productValidationSchema,
       updateData
     );
+
     if (validationError) {
-      if (newImageFileNames.length > 0) {
-        try {
-          await deleteFile(SAVE_PRODUCT_PATH, newImageFileNames);
-        } catch (cleanupError) {
-          console.error(
-            "Failed to clean up files after validation error:",
-            cleanupError
-          );
-        }
-      }
       return NextResponse.json({ message: validationError }, { status: 400 });
     }
 
-    // Update product
+    // Update in DB
     const updatedProduct = await productSchema.findByIdAndUpdate(
       productId,
-      { ...value, images: updatedImages },
+      { ...value, images: updatedImageNames },
       { new: true }
     );
 
@@ -306,7 +299,7 @@ export const PUT = asyncHandler(async (request, { params }) => {
       },
     });
   } catch (error) {
-    console.error("Error updating product:", error);
+    console.error("UPDATE ERROR:", error);
     return NextResponse.json(
       { message: error.message || "Internal server error" },
       { status: 500 }
@@ -325,7 +318,10 @@ export const DELETE = asyncHandler(async (_, { params }) => {
   try {
     const product = await productSchema.findByIdAndDelete(productId);
     if (!product) {
-      return NextResponse.json({ message: "Product not found" }, { status: 404 });
+      return NextResponse.json(
+        { message: "Product not found" },
+        { status: 404 }
+      );
     }
     // Delete associated images from storage
     if (product.images && product.images.length > 0) {
@@ -333,11 +329,10 @@ export const DELETE = asyncHandler(async (_, { params }) => {
         await deleteFile(SAVE_PRODUCT_PATH, product.images);
       } catch (deleteError) {
         console.error("Failed to delete product images:", deleteError);
-        // Continue even if deletion fails - we don't want to block the delete operation
       }
     }
     return NextResponse.json({
-      message: "Product deleted successfully",
+      message: "Product has been removed successfully.",
       isSuccess: true,
     });
   } catch (error) {

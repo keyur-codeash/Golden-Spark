@@ -1,5 +1,5 @@
-import axiosInstance from "../lib/axiosClient";
 import Toast from "@/components/toastService";
+import axiosInstance from "@/forntend/lib/axiosClient";
 
 //  Create Address
 export const createAddress = async (addressData = {}) => {
@@ -52,7 +52,6 @@ export const fetchSingleAddress = async () => {
 
 // Update Address
 export const updateAddress = async (updateData = {}) => {
-
   try {
     const response = await axiosInstance.put(`/address`, updateData);
     if (response?.data?.isSuccess) {

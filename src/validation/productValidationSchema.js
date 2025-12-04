@@ -7,10 +7,10 @@ export const productValidationSchema = Joi.object({
     "any.required": "Title is required",
   }),
 
-  price: Joi.number().required().messages({
-    "number.base": "Price must be a number",
-    "any.required": "Price is required",
-  }),
+  // price: Joi.number().required().messages({
+  //   "number.base": "Price must be a number",
+  //   "any.required": "Price is required",
+  // }),
 
   brand: Joi.string().required().messages({
     "string.base": "Brand must be a string",
@@ -24,14 +24,10 @@ export const productValidationSchema = Joi.object({
     "any.required": "Description is required",
   }),
 
-  sku: Joi.string().required().messages({
-    "string.base": "SKU must be a string",
-    "string.empty": "SKU is required",
-    "any.required": "SKU is required",
-  }),
+  // sku: Joi.string().required().messages({
+  //   "string.base": "SKU must be a string",
+  //   "string.empty": "SKU is required",
+  //   "any.required": "SKU is required",
+  // }),
 
-  stock: Joi.number().required().messages({
-    "number.base": "Stock must be a number",
-    "any.required": "Stock is required",
-  }),
 }).unknown();

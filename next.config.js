@@ -7,7 +7,6 @@ module.exports = {
         protocol: "http",
         hostname: "192.168.0.111",
       },
-
       {
         protocol: "https",
         hostname: "dcafac59e33b.ngrok-free.app",

@@ -4,8 +4,10 @@ const createfolder = require("./createfolder");
 const randomString = require("./randomString");
 
 const saveFile = async (pathname, file, prefix) => {
+  console.log("file=======", file);
+
   createfolder(pathname);
-  const extension = file.type.split("/")[1];
+  const extension = file.type?.split("/")[1];
   const pathnameSplit = pathname.split("/");
   const filePrefix = pathnameSplit[pathnameSplit.length - 1];
   const fileName =
@@ -27,8 +29,8 @@ const saveFile = async (pathname, file, prefix) => {
     if (err) {
       return false;
     }
-  });  
-  return  fileName;
+  });
+  return fileName;
 };
 
 module.exports = saveFile;
