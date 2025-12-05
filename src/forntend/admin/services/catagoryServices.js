@@ -36,12 +36,9 @@ export const addCategoryData = async (body) => {
 
 export const updateCategory = async (body) => {
   try {
-    const response = await axiosInstance.post("/admin/product/category"+ body._id, body);
+    const response = await axiosInstance.post("/admin/product/category/"+ body._id, body);
 
     if (response.data.isSuccess) {
-      Toast.success(
-        response?.data?.message || "Product category updated."
-      );
       return response.data;
     } else {
       Toast.error(response?.data?.message || "Failed to update product category.");
@@ -56,12 +53,9 @@ export const updateCategory = async (body) => {
 
 export const deleteCategory = async (id) => {
   try {
-    const response = await axiosInstance.post("/admin/product/category"+ id);
+    const response = await axiosInstance.delete("/admin/product/category/"+ id);
 
     if (response.data.isSuccess) {
-      Toast.success(
-        response?.data?.message || "Product category updated."
-      );
       return response.data;
     } else {
       Toast.error(response?.data?.message || "Failed to update product category.");

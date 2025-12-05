@@ -179,7 +179,7 @@ export default function Sidebar({
                           className={`block px-3 py-2 rounded transition-colors
                             ${
                               activeSubmenu === i
-                                ? "bg-brown-500 text-white"
+                                ? "bg-brown-500"
                                 : "text-black hover:bg-gray-200"
                             }`}
                         >

@@ -78,7 +78,7 @@ const page = () => {
                   <span class="relative">Active</span>
                 </span>
               </td>
-              <td className="px-6 py-4">{user.login_type || "-"}</td>
+              <td className="px-6 py-4 capitalize">{user.login_type || "Email"}</td>
               <td className="px-6 py-4">{formatDate(user.createdAt)}</td>
             </tr>
           ))}
