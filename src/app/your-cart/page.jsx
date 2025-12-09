@@ -174,6 +174,8 @@ const CartPage = () => {
     // clearSingleProduct();
   }, []);
 
+  console.log("addtocartlist=====", addtocartlist);
+
   return (
     <div className="your-cart">
       <div>

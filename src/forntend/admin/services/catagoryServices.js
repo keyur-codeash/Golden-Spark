@@ -17,7 +17,7 @@ export const fetchCategory = async () => {
   }
 };
 
-
+// Add category
 export const addCategoryData = async (body) => {
   try {
     const response = await axiosInstance.post("/admin/product/category", body);
@@ -34,14 +34,20 @@ export const addCategoryData = async (body) => {
   }
 };
 
+// update category
 export const updateCategory = async (body) => {
   try {
-    const response = await axiosInstance.post("/admin/product/category/"+ body._id, body);
+    const response = await axiosInstance.post(
+      "/admin/product/category/" + body._id,
+      body
+    );
 
     if (response.data.isSuccess) {
       return response.data;
     } else {
-      Toast.error(response?.data?.message || "Failed to update product category.");
+      Toast.error(
+        response?.data?.message || "Failed to update product category."
+      );
       return null;
     }
   } catch (error) {
@@ -50,15 +56,19 @@ export const updateCategory = async (body) => {
   }
 };
 
-
+// Delete category
 export const deleteCategory = async (id) => {
   try {
-    const response = await axiosInstance.delete("/admin/product/category/"+ id);
+    const response = await axiosInstance.delete(
+      "/admin/product/category/" + id
+    );
 
     if (response.data.isSuccess) {
       return response.data;
     } else {
-      Toast.error(response?.data?.message || "Failed to update product category.");
+      Toast.error(
+        response?.data?.message || "Failed to update product category."
+      );
       return null;
     }
   } catch (error) {
@@ -66,4 +76,3 @@ export const deleteCategory = async (id) => {
     return false;
   }
 };
-

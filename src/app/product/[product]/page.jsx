@@ -38,6 +38,7 @@ const ProductDetailsPage = () => {
   const { addToWishlist } = useWishlist();
   const { addtocart, buyNow } = useAddtocart();
   const [loading, setLoading] = useState(true);
+  const [isVaraintFound, setIsVaraintFound] = useState(true);
 
   const [productDetails, setProductDetails] = useState({
     title: "",
@@ -246,8 +247,8 @@ const ProductDetailsPage = () => {
   useEffect(() => {
     const fetchSingleProductData = async () => {
       try {
-        const product = await fetchSingleProduct(params.product, token);
-        const productData = product?.data || {
+        const response = await fetchSingleProduct(params.product, token);
+        const productData = response?.data || {
           title: "",
           brand: "",
           images: [],
@@ -259,17 +260,21 @@ const ProductDetailsPage = () => {
           availableColors: [],
           allVariants: [],
         };
+        //  console.log("response======", respon);
 
         setLoading(false);
         setProductDetails(productData);
-
-        if (
-          productData.allVariants?.length > 0 &&
-          !productData.selectedVariant
-        ) {
-          setSelectedVariant(productData.allVariants[0]);
+        if (response?.isSuccess) {
+          if (
+            productData.allVariants?.length > 0 &&
+            !productData.selectedVariant
+          ) {
+            setSelectedVariant(productData.allVariants[0]);
+          } else {
+            setSelectedVariant(productData.selectedVariant);
+          }
         } else {
-          setSelectedVariant(productData.selectedVariant);
+          setIsVaraintFound(false);
         }
       } catch (error) {
         setLoading(false);
@@ -323,7 +328,13 @@ const ProductDetailsPage = () => {
       const exactVariant = getExactVariant();
 
       if (exactVariant) {
-        const response = await buyNow(productDetails.id, exactVariant, true);
+        console.log("exactVariant=====", exactVariant);
+
+        const response = await buyNow(
+          productDetails.id,
+          exactVariant,
+          quantity
+        );
         router.push("/check-out/address");
       }
     } else {
@@ -352,6 +363,18 @@ const ProductDetailsPage = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
+
+  // if (!isVaraintFound) {
+  //   return (
+  //     <div className="container mx-auto pt-4">
+  //       <div className="">
+  //         <p className="text-red-400">
+  //           This product is currently unavailable.{" "}
+  //         </p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <>
@@ -609,7 +632,7 @@ const ProductDetailsPage = () => {
                       src={productDetails.images[currentImageIndex]}
                       alt="main-image"
                       layout="fill"
-                      className="object-cover !w-full mx-auto rounded-lg"
+                      className="object-contain !w-full mx-auto rounded-lg"
                     />
                     {/* Prev and Next Buttons */}
                     <button

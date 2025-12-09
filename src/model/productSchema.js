@@ -10,8 +10,9 @@ const productSchema = new mongoose.Schema(
     sku: String,
     isFeatured: { type: Number, default: 0 },
     isDeleted: { type: Number, default: 0 },
+    isAvailable: { type: Number, default: 1 },
   },
-  { timestamps: true, versionKey : false }
+  { timestamps: true, versionKey: false }
 );
 
 export default mongoose.models.Product ||

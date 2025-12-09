@@ -17,6 +17,22 @@ export const PUT = asyncHandler(async (req, { params }) => {
     );
   }
 
+  const existingBrand = await sizeSchema.findOne({
+    size: value.size,
+    status: 1,
+    _id: { $ne: params.id },
+  });
+
+  if (existingBrand) {
+    return NextResponse.json(
+      {
+        isSuccess: false,
+        message: `Size already exists.`,
+      },
+      { status: 409 }
+    );
+  }
+
   const updatedSize = await sizeSchema.findByIdAndUpdate(params.id, value, {
     new: true,
     runValidators: true,

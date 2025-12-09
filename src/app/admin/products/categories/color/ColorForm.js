@@ -4,18 +4,25 @@ import React from "react";
 import { Formik, Form } from "formik";
 import Button from "@/components/Button";
 import InputField from "@/components/Input";
-import { ProductCategory } from "@/forntend/validation/AdminValidation/ProductValidation";
+import {
+  ProductCategory,
+  ProductColor,
+} from "@/forntend/validation/AdminValidation/ProductValidation";
+import { Input } from "postcss";
 
-const CategoryForm = ({
+const ColorForm = ({
   title,
   overflow,
   onClose,
+  brand,
+  category,
   initialValues,
   onSubmit,
 }) => {
   const defaultValues = {
     name: "",
-    status: true,
+    color: "",
+    status: 1,
   };
 
   return (
@@ -30,7 +37,7 @@ const CategoryForm = ({
         >
           <Formik
             initialValues={initialValues || defaultValues}
-            validationSchema={ProductCategory}
+            validationSchema={ProductColor}
             enableReinitialize
             onSubmit={(values) => onSubmit(values)}
           >
@@ -62,8 +69,38 @@ const CategoryForm = ({
                     />
                   </div>
 
+                  {/* Color Picker */}
+                  <div className="mb-4">
+                    <label className="block mb-1 font-medium text-gray-700">
+                      Select Color
+                    </label>
+
+                    <div className="flex items-center gap-4 border  border-gray-300 rounded-md p-2 bg-white">
+                      {/* Color Input */}
+                      <input
+                        type="color"
+                        id="color"
+                        name="color"
+                        value={values.color}
+                        onChange={handleChange}
+                        className="w-10 h-10 cursor-pointer outline"
+                      />
+
+                      {/* HEX Value */}
+                      <span className="font-medium text-gray-700">
+                        {values.color.toUpperCase()}
+                      </span>
+                    </div>
+
+                    {touched.color && errors.color && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.color}
+                      </p>
+                    )}
+                  </div>
+
                   {/* Status Toggle */}
-                  <div className="mb-4 flex items-center ">
+                  <div className="mb-4 flex items-center pt-2">
                     <label className="font-medium text-gray-700 pe-4">
                       Status :
                     </label>
@@ -74,7 +111,7 @@ const CategoryForm = ({
                           className="sr-only peer"
                           checked={values.status}
                           onChange={() =>
-                            setFieldValue("status", !values.status)
+                            setFieldValue("status", !Number(values.status))
                           }
                         />
 
@@ -112,4 +149,4 @@ const CategoryForm = ({
   );
 };
 
-export default CategoryForm;
+export default ColorForm;

@@ -12,6 +12,7 @@ export const updateColorSchema = Joi.object({
     "string.empty": "Color is required",
     "any.required": "Color is required",
   }),
+  status: Joi.optional(),
 });
 
 export const addColorSchema = Joi.object({
@@ -25,8 +26,9 @@ export const addColorSchema = Joi.object({
     "string.empty": "Color is required",
     "any.required": "Color is required",
   }),
+  status: Joi.optional(),
 });
- 
+
 export const idParamSchema = Joi.object({
   id: Joi.string()
     .length(24)

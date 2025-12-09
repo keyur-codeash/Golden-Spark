@@ -12,10 +12,7 @@ export const GET = asyncHandler(async () => {
     ...item.toObject(),
     image: genratePublicUrl(SAVE_PRODUCT_PATH, item.image),
   }));
-
-  console.log("blog==", details);
   
-
   return NextResponse.json({
     isSuccess: true,
     data: details,

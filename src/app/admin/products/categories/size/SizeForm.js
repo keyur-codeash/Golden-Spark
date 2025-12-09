@@ -4,17 +4,14 @@ import React from "react";
 import { Formik, Form } from "formik";
 import Button from "@/components/Button";
 import InputField from "@/components/Input";
-import { ProductCategory } from "@/forntend/validation/AdminValidation/ProductValidation";
+import {
+  ProductCategory,
+  ProductSizes,
+} from "@/forntend/validation/AdminValidation/ProductValidation";
 
-const CategoryForm = ({
-  title,
-  overflow,
-  onClose,
-  initialValues,
-  onSubmit,
-}) => {
+const SizeForm = ({ title, overflow, onClose, initialValues, onSubmit }) => {
   const defaultValues = {
-    name: "",
+    size: "",
     status: true,
   };
 
@@ -30,7 +27,7 @@ const CategoryForm = ({
         >
           <Formik
             initialValues={initialValues || defaultValues}
-            validationSchema={ProductCategory}
+            validationSchema={ProductSizes}
             enableReinitialize
             onSubmit={(values) => onSubmit(values)}
           >
@@ -51,14 +48,14 @@ const CategoryForm = ({
                       Name
                     </label>
                     <InputField
-                      id="name"
-                      name="name"
+                      id="size"
+                      name="size"
                       type="text"
-                      placeholder="Enter category name"
-                      value={values.name}
+                      placeholder="Enter size"
+                      value={values.size}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      error={touched.name && errors.name}
+                      error={touched.size && errors.size}
                     />
                   </div>
 
@@ -112,4 +109,4 @@ const CategoryForm = ({
   );
 };
 
-export default CategoryForm;
+export default SizeForm;

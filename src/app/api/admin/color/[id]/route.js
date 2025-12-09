@@ -14,6 +14,22 @@ export const PUT = asyncHandler(async (req, { params }) => {
     );
   }
 
+  const existingBrand = await colorSchema.findOne({
+    name: value.name,
+    status: 1,
+    _id: { $ne: params.id },
+  });
+
+  if (existingBrand) {
+    return NextResponse.json(
+      {
+        isSuccess: false,
+        message: `Color with name '${value.name}' already exists.`,
+      },
+      { status: 409 }
+    );
+  }
+
   const updatedColor = await colorSchema.findByIdAndUpdate(params.id, value, {
     new: true,
     runValidators: true,

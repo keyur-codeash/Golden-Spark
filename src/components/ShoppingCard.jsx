@@ -30,8 +30,8 @@ const ShoppingCard = ({
   const handleAddToCart = async () => {
     try {
       const response = await addtocart(id);
-      if(response){
-      Toast.success("Product added to cart!");
+      if (response) {
+        Toast.success("Product added to cart!");
       }
       // if (response) {
       //   router.push("/your-cart");
@@ -72,7 +72,9 @@ const ShoppingCard = ({
             </div>
           )}
         </div>
-
+        <div className="px-4">
+          <p className="text-red-400">This item is currently out of stock.</p>
+        </div>
         <div className="flex flex-col md:flex-row justify-center items-center px-4 pt-2 pb-5">
           <div className="flex order-1 md:order-2 gap-2 mb-4 md:mb-0">
             <div

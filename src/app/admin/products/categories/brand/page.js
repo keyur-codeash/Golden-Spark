@@ -16,14 +16,13 @@ import {
 
 import BrandForm from "./BrandForm";
 import { IoAddCircleOutline } from "react-icons/io5";
+import CategoryCardSkeleton from "@/forntend/skeleton/admin/CategoryCardSkeleton";
 
-const ProductCategories = ({ name }) => {
+const ProductCategories = ({ name, search }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [brand, setBrand] = useState([]);
   const [currentbrand, setCurrentbrand] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  const [search, setSearch] = useState("");
 
   // Fetch ALL categories
   const fetchAllbrand = async () => {
@@ -43,8 +42,6 @@ const ProductCategories = ({ name }) => {
   // Handle form submit
   const handleSubmit = async (formData) => {
     try {
-      setLoading(true);
-
       let response;
 
       if (formData._id) {
@@ -64,7 +61,6 @@ const ProductCategories = ({ name }) => {
     } catch (error) {
       console.error("Error in handleSubmit:", error);
     } finally {
-      setLoading(false);
     }
   };
 
@@ -128,23 +124,10 @@ const ProductCategories = ({ name }) => {
               }}
             />
           </div>
-
-          {/* Search Bar */}
-          {/* <div className="mt-4">
-          <div className="flex items-center bg-white border border-gray-300 px-3 py-2 rounded-lg shadow-sm focus-within:border-brown-800 transition">
-            <IoSearchOutline className="text-gray-500 text-xl" />
-            <input
-              type="text"
-              placeholder="Search brand..."
-              className="ml-2 w-full outline-none text-gray-700"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
-        </div> */}
         </div>
         {/* brand List */}
-        <div className="mt-4 overflow-auto no-scrollbar h-auto max-h-[calc(100vh-260px)] space-y-2">
+        {loading ? <CategoryCardSkeleton /> :
+         <div className="mt-4 overflow-auto no-scrollbar h-auto max-h-[calc(100vh-260px)] space-y-2">
           {filteredbrand.map((cat) => (
             <div
               key={cat._id}
@@ -203,6 +186,7 @@ const ProductCategories = ({ name }) => {
             </p>
           )}
         </div>
+}
       </div>
     </>
   );

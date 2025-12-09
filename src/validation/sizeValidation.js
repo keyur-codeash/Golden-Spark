@@ -1,12 +1,14 @@
 import SizeSchema from "@/model/sizeSchema";
-import Joi from "joi";
+import Joi, { optional } from "joi";
 
 export const updateSizeSchema = Joi.object({
+  _id : Joi.optional(),
   size: Joi.string().trim().required().messages({
     "string.base": "Size is string",
     "string.empty": "Size is required",
     "any.required": "Size is required",
   }),
+  status: Joi.optional(),
 });
 
 export const addSizeSchema = Joi.object({
@@ -15,6 +17,7 @@ export const addSizeSchema = Joi.object({
     "string.empty": "Size is required",
     "any.required": "Size is required",
   }),
+  status: Joi.boolean().optional(),
 });
 
 export const idParamSchema = Joi.object({

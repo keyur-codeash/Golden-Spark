@@ -40,7 +40,6 @@ export const AddToCartProvider = ({ children }) => {
   };
 
   const addtocart = async (id, selectedVariant = null, isSingle) => {
-
     if (!localStorage.getItem("token")) {
       router.push("/auth/sign-in");
       return false;
@@ -116,7 +115,7 @@ export const AddToCartProvider = ({ children }) => {
                 stock: variantToUse?.stock || productData.stock,
               },
             ]);
-          }
+          }   
           return true;
         } else {
           console.error(
@@ -396,7 +395,7 @@ export const AddToCartProvider = ({ children }) => {
   };
 
   // --------------------------------------------------
-  const buyNow = async (id, selectedVariant = null) => {
+  const buyNow = async (id, selectedVariant = null, quantity) => {
     if (!localStorage.getItem("token")) {
       router.push("/auth/sign-in");
       return false;
@@ -415,7 +414,7 @@ export const AddToCartProvider = ({ children }) => {
       const single = [
         {
           ...product,
-          quantity: 1,
+          quantity: quantity || 1,
           selectedVariant: variantToUse,
           productVariantId,
           price: variantToUse?.price || product.price,

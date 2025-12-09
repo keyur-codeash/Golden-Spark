@@ -45,7 +45,7 @@ export const updateBrand = async (body) => {
     }
   } catch (error) {
     console.log("error===", error);
-    
+
     Toast.error(error?.response?.data?.message || "Something went wrong.");
     return false;
   }

@@ -29,7 +29,7 @@ const ResponsiveFilter = () => {
     collections: [],
     stock: false,
     outOfStock: false,
-    brands: [shopBy],
+    brands: shopBy?.length ? [shopBy] : [],
     sizes: [],
     colors: [],
     minPrice: 0,
@@ -39,7 +39,6 @@ const ResponsiveFilter = () => {
     isFeatured: false,
   });
   const { token } = useToken();
-  const router = useRouter();
   const { addToWishlist, removeFromWishlist } = useWishlist();
 
   const buildQueryString = () => {

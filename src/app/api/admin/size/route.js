@@ -1,9 +1,7 @@
 import { validate } from "@/lib/validateSchema";
 import sizeSchema from "@/model/sizeSchema";
 import { asyncHandler } from "@/utils/asyncHandler";
-import {
-  addSizeSchema,
-} from "@/validation/sizeValidation";
+import { addSizeSchema } from "@/validation/sizeValidation";
 import { NextResponse } from "next/server";
 
 export const GET = asyncHandler(async () => {

@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { AiOutlineDelete } from "react-icons/ai";
 import CommonModel from "@/components/Model";
@@ -13,25 +12,15 @@ import {
   updateCategory,
   deleteCategory,
 } from "@/forntend/admin/services/catagoryServices";
-
 import CategoryForm from "./CategoryForm";
 import { IoAddCircleOutline } from "react-icons/io5";
+import CategoryCardSkeleton from "@/forntend/skeleton/admin/CategoryCardSkeleton";
 
-const ProductCategories = ({
-  name,
-  currentCategory,
-  setCurrentCategory,
-  category,
-  setCategory,
-  search
-}) => {
+const ProductCategories = ({ name, search }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [category, setCategory] = useState([]);
-  const [brand, setBrand] = useState([]);
-  // const [currentCategory, setCurrentCategory] = useState(null);
+  const [category, setCategory] = useState([]);
+  const [currentCategory, setCurrentCategory] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  // const [search, setSearch] = useState("");
 
   // Fetch ALL categories
   const fetchAllCategory = async () => {
@@ -51,8 +40,6 @@ const ProductCategories = ({
   // Handle form submit
   const handleSubmit = async (formData) => {
     try {
-      setLoading(true);
-
       let response;
 
       if (formData._id) {
@@ -73,8 +60,6 @@ const ProductCategories = ({
       }
     } catch (error) {
       console.error("Error in handleSubmit:", error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -98,7 +83,7 @@ const ProductCategories = ({
     }
   };
 
-  const filteredCategory = category?.filter((cat) =>
+  const filteredCategory = category.filter((cat) =>
     cat.name.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -120,7 +105,6 @@ const ProductCategories = ({
                 title={currentCategory ? "Edit Category" : "New Category"}
                 initialValues={currentCategory || null}
                 onSubmit={handleSubmit}
-                brand={brand}
                 category={category}
               />
             </div>
@@ -139,81 +123,73 @@ const ProductCategories = ({
               }}
             />
           </div>
-
-          {/* Search Bar */}
-          {/* <div className="mt-4">
-          <div className="flex items-center bg-white border border-gray-300 px-3 py-2 rounded-lg shadow-sm focus-within:border-brown-800 transition">
-            <IoSearchOutline className="text-gray-500 text-xl" />
-            <input
-              type="text"
-              placeholder="Search Category..."
-              className="ml-2 w-full outline-none text-gray-700"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
-        </div> */}
         </div>
         {/* Category List */}
-        <div className="mt-4 overflow-auto no-scrollbar h-auto max-h-[calc(100vh-260px)] space-y-2">
-          {filteredCategory?.map((cat) => (
-            <div
-              key={cat._id}
-              className="rounded-lg bg-white border border-gray-200 mb-3 shadow-sm hover:shadow-md transition duration-200"
-            >
-              <div className="pl-6 pr-4 py-4 flex flex-col space-y-3 ">
-                <div className="flex justify-between items-start">
-                  <div className="min-w-0 flex-1">
-                    <h3 className="text-xl font-bold text-gray-800 truncate">
-                      {cat.name}
-                    </h3>
-                    <p className="text-xs text-gray-500 mt-1">
-                      <span className="font-medium">Created:</span>
-                      <span className="ml-1">{formatDate(cat.createdAt)}</span>
-                    </p>
+        {loading ? (
+          <CategoryCardSkeleton />
+        ) : (
+          <div className="mt-4 overflow-auto no-scrollbar h-auto max-h-[calc(100vh-260px)] space-y-2">
+            {filteredCategory.map((cat) => (
+              <div
+                key={cat._id}
+                className="rounded-lg bg-white border border-gray-200 mb-3 shadow-sm hover:shadow-md transition duration-200"
+              >
+                <div className="pl-6 pr-4 py-4 flex flex-col space-y-3 ">
+                  <div className="flex justify-between items-start">
+                    <div className="min-w-0 flex-1">
+                      <h3 className="text-xl font-bold text-gray-800 truncate">
+                        {cat.name}
+                      </h3>
+                      <p className="text-xs text-gray-500 mt-1">
+                        <span className="font-medium">Created:</span>
+                        <span className="ml-1">
+                          {formatDate(cat.createdAt)}
+                        </span>
+                      </p>
+                    </div>
                   </div>
-                </div>
 
-                {/* Bottom Section */}
-                <div className="pt-3 border-t border-gray-100 flex justify-between items-center">
-                  <span
-                    className={`text-xs font-bold px-3 py-1 rounded-lg ${
-                      cat.status
-                        ? "text-brown-800 bg-brown-500"
-                        : "text-gray-600 bg-gray-200"
-                    }`}
-                  >
-                    {cat.status ? "Active" : "Draft"}
-                  </span>
-
-                  <div className="flex items-center">
-                    <button
-                      onClick={() => handleCategoryEdit(cat)}
-                      className="p-1 rounded-full text-brown-800 hover:bg-brown-50 transition duration-150"
-                      aria-label="Edit Category"
+                  {/* Bottom Section */}
+                  <div className="pt-3 border-t border-gray-100 flex justify-between items-center">
+                    <span
+                      className={`text-xs font-bold px-3 py-1 rounded-lg ${
+                        cat.status
+                          ? "text-brown-800 bg-brown-500"
+                          : "text-gray-600 bg-gray-200"
+                      }`}
                     >
-                      <HiOutlinePencilSquare className="text-xl" />
-                    </button>
+                      {cat.status ? "Active" : "Draft"}
+                    </span>
 
-                    <button
-                      onClick={() => handleDelete(cat._id)}
-                      className="p-1 rounded-full text-red-600 hover:bg-red-50 transition duration-150"
-                      aria-label="Delete Category"
-                    >
-                      <AiOutlineDelete className="text-xl" />
-                    </button>
+                    <div className="flex items-center">
+                      <button
+                        onClick={() => handleCategoryEdit(cat)}
+                        className="p-1 rounded-full text-brown-800 hover:bg-brown-500 transition duration-150"
+                        aria-label="Edit Category"
+                      >
+                        <HiOutlinePencilSquare className="text-xl cursor-pointer" />
+                      </button>
+
+                      <button
+                        onClick={() => handleDelete(cat._id)}
+                        className="p-1 rounded-full text-red-600 hover:bg-red-50 transition duration-150"
+                        aria-label="Delete Category"
+                      >
+                        <AiOutlineDelete className="text-xl cursor-pointer" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
 
-          {filteredCategory?.length === 0 && (
-            <p className="text-center text-gray-500 py-5">
-              No categories found.
-            </p>
-          )}
-        </div>
+            {filteredCategory.length === 0 && (
+              <p className="text-center text-gray-500 py-5">
+                No categories found.
+              </p>
+            )}
+          </div>
+        )}
       </div>
     </>
   );

@@ -27,7 +27,7 @@ export const POST = asyncHandler(async (req) => {
   });
   if (existingColor) {
     return NextResponse.json(
-      { isSuccess: false, message: "Color already exists" },
+      { isSuccess: false, message: "Color name already exists." },
       { status: 400 }
     );
   }
