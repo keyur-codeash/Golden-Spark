@@ -6,9 +6,11 @@ import { LuEye } from "react-icons/lu";
 import { useRouter } from "next/navigation";
 import Button from "./Button";
 import ProductDetails from "@/app/product/components/ProductDetails";
+
 import { useAddtocart } from "@/forntend/context/AddToCartContext";
-import { fetchSingleProduct } from "@/forntend/services/productService";
 import Toast from "./toastService";
+import { IoWarningSharp } from "react-icons/io5";
+import { PiWarningCircle, PiWarningCircleLight } from "react-icons/pi";
 
 const ShoppingCard = ({
   image,
@@ -16,6 +18,7 @@ const ShoppingCard = ({
   price,
   id,
   isWishList,
+  isAvailable,
   onCardUpdateData,
 }) => {
   const router = useRouter();
@@ -24,7 +27,7 @@ const ShoppingCard = ({
   const [productId, setProductId] = useState(null);
 
   const handleNavigate = () => {
-    router.push(`/product/${id}`);
+    if (isAvailable) router.push(`/product/${id}`);
   };
 
   const handleAddToCart = async () => {
@@ -54,10 +57,14 @@ const ShoppingCard = ({
         <ProductDetails
           isOpen={isOpen}
           setIsOpen={setIsOpen}
-          productId={productId} // Directly pass the id
+          productId={productId}
+          isAvailable={isAvailable}
         />
 
-        <div onClick={handleNavigate} className="cursor-pointer">
+        <div
+          onClick={handleNavigate}
+          className={isAvailable ? `cursor-pointer` : "cursor-not-allowed"}
+        >
           <div className="h-[200px] sm:h-[400px] xl:h-[340px] px-3 sm:px-5 pt-3 sm:pt-5">
             <img
               src={image}
@@ -72,13 +79,18 @@ const ShoppingCard = ({
             </div>
           )}
         </div>
-        <div className="px-4">
-          <p className="text-red-400">This item is currently out of stock.</p>
-        </div>
+        {!isAvailable && (
+          <div className="px-4">
+            <p className="text-red-800 text-center text-xs sm:text-[14px] flex items-center justify-center">
+              <PiWarningCircle size={14} className="me-1" /> This item is
+              currently out of stock.
+            </p>
+          </div>
+        )}
         <div className="flex flex-col md:flex-row justify-center items-center px-4 pt-2 pb-5">
           <div className="flex order-1 md:order-2 gap-2 mb-4 md:mb-0">
             <div
-              className="bg-white p-2 rounded-full cursor-pointer"
+              className={`bg-white p-2 rounded-full cursor-pointer`}
               onClick={onCardUpdateData}
             >
               {isWishList ? (
@@ -87,10 +99,10 @@ const ShoppingCard = ({
                 <TbHeart className="text-brown-900 text-2xl" />
               )}
             </div>
-            <div className="bg-white p-2 rounded-full cursor-pointer">
+            <div className="bg-white p-2 rounded-full">
               <LuEye
-                className="text-brown-900 text-2xl"
-                onClick={handleProductDetails} // Corrected the typo
+                className="text-brown-900 text-2xl cursor-pointer "
+                onClick={handleProductDetails}
               />
             </div>
           </div>
@@ -98,10 +110,13 @@ const ShoppingCard = ({
           <div className="order-2 md:order-1">
             <Button
               label="ADD TO CART"
+              disabled={!isAvailable}
               color="blue"
               size="md"
               variant="solid"
-              className="!bg-white !text-black text-sm sm:text-md sm:py-2.5 rounded-1 text-nowrap sm:me-4"
+              className={`!bg-white !text-black text-sm sm:text-md sm:py-2.5 rounded-1 text-nowrap sm:me-4 ${
+                !isAvailable && "!cursor-not-allowed"
+              }`}
               onClick={handleAddToCart}
             />
           </div>

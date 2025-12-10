@@ -17,7 +17,7 @@ const FavoriteProducts = () => {
       try {
         const response = await getwishlistData();
         setWishlist(response.data);
-      } catch (error) { 
+      } catch (error) {
         console.error("Failed to fetch wishlist:", error);
       }
     };
@@ -35,25 +35,25 @@ const FavoriteProducts = () => {
     }
   };
 
-  if(!wishlist.length){
-    return false
+  if (!wishlist.length) {
+    return false;
   }
 
   return (
     <div className="shopByCollection sm:pt-10 relative">
       <div className="container mx-auto">
-                <div data-aos="fade-down">
+        <div data-aos="fade-down">
+          <Heading className="text-brown-900 !px-1" color="text-brown-900">
+            Your Favorite Products
+          </Heading>
 
-        <Heading className="text-brown-900 !px-1" color="text-brown-900">
-          Your Favorite Products
-        </Heading>
-
-        <div className="flex justify-center pb-7">
-          <p className="text-gray-500 md:text-sm xl:text-md xl:text-lg py-4 w-2xl text-center">
-            Our fashion jewellery is inspired by minimalism, focused on minimal
-            simplicity, perfect for everyday wear and cherished for years.
-          </p>
-        </div>
+          <div className="flex justify-center pb-7">
+            <p className="text-gray-500 md:text-sm xl:text-md xl:text-lg py-4 w-2xl text-center">
+              Our fashion jewellery is inspired by minimalism, focused on
+              minimal simplicity, perfect for everyday wear and cherished for
+              years.
+            </p>
+          </div>
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-y-10 gap-x-0 lg:gap-x-0">
@@ -61,6 +61,7 @@ const FavoriteProducts = () => {
             <ShoppingCard
               key={item.id}
               id={item.id}
+              isAvailable={item.isAvailable}
               image={item.images[0]}
               text={item.title}
               price={item.price}
@@ -82,6 +83,6 @@ const FavoriteProducts = () => {
       </div>
     </div>
   );
-}
+};
 
 export default FavoriteProducts;

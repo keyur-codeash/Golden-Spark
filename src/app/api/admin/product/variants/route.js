@@ -9,6 +9,8 @@ import {
   getVariantSchema,
   deleteVariantSchema,
 } from "@/validation/productVariantsValidation";
+import sizeSchema from "@/model/sizeSchema";
+import colorSchema from "@/model/colorSchema";
 
 // Add Product variant
 export const POST = asyncHandler(async (request) => {
@@ -16,11 +18,14 @@ export const POST = asyncHandler(async (request) => {
 
   const { value, error } = validate(addVariantSchema, body);
   if (error) {
-    return NextResponse.json({message:  error, isSuccess: false }, { status: 400 });
+    return NextResponse.json(
+      { message: error, isSuccess: false },
+      { status: 400 }
+    );
   }
 
   const existingVariant = await Variant.findOne({
-    productId: body.productId,  
+    productId: body.productId,
     size: body.size,
     color: body.color,
   });
@@ -34,41 +39,62 @@ export const POST = asyncHandler(async (request) => {
   return NextResponse.json({
     message: "Variants added successfully",
     data: result,
+    isSuccess: true
   });
 });
 
-//  Get all variants
+// Get all variants
 export const GET = asyncHandler(async (request) => {
   const { searchParams } = new URL(request.url);
   const productId = searchParams.get("productId");
 
-  if (productId) {
-    const { error } = validate(getVariantSchema, { productId });
-    if (error) {
-      return NextResponse.json({ message, isSuccess: false }, { status: 400 });
-    }
-  } else {
+  // Validate productId
+  if (!productId) {
     return NextResponse.json(
       { message: "productId is required", isSuccess: false },
       { status: 400 }
     );
   }
 
-  const variants = await Variant.find({ productId: productId });
+  const { error } = validate(getVariantSchema, { productId });
+  if (error) {
+    return NextResponse.json(
+      { message: error.message, isSuccess: false },
+      { status: 400 }
+    );
+  }
+
+  // Find all variants
+  const variants = await Variant.find({ productId });
+
+  // Populate size & color details
+  const details = await Promise.all(
+    variants.map(async (item) => {
+      const size = await sizeSchema.findById(item.size);
+      const color = await colorSchema.findById(item.color);
+
+      return {
+        ...item.toObject(),
+        size: size ? size.toObject() : null,
+        color: color ? color.toObject() : null,
+      };
+    })
+  );
+
   return NextResponse.json({
     message: "Variants fetched successfully",
-    data: variants,
+    data: details,
     isSuccess: true,
   });
 });
 
-//  Update a variant (
+//  Update a variant
 export const PUT = asyncHandler(async (request) => {
   const body = await request.json();
 
   const { value, error } = validate(updateVariantSchema, body);
   if (error) {
-    return NextResponse.json({ message, isSuccess: false }, { status: 400 });
+    return NextResponse.json({ message:error , isSuccess: false }, { status: 400 });
   }
 
   const { _id, ...updateData } = value;

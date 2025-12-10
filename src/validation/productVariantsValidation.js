@@ -41,11 +41,11 @@ export const addVariantSchema = Joi.object({
     "any.required": "Stock is required",
   }),
 
-  sku: Joi.string().trim().required().messages({
-    "string.base": "SKU must be a string",
-    "string.empty": "SKU cannot be empty",
-    "any.required": "SKU is required",
-  }),
+  // sku: Joi.string().trim().required().messages({
+  //   "string.base": "SKU must be a string",
+  //   "string.empty": "SKU cannot be empty",
+  //   "any.required": "SKU is required",
+  // }),
 });
 
 export const updateVariantSchema = Joi.object({
@@ -86,12 +86,12 @@ export const updateVariantSchema = Joi.object({
     "any.required": "Stock is required",
   }),
 
-  sku: Joi.string().trim().required().messages({
-    "string.base": "SKU must be a string",
-    "string.empty": "SKU cannot be empty",
-    "any.required": "SKU is required",
-  }),
-});
+  // sku: Joi.string().trim().required().messages({
+  //   "string.base": "SKU must be a string",
+  //   "string.empty": "SKU cannot be empty",
+  //   "any.required": "SKU is required",
+  // }),
+}).unknown(true);;
 
 export const getVariantSchema = Joi.object({
   productId: objectId().required().messages({

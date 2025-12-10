@@ -20,7 +20,6 @@ const variantSchema = new mongoose.Schema(
     },
     price: { type: Number, required: true },
     stock: { type: Number, required: true },
-    sku: { type: String, required: true },
   },
   { timestamps: true }
 );

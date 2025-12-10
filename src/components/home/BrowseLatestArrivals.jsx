@@ -70,6 +70,8 @@ const BrowseLatestArrivals = () => {
             <ShoppingCard
               key={item.id}
               id={item.id}
+                                  isAvailable={item.isAvailable}
+
               image={item?.images[0]}
               text={item.title}
               price={item.price}

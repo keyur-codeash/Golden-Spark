@@ -36,7 +36,6 @@ export const trackOrder = (createdOrder) => {
     "Dec",
   ];
 
-
   const createdAt = new Date(createdOrder.createdAt);
   const shippedDate = new Date(createdAt);
   const arrivingDate = new Date(createdAt);
@@ -175,6 +174,7 @@ export const POST = asyncHandler(async (request) => {
           message: `Only ${variant.stock} units of ${productDetails?.productName} (${productDetails?.colorName}, ${productDetails?.sizeName}) are available, but you requested ${singleOrder.quantity}.`,
         });
         continue;
+        s;
       }
 
       const addressDetails = await addressSchema.findById(
@@ -213,7 +213,6 @@ export const POST = asyncHandler(async (request) => {
       await trackOrderSchema.create(trackingData);
       createdOrders.push(createdOrder);
     } catch (error) {
-
       failedOrders.push({
         message: error.message || "Something went wrong",
       });
@@ -271,7 +270,7 @@ export const PUT = asyncHandler(async (request) => {
         ...orderData,
         user: userId,
       };
-      const { error } = validate(updateOrderValidation, singleOrder);
+      const { error } = validate(addSOrderValidation, singleOrder);
       if (error) {
         failedOrders.push({
           orderId: orderData._id,

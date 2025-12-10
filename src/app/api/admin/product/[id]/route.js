@@ -16,8 +16,14 @@ import wishlistSchema from "@/model/wishlistSchema";
 
 export const GET = asyncHandler(async (request, { params }) => {
   try {
-    const decodedUser = await userAuthentication(request);
-    const userId = decodedUser.id;
+    let userId = 0;
+
+    const authHeader = request.headers.get("Authorization");
+
+    if (authHeader) {
+      const decodedUser = await userAuthentication(request);
+      userId = decodedUser.id;
+    }
 
     const url = new URL(request.url);
     const sizeId = url.searchParams.get("size");
@@ -46,19 +52,22 @@ export const GET = asyncHandler(async (request, { params }) => {
       productId: product._id,
     });
 
-    if (!allVariants || allVariants.length === 0) {
-      return NextResponse.json(
-        { isSuccess: false, message: "No variants found for this product" },
-        { status: 404 }
-      );
+    // if (!allVariants || allVariants.length === 0) {
+    //   return NextResponse.json(
+    //     { isSuccess: true, data:[], message: "No variants found for this product" },
+    //     { status: 200 }
+    //   );
+    // }
+
+    let isWishlist = false;
+
+    if (userId && userId != 0) {
+      isWishlist = await wishlistSchema.findOne({
+        user: userId,
+        product: product._id,
+      });
     }
 
-    const isWishlist = await wishlistSchema.findOne({
-      user: userId,
-      product: product._id,
-    });
-
-    // Get unique sizeIds and colorIds
     const sizeIds = [...new Set(allVariants.map((v) => v.size?.toString()))];
     const colorIds = [...new Set(allVariants.map((v) => v.color?.toString()))];
 
@@ -85,7 +94,6 @@ export const GET = asyncHandler(async (request, { params }) => {
         );
       }
     } else {
-      // Check all size-color combinations to get first matching variant
       outerLoop: for (let size of allSizes) {
         for (let color of allColors) {
           const variant = await productVariantSchema.findOne({
@@ -100,7 +108,6 @@ export const GET = asyncHandler(async (request, { params }) => {
         }
       }
 
-      // If still no variant, pick first available variant
       if (!selectedVariant) {
         selectedVariant = allVariants[0];
       }
@@ -119,6 +126,7 @@ export const GET = asyncHandler(async (request, { params }) => {
     return NextResponse.json({
       isSuccess: true,
       data: {
+        id: product.id,
         title: product.title,
         brand: brand.name,
         images: product.images?.map((img) =>
@@ -135,17 +143,21 @@ export const GET = asyncHandler(async (request, { params }) => {
               price: selectedVariant.price,
               stock: selectedVariant.stock,
               sku: selectedVariant.sku,
-              color: selectedColor
-                ? {
-                    id: selectedColor._id,
-                    name: selectedColor.name,
-                    color: selectedColor.color,
-                  }
-                : null,
-              size: selectedSize
-                ? { id: selectedSize._id, name: selectedSize.size }
-                : null,
+              color: selectedColor._id || null,
+              size: selectedSize._id || null,
             }
+          : null,
+        allVariants: allVariants.length
+          ? allVariants.map((items) => {
+              return {
+                id: items._id,
+                price: items.price,
+                stock: items.stock,
+                sku: items.sku,
+                color: items.color || null,
+                size: items.size || null,
+              };
+            })
           : null,
         availableSizes: allSizes.map((s) => ({ id: s._id, name: s.size })),
         availableColors: allColors.map((c) => ({
@@ -224,7 +236,7 @@ export const PUT = asyncHandler(async (request, { params }) => {
     // DB stores only filenames
     const dbImageNames = product.images.map((img) => extractFileName(img));
 
-    //  Match existing images    
+    //  Match existing images
     const verifiedExistingImages = claimedExistingImages.filter((name) =>
       dbImageNames.includes(name)
     );
@@ -257,7 +269,7 @@ export const PUT = asyncHandler(async (request, { params }) => {
     // -------------------------------
     const updatedImageNames = [
       ...verifiedExistingImages, // filenames
-      ...newImageFileNames,      // filenames
+      ...newImageFileNames, // filenames
     ];
 
     // -------------------------------

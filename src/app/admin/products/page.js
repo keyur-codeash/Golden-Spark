@@ -8,7 +8,7 @@ import CommonModel from "@/components/Model";
 import CommonTable from "@/forntend/common/CommonTable";
 import Pagination from "@/forntend/common/Pagination";
 import Toast from "@/components/toastService";
-
+import { useRouter } from "next/navigation";
 import ProductDetailForm from "./components/ProductForm";
 import {
   addProduct,
@@ -20,6 +20,7 @@ import { formatDate } from "@/forntend/common/commonDateFormat";
 import { fetchBrand } from "@/forntend/admin/services/brandServices";
 import { fetchCategory } from "@/forntend/admin/services/catagoryServices";
 import { CgAdd } from "react-icons/cg";
+import { LuEye } from "react-icons/lu";
 
 const Page = () => {
   const [search, setSearch] = useState("");
@@ -28,15 +29,14 @@ const Page = () => {
   const [currentProduct, setCurrentProduct] = useState(null);
   const [brand, setBrand] = useState([]);
   const [category, setCategory] = useState([]);
-
   const [loading, setLoading] = useState(false);
-
   const [pagination, setPagination] = useState({
     page: 1,
     totalItems: 0,
     limit: 8,
     totalPages: 1,
   });
+  const rounter = useRouter();
 
   // Fetch products
   const fetchAllProduct = async (page = 1) => {
@@ -257,6 +257,12 @@ const Page = () => {
                   <AiOutlineDelete
                     className="text-red-400 cursor-pointer"
                     onClick={() => handleDelete(product.id)}
+                  />
+                  <LuEye
+                    className="text-blue-400 cursor-pointer"
+                    onClick={() =>
+                      rounter.push(`/admin/products/${product.id}`)
+                    }
                   />
                 </div>
               </td>

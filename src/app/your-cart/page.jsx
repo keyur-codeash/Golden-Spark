@@ -425,7 +425,7 @@ const CartPage = () => {
                         placeholder="Note:"
                       ></textarea>
 
-                      <div className="pt-8">
+                      <div className="pt-5">
                         <p>
                           Your personal data will be used to process your order,
                           support your experience throughout this website, and

@@ -18,6 +18,7 @@ function YouMightAlsoLike() {
                 <ShoppingCard
                   key={index}
                   image={item.image}
+                  isAvailable={item.isAvailable}
                   text={item.text}
                   price={item.price}
                 />

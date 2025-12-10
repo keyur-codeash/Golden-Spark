@@ -237,6 +237,7 @@ const ResponsiveFilter = () => {
                   <ShoppingCard
                     key={index}
                     id={item.id}
+                    isAvailable={item.isAvailable}
                     image={item.images[0]}
                     text={item.title}
                     price={item.price}

@@ -176,10 +176,10 @@ export default function Sidebar({
                         <Link
                           href={sub.link}
                           onClick={() => handleSubmenuClick(index, i)}
-                          className={`block px-3 py-2 rounded transition-colors
+                          className={`block px-3 py-2 pl-4.5 mt-2.5 rounded-lg transition-colors
                             ${
                               activeSubmenu === i
-                                ? "bg-brown-500"
+                                ? "bg-brown-500 text-[#795741]"
                                 : "text-black hover:bg-gray-200"
                             }`}
                         >

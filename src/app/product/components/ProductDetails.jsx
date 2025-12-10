@@ -13,7 +13,7 @@ import useToken from "@/forntend/hooks/useToken";
 import { useAddtocart } from "@/forntend/context/AddToCartContext";
 import { useWishlist } from "@/forntend/context/WishlistContext";
 
-const ProductDetails = ({ isOpen, setIsOpen, productId }) => {
+const ProductDetails = ({ isOpen, setIsOpen, productId, isAvailable }) => {
   const [productData, setProductData] = useState(null);
   const [availableSizes, setAvailableSizes] = useState([]);
   const [availableColors, setAvailableColors] = useState([]);
@@ -180,7 +180,7 @@ const ProductDetails = ({ isOpen, setIsOpen, productId }) => {
             <h3 className="text-xl sm:text-2xl pt-10">{productData.title}</h3>
 
             <p className="text-xl font-medium my-2 text-gray-900">
-              s ${error ? 0 : selectedVariant?.price}
+              ${error ? 0 : selectedVariant?.price}
             </p>
 
             <p className="text-gray-600 mb-6">{productData.description}</p>
@@ -301,8 +301,11 @@ const ProductDetails = ({ isOpen, setIsOpen, productId }) => {
 
               <div>
                 <Button
+                  disabled={!isAvailable}
                   label="ADD TO CART"
-                  className="!bg-yellow-800 text-white w-full sm:w-auto !py-2.5"
+                  className={`!bg-yellow-800 text-white w-full sm:w-auto !py-2.5 ${
+                    !isAvailable && "!cursor-not-allowed !opacity-[.54]"
+                  }`}
                   onClick={handleAddToCart}
                 />
               </div>
@@ -310,8 +313,11 @@ const ProductDetails = ({ isOpen, setIsOpen, productId }) => {
 
             <div className="mt-6 mb-4">
               <Button
+                disabled={!isAvailable}
                 label="BUY NOW"
-                className="w-full !py-2.5 !bg-yellow-800 text-white hover:bg-yellow-900"
+                className={`w-full !py-2.5 !bg-yellow-800 text-white ${
+                  !isAvailable && "!cursor-not-allowed !opacity-[.54]"
+                }`}
                 onClick={handleBuyNow}
               />
             </div>

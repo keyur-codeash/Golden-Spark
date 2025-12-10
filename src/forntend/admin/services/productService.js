@@ -130,19 +130,67 @@ export const fetchSingleProduct = async (id, token) => {
   }
 };
 
-export const fetchProductVariant = async (id, token) => {
+export const fetchProductVariant = async (id) => {
   try {
-    const headers = token ? { Authorization: `Bearer ${token}` } : {};
-    const response = await axiosInstance.get(`/admin/variant?id=${id}`, {
-      headers,
-    });
+    // const headers = token ? { Authorization: `Bearer ${token}` } : {};
+    const response = await axiosInstance.get(
+      `/admin/product/variants/?productId=${id}`
+    );
+ console.log("response========", response.data , response.data.isSuccess);
+ 
+    if (response?.data?.isSuccess) {
+      return response.data;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    Toast.error(error?.response?.data?.message || "Something went wrong!");
+    return null;
+  }
+};
+
+export const addProductVariant = async (data) => {
+  try {
+    const response = await axiosInstance.post(`/admin/product/variants`, data);
 
     if (response?.data?.isSuccess) {
       return response.data;
     } else {
-      Toast.error(
-        response?.data?.message || "Failed to fetch product variant!"
-      );
+      Toast.error(response?.data?.message || "Failed to add product variant!");
+      return null;
+    }
+  } catch (error) {
+    Toast.error(error?.response?.data?.message || "Something went wrong!");
+    return null;
+  }
+};
+
+export const updateProductVariant = async (data) => {
+  try {
+    const response = await axiosInstance.put(`/admin/product/variants`, data);
+
+    if (response?.data?.isSuccess) {
+      return response.data;
+    } else {
+      Toast.error(response?.data?.message || "Failed to add product variant!");
+      return null;
+    }
+  } catch (error) {
+    Toast.error(error?.response?.data?.message || "Something went wrong!");
+    return null;
+  }
+};
+
+export const deleteProductVariant = async (id, token) => {
+  try {
+    const response = await axiosInstance.delete(
+      `/admin/product/variants?variantId=` + id
+    );
+
+    if (response?.data?.isSuccess) {
+      return response.data;
+    } else {
+      Toast.error(response?.data?.message || "Failed to add product variant!");
       return null;
     }
   } catch (error) {
